@@ -1,12 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-	<meta charset="UTF-8">
-	<title>Willkommen im Superkicker Tippspiel</title>
-</head>
-<body>
+{% extends "base.html.twig" %}
 
-	<a href="{{ path('ts_superkicker_tipp_edit') }}">Tipp anlegen</a>
-	<a href="{{ path('ts_superkicker_match_edit') }}">Match anlegen</a>
-</body>
-</html>
+{% block title %}Willkommen im Superkicker Tippspiel{% endblock %}

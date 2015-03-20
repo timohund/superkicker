@@ -2,8 +2,8 @@
 $I = new WebGuy($scenario);
 $I->wantTo('Die Willkommensseite sehen und ein Match anlegen');
 $I->canSeeInTitle('Willkommen im Superkicker Tippspiel');
-$I->seeLink('Match anlegen');
-$I->click('Match anlegen');
+$I->seeLink('Matches','/match/edit');
+$I->click('#matches');
 $I->canSee('Heim');
 $I->canSee('Gast');
 $I->canSee('BVB');

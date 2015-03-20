@@ -7,6 +7,10 @@ ts_superkicker_tipp_edit:
 ts_superkicker_tipp_save:
     path:     /tipp/save
     defaults: { _controller: ts.superkicker.tip.contoller:saveAction }
+ts_superkicker_tipp_list:
+    path:     /tipp/list
+    defaults: { _controller: ts.superkicker.tip.contoller:listAction }
+
 ts_superkicker_match_edit:
     path:     /match/edit/{match}/{saved}
     defaults: { _controller: ts.superkicker.match.contoller:editAction, match: 0, saved: 0  }
@@ -16,3 +20,8 @@ ts_superkicker_match_save:
 ts_superkicker_match_list:
     path:     /match/list
     defaults: { _controller: ts.superkicker.match.contoller:listAction }
+
+ts_superkicker_club_list:
+    path:     /club/list
+    defaults: { _controller: ts.superkicker.club.contoller:listAction }
+

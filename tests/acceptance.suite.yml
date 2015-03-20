@@ -15,4 +15,4 @@ modules:
         - WebHelper
     config:
         PhpBrowser:
-            url: 'http://###yourweburl###/app_dev.php/'
+            url: 'http://qvc.searchperiencebackend.local/app_dev.php/'

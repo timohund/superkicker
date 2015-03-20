@@ -322,3 +322,82 @@ gemacht werden.
 
 Tag 6 "Testing mit Codeception"
 
+Für das testen der Applikation verwende ich das Framework codeception.
+Es bietet die Möglichkeit schnell und einfach tests zu implementieren.
+
+Hierbei kann codeception unit, functional und acceptance tests generieren und
+diese können "behaviour driven" entwickelt werden.
+
+Um einen einfach Akzeptanz test zu implementieren gehen wir wie folgt vor:
+
+1. codeception als require-dev dependency in der composer.json hinzufügen:
+
+::
+    "require-dev": {
+	   "codeception/codeception": "*"
+    }
+::
+
+2. codeception bootstrappen:
+
+::
+
+	php bin/codecept bootstrap
+::
+
+3. Einen Akzeptanztest generieren
+
+::
+
+	php bin/codecept generate:cept acceptance CreateMatch
+::
+
+
+4. Codeception konfiguration anpassen:
+
+In der Datei "/tests/acceptance/acceptance.suite.yml" muss zumindest die url
+angepasst werden über die die Applikation erreichbar ist.
+
+::
+	class_name: WebGuy
+		modules:
+    		enabled:
+        	- PhpBrowser
+        	- WebHelper
+    	config:
+        	PhpBrowser:
+            	url: 'YOURURL'
+::
+
+5. Den Test mit Leben füllen:
+
+::
+
+	<?php
+		$I = new WebGuy($scenario);
+		$I->wantTo('Die Willkommensseite sehen und einen Tip anlegen');
+		$I->canSeeInTitle('Willkommen im Superkicker Tippspiel');
+		$I->seeLink('Tipps','/tipp/edit');
+		$I->click('#tipps');
+		$I->canSeeInTitle('Tipp abgeben');
+		$I->canSeeElement("form");
+		$I->canSee("Deine Tipps");
+		$I->canSee("BVB");
+		$I->fillField('#match_1_home',1);
+		$I->fillField('#match_1_guest',2);
+		$I->fillField('#match_2_home',3);
+		$I->fillField('#match_2_guest',4);
+		$I->submitForm('#tippCreate',
+			array(
+				'#foo' => 'bar',
+				'match_1_home' => 1,
+				'match_1_guest' => 2,
+				'match_2_home' => 3,
+				'match_2_guest' => 4
+			)
+		);
+		$I->canSee('Deine Tipps wurden gespeichert');
+::
+
+Das obere Beispiel zeigt, wie einfach es ist einen Akzeptanztest für einen einfach UseCase
+zu implementieren.
