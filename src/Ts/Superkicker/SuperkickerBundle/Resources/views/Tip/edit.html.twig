@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="UTF-8">
+	<title>Tipp abgeben</title>
+</head>
+<body>
+
+	<h1>Deine Tipps</h1>
+
+	{% if saved %}
+		<p>Deine Tipps wurden gespeichert.</p>
+	{% endif %}
+	<form action="{{ path('ts_superkicker_tipp_save') }}" id="tippCreate" method="post">
+		<table>
+			{% for matchTip in matchTips %}
+				<tr>
+					<td>{{ matchTip.match.homesoccerclub.name }} : {{ matchTip.match.guestsoccerclub.name }}</td>
+					<td>
+						<input type="text"
+							   name="match[{{ matchTip.match.id }}][home]"
+							   id="match_{{ matchTip.match.id }}_home"
+							   value="{{ matchTip.tip.homeScore | default() }}" />:
+
+						<input type="text"
+							   name="match[{{ matchTip.match.id }}][guest]"
+							   id="match_{{ matchTip.match.id }}_guest"
+							   value="{{ matchTip.tip.guestScore | default() }}"
+								/>
+					</td>
+
+				</tr>
+			{% endfor %}
+		</table>
+		<input type="submit" />
+	</form>
+</body>
+</html>

@@ -1,0 +1,17 @@
+parameters:
+    match_repository.class: Ts\Superkicker\SuperkickerBundle\Domain\Repository\MatchRepository
+    tip_repository.class: Ts\Superkicker\SuperkickerBundle\Domain\Repository\TipRepository
+    tip_controller.class: Ts\Superkicker\SuperkickerBundle\Controller\TipController
+services:
+  ts.superkicker.domain.repository.matchrepository:
+    arguments: ["@doctrine.orm.entity_manager"]
+    class: %match_repository.class%
+  ts.superkicker.domain.repository.tiprepository:
+    arguments: ["@doctrine.orm.entity_manager"]
+    class: %tip_repository.class%
+  ts.superkicker.tip.contoller:
+    arguments: ["@templating","@router"]
+    class: %tip_controller.class%
+    calls:
+      - [setMatchRepository, ["@ts.superkicker.domain.repository.matchrepository"]]
+      - [setTipRepository, ["@ts.superkicker.domain.repository.tiprepository"]]

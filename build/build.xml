@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : build.xml
+
+    Description:
+		Builds a package that can be installed
+-->
+
+<project basedir="." default="build">
+
+    <!-- set defaults -->
+    <property name="artifactdir" value="../../artifacts/"/>
+    <property name="projectname" value="symfony2app"/>
+    <property name="projectdir" value="../"/>
+
+    <tstamp>
+        <format property="start.timestamp" pattern="dd.MM.yyyy  HH:mm:ss" locale="de"/>
+    </tstamp>
+
+    <target name="build" depends="composerget,buildpackage"/>
+    <target name="updateDependencies" depends="composerget,updateComposerLock"/>
+    <target name="qa" depends="qaPhpLint,qaCodeComplexity,qaMessDetection,qaCopyPasteDetection,qaTestUnit"/>
+
+    <target name="composerget" description="Composer update dependencies">
+        <exec executable="/bin/bash">
+            <arg value="-c"/>
+            <arg value="curl -s https://getcomposer.org/installer | php"/>
+        </exec>
+        <property name="composerpath" location="./composer.phar"/>
+    </target>
+
+    <target name="buildpackage">
+        <available file="${composerpath}" property="isComposerAvail"/>
+        <fail unless="isComposerAvail" message="Composer seems not available"/>
+        <fail unless="version" message="version parameter not given"/>
+        <!-- create and check artifact dir -->
+        <mkdir dir="${artifactdir}"/>
+
+        <available file="${artifactdir}" property="isArtifactDirAvail"/>
+        <fail unless="isArtifactDirAvail" message="artifactdir seems not created! Check: ${artifactdir}"/>
+
+        <property name="absolute.artifactdir" location="${artifactdir}"/>
+
+        <exec executable="php" dir="..">
+            <arg value="-dmemory_limit=1G"/>
+            <arg value="${composerpath}"/>
+            <arg value="install"/>
+        </exec>
+        <exec executable="php" dir="..">
+            <arg value="-dmemory_limit=1G"/>
+            <arg value="${composerpath}"/>
+            <arg value="dump-autoload"/>
+            <arg value="--optimize"/>
+        </exec>
+
+        <!--
+         Later build CSS and JS packages here
+         -->
+        <!--
+         Later execute basic Unit Tests here
+         -->
+        <echo file="../version.txt">${version}</echo>
+        <tar destfile="${absolute.artifactdir}/${projectname}.tar.gz" compression="gzip" longfile="gnu">
+            <tarfileset dir=".." prefix="${projectname}" filemode="775">
+                <include name="**/setup/*.sh"/>
+            </tarfileset>
+            <tarfileset dir=".." prefix="${projectname}">
+                <include name="**/*"/>
+                <exclude name="**/setup/*.sh"/>
+            </tarfileset>
+        </tar>
+
+    </target>
+
+    <target name="updateComposerLock">
+        <available file="${composerpath}" property="isComposerAvail"/>
+
+        <fail unless="isComposerAvail" message="Composer seems not available"/>
+        <exec executable="git" dir="..">
+            <arg value="checkout"/>
+            <arg value="master"/>
+        </exec>
+        <exec executable="git" dir="..">
+            <arg value="stash"/>
+        </exec>
+        <exec executable="git" dir="..">
+            <arg value="pull"/>
+            <arg value="--rebase"/>
+        </exec>
+        <exec executable="php" dir="..">
+            <arg value="-dmemory_limit=1G"/>
+            <arg value="${composerpath}"/>
+            <arg value="update"/>
+        </exec>
+        <exec executable="git" dir="..">
+            <arg value="add"/>
+            <arg value="composer.lock"/>
+        </exec>
+
+        <exec executable="git" dir="..">
+            <arg value="commit"/>
+            <arg line="-m='Auto Commit for composer.lock update'"/>
+        </exec>
+        <exec executable="git" dir="..">
+            <arg value="push"/>
+            <arg line="origin master"/>
+        </exec>
+    </target>
+
+    <target name="installComposerDependeciesDev">
+        <available file="${composerpath}" property="isComposerAvail"/>
+        <fail unless="isComposerAvail" message="Composer seems not available"/>
+        <exec executable="php" dir="..">
+            <arg value="-dmemory_limit=2G"/>
+            <arg value="${composerpath}"/>
+            <arg value="install"/>
+            <arg value="--dev"/>
+        </exec>
+    </target>
+
+    <target name="qaTestUnit" depends="composerget,installComposerDependeciesDev">
+        <exec executable="./bin/phpunit" dir="${projectdir}" failonerror="true">
+            <arg value="-c"/>
+            <arg value="app"/>
+        </exec>
+    </target>
+    <target name="qaCopyPasteDetection" depends="composerget,installComposerDependeciesDev">
+        <exec executable="./bin/phpcpd" dir="${projectdir}" failonerror="false">
+            <arg line="--log-pmd"/>
+            <arg line="pmdcpd.xml"/>
+        </exec>
+    </target>
+    <target name="qaMessDetection" depends="composerget,installComposerDependeciesDev">
+        <exec executable="./bin/phpmd" dir="${projectdir}" failonerror="false">
+            <arg value="src/"/>
+            <arg value="text"/>
+            <arg value="codesize,unusedcode"/>
+        </exec>
+    </target>
+    <target name="qaCodeComplexity" depends="composerget,installComposerDependeciesDev">
+        <exec executable="./bin/phploc" dir="${projectdir}" failonerror="false">
+            <arg value="--log-csv"/>
+            <arg value="phploc.csv"/>
+        </exec>
+    </target>
+    <target name="qaPhpLint" depends="composerget,installComposerDependeciesDev"
+            description="Perform syntax check of sourcecode files">
+        <apply executable="php" failonerror="true">
+            <arg value="-l"/>
+            <fileset dir="${projectdir}/src">
+                <include name="**/*.php"/>
+                <modified/>
+            </fileset>
+        </apply>
+    </target>
+</project>

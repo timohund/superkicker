@@ -1,0 +1,46 @@
+{
+  "namespace": "Ts\\Superkicker\\SuperkickerBundle\\Domain\\Model",
+  "entities": [
+    {
+      "name": "Match",
+      "description": "Represents a match in the tip model",
+      "properties": {
+        "id": { "type": "DefaultId" },
+        "homeScore": { "type": "Integer", "nullable": true },
+        "guestScore": { "type": "Integer", "nullable": true },
+        "homeSoccerClub": { "type": "SoccerClub"},
+        "guestSoccerClub": { "type": "SoccerClub"},
+        "date": { "type": "DateTime", "nullable": true },
+        "matchDay": { "type": "Integer", "nullable": false }
+      }
+    },
+    {
+      "name": "SoccerClub",
+      "description": "Represents a soccer club",
+      "properties": {
+        "id": { "type": "DefaultId" },
+        "name": { "type": "String" }
+      }
+    },
+    {
+      "name": "Tip",
+      "description": "Represents a tip for a match",
+      "properties": {
+        "id": { "type": "DefaultId" },
+        "match": { "type": "Match" },
+        "homeScore": { "type": "Integer" },
+        "guestScore": { "type": "Integer"},
+        "user": { "type": "User" }
+      }
+    },
+    {
+      "name": "User",
+      "description": "Represents a user",
+      "properties": {
+        "id": { "type": "DefaultId" },
+        "name": { "type": "String" },
+        "clientId": { "type": "Integer" }
+      }
+    }
+  ]
+}

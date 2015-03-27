@@ -1,0 +1,4 @@
+ts_superkicker:
+    resource: "@SuperkickerBundle/Resources/config/routing.yml"
+    prefix:   /
+

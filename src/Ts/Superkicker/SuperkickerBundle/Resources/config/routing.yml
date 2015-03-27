@@ -1,0 +1,9 @@
+ts_superkicker_index:
+    path:     /
+    defaults: { _controller: ts.superkicker.tip.contoller:indexAction }
+ts_superkicker_tipp_edit:
+    path:     /tipp/edit/{matchDay}/{saved}
+    defaults: { _controller: ts.superkicker.tip.contoller:editAction, matchDay: 0, , saved: 0  }
+ts_superkicker_tipp_save:
+    path:     /tipp/save
+    defaults: { _controller: ts.superkicker.tip.contoller:saveAction }
