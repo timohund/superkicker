@@ -207,14 +207,14 @@ Mit folgendem Inhalt:
 			"id": { "type": "DefaultId" },
 			"homeScore": { "type": "Integer", "nullable": true },
 			"guestScore": { "type": "Integer", "nullable": true },
-			"homeSoccerClub": { "type": "SoccerClub"},
-			"guestSoccerClub": { "type": "SoccerClub"},
+			"homeClub": { "type": "Club"},
+			"guestClub": { "type": "Club"},
 			"date": { "type": "DateTime", "nullable": true },
 			"matchDay": { "type": "Integer", "nullable": false }
 		  }
 		},
 		{
-		  "name": "SoccerClub",
+		  "name": "Club",
 		  "description": "Represents a soccer club",
 		  "properties": {
 			"id": { "type": "DefaultId" },

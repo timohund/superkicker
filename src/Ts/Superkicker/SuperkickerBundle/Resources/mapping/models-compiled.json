@@ -12,51 +12,60 @@
       "properties":{
         "id":{
           "name":"id",
+          "isEntityReference":false,
           "type":"Id"
         },
         "homeScore":{
           "name":"homeScore",
+          "isEntityReference":false,
           "type":"Integer"
         },
         "guestScore":{
           "name":"guestScore",
+          "isEntityReference":false,
           "type":"Integer"
         },
-        "homeSoccerClub":{
-          "name":"homeSoccerClub",
-          "type":"Ts\\Superkicker\\SuperkickerBundle\\Domain\\Model\\SoccerClub",
+        "homeClub":{
+          "name":"homeClub",
+          "isEntityReference":true,
+          "type":"Ts\\Superkicker\\SuperkickerBundle\\Domain\\Model\\Club",
           "isCollection":false
         },
-        "guestSoccerClub":{
-          "name":"guestSoccerClub",
-          "type":"Ts\\Superkicker\\SuperkickerBundle\\Domain\\Model\\SoccerClub",
+        "guestClub":{
+          "name":"guestClub",
+          "isEntityReference":true,
+          "type":"Ts\\Superkicker\\SuperkickerBundle\\Domain\\Model\\Club",
           "isCollection":false
         },
         "date":{
           "name":"date",
+          "isEntityReference":false,
           "type":"DateTime"
         },
         "matchDay":{
           "name":"matchDay",
+          "isEntityReference":false,
           "type":"Integer"
         }
       }
     },
     {
-      "name":"SoccerClub",
-      "fqn":"Ts\\Superkicker\\SuperkickerBundle\\Domain\\Model\\SoccerClub",
-      "singular":"soccer-club",
-      "plural":"soccer-clubs",
-      "tableName":"soccer_clubs",
+      "name":"Club",
+      "fqn":"Ts\\Superkicker\\SuperkickerBundle\\Domain\\Model\\Club",
+      "singular":"club",
+      "plural":"clubs",
+      "tableName":"clubs",
       "extends":null,
-      "description":"Represents a soccer club",
+      "description":"Represents a sports club",
       "properties":{
         "id":{
           "name":"id",
+          "isEntityReference":false,
           "type":"Id"
         },
         "name":{
           "name":"name",
+          "isEntityReference":false,
           "type":"String"
         }
       }
@@ -72,23 +81,28 @@
       "properties":{
         "id":{
           "name":"id",
+          "isEntityReference":false,
           "type":"Id"
         },
         "match":{
           "name":"match",
+          "isEntityReference":true,
           "type":"Ts\\Superkicker\\SuperkickerBundle\\Domain\\Model\\Match",
           "isCollection":false
         },
         "homeScore":{
           "name":"homeScore",
+          "isEntityReference":false,
           "type":"Integer"
         },
         "guestScore":{
           "name":"guestScore",
+          "isEntityReference":false,
           "type":"Integer"
         },
         "user":{
           "name":"user",
+          "isEntityReference":true,
           "type":"Ts\\Superkicker\\SuperkickerBundle\\Domain\\Model\\User",
           "isCollection":false
         }
@@ -105,14 +119,17 @@
       "properties":{
         "id":{
           "name":"id",
+          "isEntityReference":false,
           "type":"Id"
         },
         "name":{
           "name":"name",
+          "isEntityReference":false,
           "type":"String"
         },
         "clientId":{
           "name":"clientId",
+          "isEntityReference":false,
           "type":"Integer"
         }
       }

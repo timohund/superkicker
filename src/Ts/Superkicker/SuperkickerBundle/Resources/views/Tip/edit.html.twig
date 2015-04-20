@@ -15,7 +15,7 @@
 		<table>
 			{% for matchTip in matchTips %}
 				<tr>
-					<td>{{ matchTip.match.homesoccerclub.name }} : {{ matchTip.match.guestsoccerclub.name }}</td>
+					<td>{{ matchTip.match.homeclub.name }} : {{ matchTip.match.guestclub.name }}</td>
 					<td>
 						<input type="text"
 							   name="match[{{ matchTip.match.id }}][home]"

@@ -34,18 +34,18 @@ abstract class CompiledMatch {
   protected $guestScore;
   
   /**
-   * homeSoccerClub
-   * @ORM\ManyToOne(targetEntity="Ts\Superkicker\SuperkickerBundle\Domain\Model\SoccerClub")
+   * homeClub
+   * @ORM\ManyToOne(targetEntity="Ts\Superkicker\SuperkickerBundle\Domain\Model\Club")
    * @ORM\JoinColumn(nullable=false)
    */
-  protected $homeSoccerClub;
+  protected $homeClub;
   
   /**
-   * guestSoccerClub
-   * @ORM\ManyToOne(targetEntity="Ts\Superkicker\SuperkickerBundle\Domain\Model\SoccerClub")
+   * guestClub
+   * @ORM\ManyToOne(targetEntity="Ts\Superkicker\SuperkickerBundle\Domain\Model\Club")
    * @ORM\JoinColumn(nullable=false)
    */
-  protected $guestSoccerClub;
+  protected $guestClub;
   
   /**
    * date
@@ -105,33 +105,33 @@ abstract class CompiledMatch {
   }
   
   /**
-   * @param Ts\Superkicker\SuperkickerBundle\Domain\Model\SoccerClub $homeSoccerClub
+   * @param Ts\Superkicker\SuperkickerBundle\Domain\Model\Club $homeClub
    */
-  public function setHomeSoccerClub(SoccerClub $homeSoccerClub) {
-    $this->homeSoccerClub = $homeSoccerClub;
+  public function setHomeClub(Club $homeClub) {
+    $this->homeClub = $homeClub;
     return $this;
   }
   
   /**
-   * @return Ts\Superkicker\SuperkickerBundle\Domain\Model\SoccerClub
+   * @return Ts\Superkicker\SuperkickerBundle\Domain\Model\Club
    */
-  public function getHomeSoccerClub() {
-    return $this->homeSoccerClub;
+  public function getHomeClub() {
+    return $this->homeClub;
   }
   
   /**
-   * @param Ts\Superkicker\SuperkickerBundle\Domain\Model\SoccerClub $guestSoccerClub
+   * @param Ts\Superkicker\SuperkickerBundle\Domain\Model\Club $guestClub
    */
-  public function setGuestSoccerClub(SoccerClub $guestSoccerClub) {
-    $this->guestSoccerClub = $guestSoccerClub;
+  public function setGuestClub(Club $guestClub) {
+    $this->guestClub = $guestClub;
     return $this;
   }
   
   /**
-   * @return Ts\Superkicker\SuperkickerBundle\Domain\Model\SoccerClub
+   * @return Ts\Superkicker\SuperkickerBundle\Domain\Model\Club
    */
-  public function getGuestSoccerClub() {
-    return $this->guestSoccerClub;
+  public function getGuestClub() {
+    return $this->guestClub;
   }
   
   /**

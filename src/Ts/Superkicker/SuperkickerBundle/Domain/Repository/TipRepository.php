@@ -23,11 +23,11 @@ class TipRepository extends AbstractRepository{
 
 		$this->entityManager->getClassMetaData(get_class($tip->getUser()))->setIdGenerator(new \Doctrine\ORM\Id\AssignedGenerator());
 		$this->entityManager->getClassMetaData(get_class($tip->getMatch()))->setIdGenerator(new \Doctrine\ORM\Id\AssignedGenerator());
-		$this->entityManager->getClassMetaData(get_class($tip->getMatch()->getHomeSoccerClub()))->setIdGenerator(new \Doctrine\ORM\Id\AssignedGenerator());
+		$this->entityManager->getClassMetaData(get_class($tip->getMatch()->getHomeClub()))->setIdGenerator(new \Doctrine\ORM\Id\AssignedGenerator());
 
 		$this->entityManager->persist($tip->getMatch());
-		$this->entityManager->persist($tip->getMatch()->getHomeSoccerClub());
-		$this->entityManager->persist($tip->getMatch()->getGuestSoccerClub());
+		$this->entityManager->persist($tip->getMatch()->getHomeClub());
+		$this->entityManager->persist($tip->getMatch()->getGuestClub());
 		$this->entityManager->persist($tip->getUser());
 
 		$this->entityManager->persist($tip);

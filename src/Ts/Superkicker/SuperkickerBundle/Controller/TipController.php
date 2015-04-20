@@ -78,15 +78,6 @@ class TipController extends AbstractController {
 	}
 
 	/**
-	 * @return \Symfony\Component\HttpFoundation\Response
-	 */
-	public function indexAction() {
-		return $this->templating->renderResponse(
-			'SuperkickerBundle:Tip:index.html.twig'
-		);
-	}
-
-	/**
 	 * @param int $matchDay
 	 * @param int $saved
 	 * @return \Symfony\Component\HttpFoundation\Response

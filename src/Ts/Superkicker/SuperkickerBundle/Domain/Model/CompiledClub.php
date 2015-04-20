@@ -5,12 +5,12 @@ namespace Ts\Superkicker\SuperkickerBundle\Domain\Model;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * Compiled Entity for Ts\Superkicker\SuperkickerBundle\Domain\Model\SoccerClub
+ * Compiled Entity for Ts\Superkicker\SuperkickerBundle\Domain\Model\Club
  * 
- * To change table name or entity repository edit the Ts\Superkicker\SuperkickerBundle\Domain\Model\SoccerClub class.
+ * To change table name or entity repository edit the Ts\Superkicker\SuperkickerBundle\Domain\Model\Club class.
  * @ORM\MappedSuperclass
  */
-abstract class CompiledSoccerClub {
+abstract class CompiledClub {
   
   /**
    * id

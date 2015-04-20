@@ -5,11 +5,11 @@ namespace Ts\Superkicker\SuperkickerBundle\Domain\Model;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * Represents a soccer club
+ * Represents a sports club
  * 
  * this entity was compiled from Webforge\Doctrine\Compiler
  * @ORM\Entity
- * @ORM\Table(name="soccer_clubs")
+ * @ORM\Table(name="clubs")
  */
-class SoccerClub extends CompiledSoccerClub {
+class Club extends CompiledClub {
 }
