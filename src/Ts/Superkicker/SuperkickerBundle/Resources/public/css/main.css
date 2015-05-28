@@ -1,0 +1,23 @@
+.navbar-toggle {
+	float: left;
+	margin-left: 20px;
+	border-color: #fff!important;
+}
+
+.navbar-inverse {
+	background-color: #093;
+	border-color: #094;
+	color: #fff;
+}
+
+.navbar-inverse a{
+	color: #fff;
+}
+
+.navbar-inverse .navbar-nav li a{
+	color: #fff;
+}
+
+.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
+	border-color: #fff!important;
+}

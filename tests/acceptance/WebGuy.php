@@ -2057,5 +2057,28 @@ class WebGuy extends \Codeception\AbstractGuy
         }
         return new Maybe();
     }
+
+    /**
+     * @return array
+     * @throws Exception
+     * @throws \Codeception\Exception\Configuration
+     */
+    protected function getSuiteSettings() {
+        return Codeception\Configuration::suiteSettings('acceptance',Codeception\Configuration::config());
+    }
+
+    /**
+     * @return void
+     */
+    public function resetSystem() {
+        $setting = $this->getSuiteSettings();
+        $bootstrapSettings = $setting["modules"]["config"]["SshBootstrap"];
+        $connection = ssh2_connect($bootstrapSettings['host']);
+        ssh2_auth_password($connection, $bootstrapSettings['user'], $bootstrapSettings['password']);
+        foreach($bootstrapSettings['commands'] as $command) {
+            ssh2_exec($connection, $command);
+            sleep(5);
+        }
+    }
 }
 

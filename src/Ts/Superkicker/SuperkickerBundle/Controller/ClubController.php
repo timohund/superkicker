@@ -6,14 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Ts\Superkicker\SuperkickerBundle\Domain\Model\Club;
 use Ts\Superkicker\SuperkickerBundle\Domain\Model\Match;
 
-class MatchController extends AbstractController {
+class ClubController extends AbstractController {
 
-	/**
-	 * @var \Ts\Superkicker\SuperkickerBundle\Domain\Repository\MatchRepository
-	 */
-	protected $matchRepository;
 
 	/**
 	 * @var \Ts\Superkicker\SuperkickerBundle\Domain\Repository\ClubRepository
@@ -34,20 +31,6 @@ class MatchController extends AbstractController {
 	 * @var \Symfony\Component\HttpFoundation\Response
 	 */
 	protected $response;
-
-	/**
-	 * @return \Ts\Superkicker\SuperkickerBundle\Domain\Repository\MatchRepository
-	 */
-	public function getMatchRepository() {
-		return $this->matchRepository;
-	}
-
-	/**
-	 * @param \Ts\Superkicker\SuperkickerBundle\Domain\Repository\MatchRepository
-	 */
-	public function setMatchRepository($matchRepository) {
-		$this->matchRepository = $matchRepository;
-	}
 
 	/**
 	 * @return \Ts\Superkicker\SuperkickerBundle\Domain\Repository\ClubRepository
@@ -73,23 +56,20 @@ class MatchController extends AbstractController {
 	}
 
 	/**
-	 * @param int $match
 	 * @param int $saved
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function editAction($match = 0, $saved = 0) {
+	public function editAction($saved = 0) {
 		$allClubs = $this->clubRepository->findAll();
-		$allMatches = $this->matchRepository->findAllOrderByMatchDay();
-
 		return $this->templating->renderResponse(
-			'SuperkickerBundle:Match:edit.html.twig',
-			array(
-					'allMatches' => $allMatches,
-					'matchId' => $match,
-					'allClubs' => $allClubs
-			)
+				'SuperkickerBundle:Club:edit.html.twig',
+				array(
+						'allClubs' => $allClubs,
+						'saved' => $saved
+				)
 		);
 	}
+
 
 	/**
 	 * @param Request $request
@@ -97,14 +77,26 @@ class MatchController extends AbstractController {
 	 */
 	public function saveAction(Request $request) {
 
-		$matchData = $request->get('match');
-		$match = new Match();
-		$match->setHomeClub( $this->clubRepository->findById($matchData['home']) );
-		$match->setGuestClub( $this->clubRepository->findById($matchData['guest']) );
-		$match->setMatchDay($matchData['day']);
+		$clubsData = $request->get('clubs');
 
-		$this->matchRepository->save($match);
-		$editUrl = $this->router->generate('ts_superkicker_match_edit');
+		foreach($clubsData as $id => $clubData) {
+			if($id == 'new' && trim($clubData['name']) !== ''){
+				$club = new Club();
+			} else {
+				$club = $this->clubRepository->findById($id);
+			}
+
+			if($club === null) {
+				continue;
+			}
+
+			$club->setName($clubData['name']);
+			$this->clubRepository->save($club);
+
+		}
+
+
+		$editUrl = $this->router->generate('ts_superkicker_club_edit',array('saved' => 1));
 		return new RedirectResponse($editUrl);
 	}
 }

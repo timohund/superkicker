@@ -15,19 +15,21 @@ use Ts\Superkicker\SuperkickerBundle\Domain\Model\User;
 
 class TipRepository extends AbstractRepository{
 
+	/**
+	 * Should return the classname of the entity that this
+	 * repository should retrieve.
+	 *
+	 * @return string
+	 */
+	protected function getEntityClassName() {
+		return 'Ts\Superkicker\SuperkickerBundle\Domain\Model\Match';
+	}
 
 	/**
 	 * @param Tip $tip
 	 */
 	public function save(Tip $tip) {
-
 		$this->entityManager->getClassMetaData(get_class($tip->getUser()))->setIdGenerator(new \Doctrine\ORM\Id\AssignedGenerator());
-		$this->entityManager->getClassMetaData(get_class($tip->getMatch()))->setIdGenerator(new \Doctrine\ORM\Id\AssignedGenerator());
-		$this->entityManager->getClassMetaData(get_class($tip->getMatch()->getHomeClub()))->setIdGenerator(new \Doctrine\ORM\Id\AssignedGenerator());
-
-		$this->entityManager->persist($tip->getMatch());
-		$this->entityManager->persist($tip->getMatch()->getHomeClub());
-		$this->entityManager->persist($tip->getMatch()->getGuestClub());
 		$this->entityManager->persist($tip->getUser());
 
 		$this->entityManager->persist($tip);
@@ -63,4 +65,5 @@ class TipRepository extends AbstractRepository{
 				'WHERE m = '.intval($match->getId()).' AND u.id ='.intval($user->getId());
 		return $this->entityManager->createQuery($dql)->getOneOrNullResult();
 	}
+
 }

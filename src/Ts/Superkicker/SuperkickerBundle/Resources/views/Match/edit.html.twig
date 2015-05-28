@@ -1,38 +1,49 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-	<meta charset="UTF-8">
-	<title>Match anlegen</title>
-</head>
-<body>
+{% extends "base.html.twig" %}
+	{% block heading %}Matches{% endblock %}
+	{% block content %}
+			<form action="{{ path('ts_superkicker_match_save') }}" id="matchCreate" method="post">
 
-<h1>Match anlegen</h1>
+				<table class="table">
+					{% for match in allMatches %}
+						<tr>
+							<td>{{ match.matchDay }}</td>
+							<td>{{ match.homeClub.name }}</td>
+							<td>{{ match.guestClub.name }}</td>
+						</tr>
+					{% endfor %}
+					<tr>
 
-<form action="{{ path('ts_superkicker_match_save') }}" id="matchCreate" method="post">
-	<input type="hidden" name="matchId" value="{{ matchId }}"/>
-	<p>Heim</p>
-	<select name="match[home]">
-		{% for club in allClubs %}
-			<option value="{{ club.id }}" >{{ club.name }}</option>
-		{% endfor %}
-	</select>
+							<input type="hidden" name="matchId" value="{{ matchId }}"/>
 
-	<p>Gast</p>
-	<select name="match[guest]">
-		{% for club in allClubs %}
-			<option value="{{ club.id }}" >{{ club.name }}</option>
-		{% endfor %}
-	</select>
+							<td>
+								<select name="match[day]" class="form-control" id="match_new_day">
+									{%for day in 1..34%}
+										<option value="{{ day }}">{{ day }}</option>
+									{% endfor %}
+								</select>
+							</td>
 
-	<p>Spieltag</p>
-	<select name="match[day]">
-		{%for day in 1..34%}
-			<option value="{{ day }}">{{ day }}</option>
-		{% endfor %}
-	</select>
-	<input type="submit" />
-</form>
-</body>
+							<td>
+								<select name="match[home]" class="form-control" id="match_new_home">
+									{% for club in allClubs %}
+										<option value="{{ club.id }}" >{{ club.name }}</option>
+									{% endfor %}
+								</select>
 
-<a href="{{ path('ts_superkicker_index') }}">Start</a>
-</html>
+							</td>
+
+							<td>
+								<select name="match[guest]" class="form-control" id="match_new_guest">
+									{% for club in allClubs %}
+										<option value="{{ club.id }}" >{{ club.name }}</option>
+									{% endfor %}
+								</select>
+
+							</td>
+
+					</tr>
+				</table>
+				<input type="submit" class="btn btn-default navbar-btn" value="Speichern"/>
+			</form>
+
+	{% endblock %}

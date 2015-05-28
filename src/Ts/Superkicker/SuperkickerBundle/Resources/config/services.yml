@@ -5,6 +5,7 @@ parameters:
     dashboard_controller.class: Ts\Superkicker\SuperkickerBundle\Controller\DashboardController
     match_controller.class: Ts\Superkicker\SuperkickerBundle\Controller\MatchController
     club_repository.class: Ts\Superkicker\SuperkickerBundle\Domain\Repository\ClubRepository
+    club_controller.class: Ts\Superkicker\SuperkickerBundle\Controller\ClubController
 
 services:
   ts.superkicker.domain.repository.matchrepository:
@@ -30,4 +31,9 @@ services:
     class: %match_controller.class%
     calls:
       - [setMatchRepository, ["@ts.superkicker.domain.repository.matchrepository"]]
+      - [setClubRepository, ["@ts.superkicker.domain.repository.clubrepository"]]
+  ts.superkicker.club.contoller:
+    arguments: ["@templating","@router"]
+    class: %club_controller.class%
+    calls:
       - [setClubRepository, ["@ts.superkicker.domain.repository.clubrepository"]]

@@ -82,10 +82,12 @@ class TipController extends AbstractController {
 	 * @param int $saved
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function editAction($matchDay = 0, $saved = 0) {
+	public function editAction($matchDay = 1, $saved = 0) {
 		$matches 	= $this->matchRepository->findByMatchDay($matchDay);
 		$tips 		= $this->tipRepository->findByUserAndMatchDay($this->getCurrentLoginUser(), $matchDay);
 
+		$prevMatchDay = max(1, $matchDay - 1);
+		$nextMatchDay = min($matchDay + 1, 34);
 
 		$matchTips 	= array();
 		foreach($matches as $match) {
@@ -102,7 +104,6 @@ class TipController extends AbstractController {
 			}
 		}
 
-		//var_dump($saved); die();
 		return $this->templating->renderResponse(
 			'SuperkickerBundle:Tip:edit.html.twig',
 			array(

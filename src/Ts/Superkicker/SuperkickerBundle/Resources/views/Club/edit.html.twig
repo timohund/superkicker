@@ -1,0 +1,40 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Clubs editieren{% endblock %}
+
+{% block heading %}Clubs{% endblock %}
+
+{% block content %}
+	{% if saved %}
+		<div class="alert alert-success" role="alert">Die Clubs wurden gespeichert.</div>
+	{% endif %}
+	<form action="{{ path('ts_superkicker_club_save') }}" id="clubCreate" method="post">
+		<table class="table">
+			{% for club in allClubs %}
+				<tr>
+					<td>
+						<input type="text"
+							   name="clubs[{{ club.id }}][name]"
+							   id="club_{{ club.id }}_name"
+							   value="{{ club.name | default() }}" class="form-control"/>
+
+					</td>
+
+				</tr>
+			{% endfor %}
+			<tr>
+				<td>
+					<input type="text"
+						   name="clubs[new][name]"
+						   id="club_new_name"
+						   value="" class="form-control"/>
+
+				</td>
+
+			</tr>
+
+		</table>
+		<input type="submit" class="btn btn-default navbar-btn" value="Speichern"/>
+	</form>
+
+{% endblock %}

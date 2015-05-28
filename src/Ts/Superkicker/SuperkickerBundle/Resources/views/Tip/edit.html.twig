@@ -1,38 +1,40 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-	<meta charset="UTF-8">
-	<title>Tipp abgeben</title>
-</head>
-<body>
+{% extends "base.html.twig" %}
+{% block title %}Tipp abgeben{% endblock %}
 
-	<h1>Deine Tipps</h1>
+{% block content %}
 
 	{% if saved %}
-		<p>Deine Tipps wurden gespeichert.</p>
+		<div class="alert alert-success" role="alert">Deine Tipps wurden gespeichert.</div>
 	{% endif %}
 	<form action="{{ path('ts_superkicker_tipp_save') }}" id="tippCreate" method="post">
-		<table>
+		<table class="table">
+
 			{% for matchTip in matchTips %}
 				<tr>
-					<td>{{ matchTip.match.homeclub.name }} : {{ matchTip.match.guestclub.name }}</td>
-					<td>
-						<input type="text"
-							   name="match[{{ matchTip.match.id }}][home]"
-							   id="match_{{ matchTip.match.id }}_home"
-							   value="{{ matchTip.tip.homeScore | default() }}" />:
+					<td style="text-align: right">{{ matchTip.match.homeclub.name }}</td>
+					<td style="width: 50px;">
+						<div class="input-group input-group-sm">
 
-						<input type="text"
-							   name="match[{{ matchTip.match.id }}][guest]"
-							   id="match_{{ matchTip.match.id }}_guest"
-							   value="{{ matchTip.tip.guestScore | default() }}"
-								/>
+							<input type="text" class="form-control" size="2"
+								   name="match[{{ matchTip.match.id }}][home]"
+								   id="match_{{ matchTip.match.id }}_home"
+								   value="{{ matchTip.tip.homeScore | default() }}" />
+						</div>
 					</td>
+					<td style="width: 50px;">
+						<div class="input-group input-group-sm">
+							<input type="text" class="form-control" size="2"
+								   name="match[{{ matchTip.match.id }}][guest]"
+								   id="match_{{ matchTip.match.id }}_guest"
+								   value="{{ matchTip.tip.guestScore | default() }}"
+									/>
+						</div>
+					</td>
+					<td>{{ matchTip.match.guestclub.name }}</td>
 
 				</tr>
 			{% endfor %}
 		</table>
-		<input type="submit" />
+		<input type="submit" class="btn btn-default navbar-btn" value="Speichern"/>
 	</form>
-</body>
-</html>
+{% endblock %}

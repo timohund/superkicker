@@ -15,4 +15,13 @@ modules:
         - WebHelper
     config:
         PhpBrowser:
-            url: 'http://myurl/'
+            url: '###webhostname###'
+        SshBootstrap:
+            host: '###sshhost###'
+            user:   '###sshuser###'
+            password: '###sshpassword###'
+            commands:
+                - '###bootstrapcommand1###'
+                - '###bootstrapcommand2###'
+                - '###bootstrapcommand3###'
+
