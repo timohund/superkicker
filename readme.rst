@@ -561,7 +561,9 @@ Das folgende Beispiel zeigt ein einfaches Basistemplate in "app/Resources/views/
 			<div id="navigation">
 				{% block menu %}
 					<ul class="nav navbar-nav">
-						<li><a href="{{ path('ts_superkicker_index') }}" id="home">Home</a></li>
+						<li><a href="{{ path('ts_superkicker_index') }}"
+							id="home">Home</a>
+						</li>
 					</ul>
 				{% endblock %}
 			</div>
@@ -586,37 +588,23 @@ Beispiel ("/src/Ts/Superkicker/SuperkickerBundle/Resources/views/Club/edit.html.
 
 	{% block content %}
 		{% if saved %}
-			<div class="alert alert-success" role="alert">Die Clubs wurden gespeichert.</div>
+			<div>Die Clubs wurden gespeichert.</div>
 		{% endif %}
-		<form action="{{ path('ts_superkicker_club_save') }}" id="clubCreate" method="post">
-			<table class="table">
-				{% for club in allClubs %}
-					<tr>
-						<td>
-							<input type="text"
-								   name="clubs[{{ club.id }}][name]"
-								   id="club_{{ club.id }}_name"
-								   value="{{ club.name | default() }}" class="form-control"/>
+		<form action="{{ path('ts_superkicker_club_save') }}"
+			id="clubCreate" method="post">
+			{% for club in allClubs %}
+				<input type="text"
+					name="clubs[{{ club.id }}][name]"
+					id="club_{{ club.id }}_name"
+					value="{{ club.name | default() }}"/>
+			{% endfor %}
+			<input type="text"
+				name="clubs[new][name]"
+				id="club_new_name"
+				value="" />
 
-						</td>
-
-					</tr>
-				{% endfor %}
-				<tr>
-					<td>
-						<input type="text"
-							   name="clubs[new][name]"
-							   id="club_new_name"
-							   value="" class="form-control"/>
-
-					</td>
-
-				</tr>
-
-			</table>
-			<input type="submit" class="btn btn-default navbar-btn" value="Speichern"/>
+			<input type="submit" value="Speichern"/>
 		</form>
-
 	{% endblock %}
 ::
 
@@ -624,3 +612,61 @@ Das erbende Template inkludiert das Basistemplate in der ersten Zeile und übers
 
 Tag 10. "Integration von Twitter Bootstrap in eine Symfony2 App"
 -----------
+
+Eine moderne Webanwendung wird nicht mehr nur auf normalen Computern oder Notebooks sondern
+auch auf eine Fülle von mobilen Geräte benutzt. Der Benutzer erwartet es, dass er die Applikation
+auf dem Tablett, dem Smartphone und wie bisher dem Notebook oder Desktopcomputer verwenden kann.
+
+Das wissen natürlich auch die großen Contentanbieter im Netz und haben ihre Webseiten daraufhin optimiert.
+Twitter hat mit dem Framework "Bootrap" einen Css und JavaScript Baukasten entwickelt, der es ermöglicht
+in kurzer Zeit Webanwendungen zu entwickeln, die sich auf das Endgerät anpassen. Ein und die selbe Ausgabe
+wird also vom Framework für ein kleines, mobile oder ein großes normales Gerät optimiert.
+
+Die Integration von Bootstrap ist einfach:
+
+1. Bootstrap Framework herunterladen und entpacken.
+
+2. Den Inhalt von Bootstrap Css in "Resources/public/" des Symfony2 Bundles kopieren
+(In unserem Fall src/Ts/Superkicker/SuperkickerBundle/Resources/public)
+
+3. JQuery downloaden und im public Resources Verzeichnis speichern oder von extern einbinden
+
+4. Im Basistemplate (app/Resources/views/base.html.twig) der app das JavaScript und Css von Bootstrap einbinden:
+
+::
+
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<link rel="stylesheet" href="style.css"/>
+			<link rel="stylesheet"
+				href="{{ asset('bundles/superkicker/css/bootstrap.css') }}">
+		</head>
+		<body id="main">
+				...
+			<div id="content">{% block content %}{% endblock %}</div>
+			<script src="{{ asset('bundles/superkicker/js/jquery.js') }}"></script>
+			<script src="{{ asset('bundles/superkicker/js/bootstrap.min.js') }}"></script>
+		</body>
+	</html>
+::
+
+5. Damit die Resourcen des Bundles auf dem Webserver publiziert werden muss folgendes Symfony Kommando
+ausgeführt werden:
+
+::
+
+	php app/console assets:install
+::
+
+6. Nun können die Css Klassen von Bootstrap in den eigenen Views verwendet werden. Das folgende Beispiel zeigt einen einfachen
+Submitbutton:
+
+::
+
+	<input type="submit" class="btn btn-default navbar-btn" value="Speichern"/>
+::
+
+Weiter Beispiele sind im Viewverzeichnis (src/Ts/Superkicker/SuperkickerBundle/Resources/views) oder in der Bootstrap
+Dokumentation zu finden.
+
