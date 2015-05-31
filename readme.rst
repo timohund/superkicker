@@ -302,6 +302,7 @@ Bevor die Datenbank verwendet werden kann müssen die Parameter in der app/confi
 		database_user: <Username>
 		database_password: <Passwort>
 ::
+
 4. Anlegen der Datenbank mit Doctrine
 
 Nachdem alle Settings vorhanden sind kann die Datenbank angelegt werden und das
@@ -312,6 +313,7 @@ Schema erzeugt werden.
 	php app/console doctrine:database:create
 	php app/console doctrine:schema:create
 ::
+
 Wenn das Schema im Nachhinein geändert werden soll kann dass mittels doctrine:schema:update
 gemacht werden.
 
@@ -321,6 +323,7 @@ gemacht werden.
 ::
 
 Tag 6 "Testing mit Codeception"
+-----------
 
 Für das testen der Applikation verwende ich das Framework codeception.
 Es bietet die Möglichkeit schnell und einfach tests zu implementieren.
@@ -333,6 +336,7 @@ Um einen einfach Akzeptanz test zu implementieren gehen wir wie folgt vor:
 1. codeception als require-dev dependency in der composer.json hinzufügen:
 
 ::
+
     "require-dev": {
 	   "codeception/codeception": "*"
     }
@@ -359,6 +363,7 @@ In der Datei "/tests/acceptance/acceptance.suite.yml" muss zumindest die url
 angepasst werden über die die Applikation erreichbar ist.
 
 ::
+
 	class_name: WebGuy
 		modules:
     		enabled:
@@ -369,7 +374,7 @@ angepasst werden über die die Applikation erreichbar ist.
             	url: 'YOURURL'
 ::
 
-5. Den Test mit Leben füllen:
+5. Den Test (tests/acceptance/CreateMatchCept.php) mit Leben füllen:
 
 ::
 
@@ -401,3 +406,221 @@ angepasst werden über die die Applikation erreichbar ist.
 
 Das obere Beispiel zeigt, wie einfach es ist einen Akzeptanztest für einen einfach UseCase
 zu implementieren.
+
+
+Tag 7. "Codeceptiontests erweitern"
+-----------
+
+Am vorherigen Tag haben wir einen einfachen Akzeptanztest mit codeception implementiert.
+Beim ausführen komplexer Akzeptanztests ist es jedoch erforderlich, die Anwendung vor
+dem Start in einen bestimmten Zustand zu versetzen und nach dem test einen definierten Endzustand
+zu prüfen.
+
+Ein etwas komplexerer test könnte in schematisch wie folgt aussehen:
+
+1. Das System leeren
+2. Zwei Vereine anlegen
+3. Für diese zwei Vereine ein Match anlegen
+4. Für dieses Match einen Tipp abgeben
+5. Prüfen ob der Tipp gespeichert wurde
+
+Der komplizierteste Teil ist der erste. Da der Akzeptanztest das System von aussen testet.
+Wir müssen also entweder über das Userinterface ein reset erlauben oder bevor der Test
+startet auf dem System den Zustand zurücksetzen.
+
+Codeception bietet für die zweite Variante die Möglichkeit einen Datenbank Dump einzuspielen.
+Da wir Doctrine verwenden einen keinen Dump pflegen möchten benötigen wir einen anderen
+Weg. Die Idee wäre ist mittels Codeception per ssh folgende Kommandos zu starten:
+
+::
+
+	php /webroot/app/console doctrine:database:drop --force
+    php /webroot/app/console doctrine:database:create
+	php /webroot/app/console doctrine:schema:create
+::
+
+Am flexibelst ist es sshHost, sshUser, sshPassword und die Kommandos zum bootstrappen frei konfigurieren zu könnte.
+
+Im Verzeichniss "tests/acceptance" wird neben der *Cept.php Datei, die den Test enthält
+eine WebGuy.php implementiert. Diese kann genutzt werden um Codeception zu erweitern mit
+funktionalitäten, die im Framework vermisst werden.
+
+Der folgende Code ermöglicht es die Settings der "acceptance.suite.yml" auszulesen und die Kommandos per ssh auszuführen:
+
+::
+
+    /**
+     * @return array
+     * @throws Exception
+     * @throws \Codeception\Exception\Configuration
+     */
+    protected function getSuiteSettings() {
+        return Codeception\Configuration::suiteSettings('acceptance',Codeception\Configuration::config());
+    }
+
+    /**
+     * @return void
+     */
+    public function resetSystem() {
+        $setting = $this->getSuiteSettings();
+        $bootstrapSettings = $setting["modules"]["config"]["SshBootstrap"];
+        $connection = ssh2_connect($bootstrapSettings['host']);
+        ssh2_auth_password($connection, $bootstrapSettings['user'], $bootstrapSettings['password']);
+
+        foreach($bootstrapSettings['commands'] as $command) {
+            ssh2_exec($connection, $command);
+            sleep(5);
+        }
+    }
+::
+
+Nun kann die acceptance.suite.yml wie folgt erweitert werden:
+
+::
+
+	class_name: WebGuy
+	modules:
+		enabled:
+			- PhpBrowser
+			- WebHelper
+		config:
+			PhpBrowser:
+				url: 'http://webhost/app_dev.php/'
+			SshBootstrap:
+				host: 'webhost'
+				user:   'vagrant'
+				password: 'vagrant'
+				commands:
+					- 'php /webroot/app/console doctrine:database:drop --force'
+					- 'php /webroot/app/console doctrine:database:create'
+					- 'php /webroot/app/console doctrine:schema:create'
+::
+
+
+Tag 8. "Die Templateengine Twig in Symfony2"
+-----------
+
+Die bevorzugte Templateengine für Symfony2 ist Twig. Twig bietet eine Fülle an Features, die
+die schnelle Umsetzung von Views unterstützen
+
+* Schleifen
+* IfElse
+* ViewHelper für einfache Viewlogik (trim, round, ### TODO)
+* ...
+
+Standardgemäss sind die Templates eines Bundle in "<BundleRoot>/views/Resources/views/" gespeichert.
+Für unser Bundle sind sie also in "src/Ts/Superkicker/SuperkickerBundle/Resources/views" gespeichert.
+
+Pro Controller gibt es ein Unterverzeichnis und pro Action kann es in diesem ein Template geben
+(muss es aber nicht:)).
+
+Ein Template wird aus dem Controller gerendert und es können Variablen an das Template übergeben werden:
+
+::
+
+	return $this->templating->renderResponse(
+		'SuperkickerBundle:Match:edit.html.twig',
+		array(
+			'allMatches' => $allMatches,
+			'matchId' => $match,
+			'allClubs' => $allClubs
+		)
+	);
+::
+
+Jenachdem wie man Symfony2 konfiguriert (DependencyInjection, Annotationen, ...) erfolgt das Rendern
+des Templates wie hier explizit oder implizit am Ende der Methode vom Framework.
+
+Tag 9 "Templatevererbung mit Twig in Symfony2"
+-----------
+
+Um Blöcke in einem Template wiederverwenden zu können bietet Twig die Möglichkeit
+von einem Basistemplate zu erben. Mittels "extends" kann dieses inkludiert werden.
+
+::
+
+	{% extends "base.html.twig" %}
+::
+
+Das Basis Template liegt bei Symfony per Konvention in "app/Resources/views/base.html.twig".
+Wichtig hierbei ist, dass es standardgemäß  NICHT im Bundle selber liegt.
+
+Ein solches Basistemplate definiert Bereich in Form von Blöcken. Diese
+Blöcke können dann im konkreten Template überschrieben werden.
+
+Das folgende Beispiel zeigt ein einfaches Basistemplate in "app/Resources/views/base.html.twig":
+
+::
+
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<link rel="stylesheet" href="style.css"/>
+			<title>{% block title %}{% endblock %}</title>
+		</head>
+			<div id="navigation">
+				{% block menu %}
+					<ul class="nav navbar-nav">
+						<li><a href="{{ path('ts_superkicker_index') }}" id="home">Home</a></li>
+					</ul>
+				{% endblock %}
+			</div>
+			<div id="content">{% block content %}{% endblock %}</div>
+		</body>
+	</html>
+::
+
+Im oberen Beispiel wird im Block "menu" eine Navigation gerendert. Diese Navigation ist bei einer
+Webandwendungen auf Unterseiten oftmals identisch. Der Block "content" ist im Basistemplate leer definiert
+und wird im erbenden Template überschrieben um den Inhalt der Unterseite zu definieren.
+
+Ein konkretes Template, dass von "base.html.twig" erbt kann wir folgt aussehen:
+
+Beispiel ("/src/Ts/Superkicker/SuperkickerBundle/Resources/views/Club/edit.html.twig"):
+
+::
+
+	{% extends "base.html.twig" %}
+
+	{% block title %}Clubs editieren{% endblock %}
+
+	{% block content %}
+		{% if saved %}
+			<div class="alert alert-success" role="alert">Die Clubs wurden gespeichert.</div>
+		{% endif %}
+		<form action="{{ path('ts_superkicker_club_save') }}" id="clubCreate" method="post">
+			<table class="table">
+				{% for club in allClubs %}
+					<tr>
+						<td>
+							<input type="text"
+								   name="clubs[{{ club.id }}][name]"
+								   id="club_{{ club.id }}_name"
+								   value="{{ club.name | default() }}" class="form-control"/>
+
+						</td>
+
+					</tr>
+				{% endfor %}
+				<tr>
+					<td>
+						<input type="text"
+							   name="clubs[new][name]"
+							   id="club_new_name"
+							   value="" class="form-control"/>
+
+					</td>
+
+				</tr>
+
+			</table>
+			<input type="submit" class="btn btn-default navbar-btn" value="Speichern"/>
+		</form>
+
+	{% endblock %}
+::
+
+Das erbende Template inkludiert das Basistemplate in der ersten Zeile und überschreibt die Bereiche "content" und "title".
+
+Tag 10. "Integration von Twitter Bootstrap in eine Symfony2 App"
+-----------
