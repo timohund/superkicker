@@ -1,6 +1,12 @@
-{% extends "base.html.twig" %}
+{% extends "subpage.html.twig" %}
 	{% block heading %}Matches{% endblock %}
 	{% block content %}
+		<h1>Spiele</h1>
+		{% if saved %}
+			<div class="alert alert-success" role="alert">Die Spiele wurden erfolgreich gespeichert.</div>
+		{% endif %}
+
+		<div class="content-inner">
 			<form action="{{ path('ts_superkicker_match_save') }}" id="matchCreate" method="post">
 
 				<table class="table">
@@ -45,5 +51,5 @@
 				</table>
 				<input type="submit" class="btn btn-default navbar-btn" value="Speichern"/>
 			</form>
-
+		</div>
 	{% endblock %}

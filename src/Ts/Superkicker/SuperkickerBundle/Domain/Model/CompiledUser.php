@@ -3,6 +3,7 @@
 namespace Ts\Superkicker\SuperkickerBundle\Domain\Model;
 
 use Doctrine\ORM\Mapping AS ORM;
+use FOS\UserBundle\Model\User as BaseUser;
 
 /**
  * Compiled Entity for Ts\Superkicker\SuperkickerBundle\Domain\Model\User
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping AS ORM;
  * To change table name or entity repository edit the Ts\Superkicker\SuperkickerBundle\Domain\Model\User class.
  * @ORM\MappedSuperclass
  */
-abstract class CompiledUser {
+abstract class CompiledUser extends BaseUser{
   
   /**
    * id
@@ -22,13 +23,13 @@ abstract class CompiledUser {
   
   /**
    * name
-   * @ORM\Column
+   * @ORM\Column(nullable=true)
    */
   protected $name;
   
   /**
    * clientId
-   * @ORM\Column(type="integer")
+   * @ORM\Column(type="integer", nullable=true)
    */
   protected $clientId;
   
@@ -50,7 +51,7 @@ abstract class CompiledUser {
   /**
    * @param string $name
    */
-  public function setName($name) {
+  public function setName($name = NULL) {
     $this->name = $name;
     return $this;
   }
@@ -65,7 +66,7 @@ abstract class CompiledUser {
   /**
    * @param integer $clientId
    */
-  public function setClientId($clientId) {
+  public function setClientId($clientId = NULL) {
     $this->clientId = $clientId;
     return $this;
   }
@@ -78,6 +79,6 @@ abstract class CompiledUser {
   }
   
   public function __construct() {
-
+    parent::__construct();
   }
 }

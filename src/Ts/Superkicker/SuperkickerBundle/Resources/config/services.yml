@@ -26,6 +26,8 @@ services:
     calls:
       - [setMatchRepository, ["@ts.superkicker.domain.repository.matchrepository"]]
       - [setTipRepository, ["@ts.superkicker.domain.repository.tiprepository"]]
+      - [setSecurityContext, ["@security.context"]]
+
   ts.superkicker.match.contoller:
     arguments: ["@templating","@router"]
     class: %match_controller.class%

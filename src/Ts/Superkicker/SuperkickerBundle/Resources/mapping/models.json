@@ -38,8 +38,8 @@
       "description": "Represents a user",
       "properties": {
         "id": { "type": "DefaultId" },
-        "name": { "type": "String" },
-        "clientId": { "type": "Integer" }
+        "name": { "type": "String","nullable": true },
+        "clientId": { "type": "Integer","nullable": true }
       }
     }
   ]

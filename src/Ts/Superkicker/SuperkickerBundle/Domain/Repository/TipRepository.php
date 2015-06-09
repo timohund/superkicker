@@ -29,10 +29,7 @@ class TipRepository extends AbstractRepository{
 	 * @param Tip $tip
 	 */
 	public function save(Tip $tip) {
-		$this->entityManager->getClassMetaData(get_class($tip->getUser()))->setIdGenerator(new \Doctrine\ORM\Id\AssignedGenerator());
-		$this->entityManager->persist($tip->getUser());
-
-		$this->entityManager->persist($tip);
+		$this->entityManager->merge($tip);
 		$this->entityManager->flush();
 	}
 

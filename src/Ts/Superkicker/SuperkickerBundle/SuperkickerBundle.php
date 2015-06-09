@@ -15,7 +15,8 @@ class SuperkickerBundle extends Bundle
 {
 	public function boot()
 	{
-		$em = $this->container->get('doctrine.orm.entity_manager');
-		Type::addType('WebforgeDateTime', 'Webforge\Doctrine\Types\DateTimeType');
+		if(!Type::hasType('WebforgeDateTime')) {
+			Type::addType('WebforgeDateTime', 'Webforge\Doctrine\Types\DateTimeType');
+		}
 	}
 }

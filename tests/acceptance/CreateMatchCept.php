@@ -2,10 +2,16 @@
 $I = new WebGuy($scenario);
 $I->resetSystem();
 
+// login
+	$I->amOnPage("login");
+	$I->fillField('#username',"admin");
+	$I->fillField('#password',"password");
+	$I->submitForm('form',array());
+
 // create a club
 	$I->wantTo('Club anlegen');
 	$I->canSeeInTitle('Willkommen im Superkicker Tippspiel');
-	$I->seeLink('Clubs','/club/edit');
+	$I->seeLink('Clubs','/admin/club/edit');
 	$I->click('#clubs');
 
 	$I->fillField('#club_new_name','BVB');
@@ -15,10 +21,8 @@ $I->resetSystem();
 
 // create a match
 	$I->wantTo('Match anlegen');
-	$I->seeLink('Matches','/match/edit');
+	$I->seeLink('Matches','/admin/match/edit');
 	$I->click('#matches');
-	//$I->canSee('Heim');
-	//$I->canSee('Gast');
 	$I->canSee('BVB');
 	// i an see the match day
 	$I->canSee('34');
@@ -33,11 +37,10 @@ $I->resetSystem();
 
 // create a tipp
 	$I->wantTo('Tipp abgeben');
-	$I->seeLink('Tipps','/tipp/edit');
+	$I->seeLink('Tipps','/user/tipp/edit');
 	$I->click('#tipps');
 	$I->canSeeInTitle('Tipp abgeben');
 	$I->canSeeElement("form");
-//	$I->canSee("Deine Tipps");
 	$I->canSee("BVB");
 	$I->fillField('#match_1_home',1);
 	$I->fillField('#match_1_guest',2);

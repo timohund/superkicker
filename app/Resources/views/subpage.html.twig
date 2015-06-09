@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="style.css"/>
+		<link rel="stylesheet" href="{{ asset('bundles/superkicker/css/bootstrap.css') }}">
+		<link rel="stylesheet" href="{{ asset('bundles/superkicker/css/main.css') }}">
+
+		<title>{% block title %}{% endblock %}</title>
+	</head>
+	<body id="main">
+		<nav class="navbar navbar-inverse" id="menu">
+			{% block menu %}
+			<div class="container-fluid">
+
+
+						<!-- Brand and toggle get grouped for better mobile display -->
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+						</div>
+
+						<!-- Collect the nav links, forms, and other content for toggling -->
+						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+							<ul class="nav navbar-nav">
+									<li>
+										<a href="{{ path('ts_superkicker_index') }}" id="home">Home</a>
+									</li>
+
+									{% if is_granted('ROLE_USER') %}
+										<li>
+											<a href="{{ path('ts_superkicker_tipp_edit') }}" id="tipps">Tipps</a>
+										</li>
+									{% endif %}
+
+									{% if is_granted('ROLE_ADMIN') %}
+										<li>
+											<a href="{{ path('ts_superkicker_match_edit') }}" id="matches">Matches</a>
+										</li>
+									{% endif %}
+									{% if is_granted('ROLE_ADMIN') %}
+										<li>
+											<a href="{{ path('ts_superkicker_club_edit') }}" id="clubs">Clubs</a>
+										</li>
+									{% endif %}
+
+									{% if is_granted('ROLE_USER') %}
+										<li>
+											<a href="/logout">Logout</a>
+										</li>
+									{% endif %}
+							</ul>
+						</div><!-- /.navbar-collapse -->
+
+				</div><!-- /.container-fluid -->
+			{% endblock %}
+		</nav>
+		<div id="content">
+			<div id="content-background">
+			</div>
+
+			<div class="container-fluid" id="bar">
+				<div class="row" id="teaser">
+					<div class="col-md-1">&nbsp;</div>
+					<div class="col-md-10">
+						<div id="content-inner">
+							{% block content %}{% endblock %}
+						</div>
+					</div>
+					<div class="col-md-1">&nbsp;</div>
+				</div>
+			</div>
+
+		</div>
+		<div id="footer">
+			{% block footer %}{% endblock %}
+		</div>
+		<script src="{{ asset('bundles/superkicker/js/jquery.js') }}"></script>
+		<script src="{{ asset('bundles/superkicker/js/bootstrap.min.js') }}"></script>
+	</body>
+</html>

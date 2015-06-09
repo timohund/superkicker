@@ -108,6 +108,9 @@ class TipController extends AbstractController {
 			'SuperkickerBundle:Tip:edit.html.twig',
 			array(
 				'matchTips' => $matchTips,
+				'prevMatchDay' => $prevMatchDay,
+				'nextMatchDay' => $nextMatchDay,
+				'matchDay' => $matchDay,
 				'saved' => $saved
 			)
 		);

@@ -86,7 +86,8 @@ class MatchController extends AbstractController {
 			array(
 					'allMatches' => $allMatches,
 					'matchId' => $match,
-					'allClubs' => $allClubs
+					'allClubs' => $allClubs,
+					'saved' => $saved,
 			)
 		);
 	}
@@ -104,7 +105,10 @@ class MatchController extends AbstractController {
 		$match->setMatchDay($matchData['day']);
 
 		$this->matchRepository->save($match);
-		$editUrl = $this->router->generate('ts_superkicker_match_edit');
+		$editUrl = $this->router->generate(
+				'ts_superkicker_match_edit',
+				array('saved' => true)
+		);
 		return new RedirectResponse($editUrl);
 	}
 }

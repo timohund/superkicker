@@ -1,0 +1,26 @@
+{% block text_widget %}
+    <div class="input-group">
+        <span class="input-group-addon glyphicon glyphicon-user" aria-hidden="true" id="basic-addon1"></span>
+        {% set type = type|default('text') %}
+        {{ block('form_widget_simple') }}
+    </div>
+{% endblock %}
+
+
+{% block password_widget %}
+    <div class="input-group">
+        <span class="input-group-addon glyphicon glyphicon-lock" aria-hidden="true" id="basic-addon1"></span>
+
+        {% set type = type|default('password') %}
+        {{ block('form_widget_simple') }}
+    </div>
+{% endblock %}
+
+{% block email_widget %}
+    <div class="input-group">
+        <span class="input-group-addon glyphicon glyphicon-envelope" aria-hidden="true" id="basic-addon1"></span>
+
+        {% set type = type|default('email') %}
+        {{ block('form_widget_simple') }}
+    </div>
+{% endblock %}

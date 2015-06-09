@@ -21,3 +21,102 @@
 .navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
 	border-color: #fff!important;
 }
+
+#login, #register {
+	border-radius: 10px;
+	max-width: 400px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 100px;
+	background: #fff;
+	padding: 20px;
+	opacity: 1.0;
+}
+
+
+div#content {
+	height: 90%;
+	width: 95%;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 10px;
+}
+
+.input-group {
+	margin-bottom: 10px;
+}
+
+.input-group .glyphicon {
+	top: 0px;
+}
+
+.content-inner {
+	background: #fff;
+}
+
+html,body { height: 100%; margin: 0px; padding: 0px; }
+
+body{
+	background: url('../images/background.jpg') no-repeat center bottom fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	background-size:100%;
+}
+
+div#content-background {
+	padding: 20px;
+	height: 85%;
+	width: 95%;
+	background: #fff;
+	border-radius: 20px;
+	-khtml-opacity:.50;
+	-moz-opacity:.50;
+	-ms-filter:"alpha(opacity=50)";
+	filter:alpha(opacity=50);
+	filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0.5);
+	opacity:.50;
+	position: absolute;
+}
+
+div#content-inner {
+	margin-top: 20px;
+	padding: 20px;
+	background: #fff;
+	height: 100%;
+	position: relative;
+}
+
+div#tipContent {
+	display: table;
+	width: 100%;
+
+}
+
+div#prevMatchDay, div#nextMatchDay  {
+	display: table-cell;
+	min-width: 25px;
+	height: 100%;
+	vertical-align: middle;
+	line-height: 100%!important;
+	background-color: #eee;
+	border-left: 2px;
+	border-right: 2px;
+}
+
+div#nextMatchDay {
+	text-align: right;
+}
+
+div#prevMatchDay a, div#nextMatchDay a  {
+	width: 25px;
+	height: 100%;
+}
+
+
+div#tipdata {
+	display: table-cell;
+	width: 100%;
+}
+

@@ -23,10 +23,7 @@
         "sensio/generator-bundle": "~2.3",
         "webforge/common": "*",
         "webforge/doctrine": "dev-master",
-        "leafo/lessphp": "0.4.0",
-        "components/jquery": "2.0.*",
-        "twitter/bootstrap": "2.3.*",
-        "braincrafted/bootstrap-bundle": "dev-master"
+        "friendsofsymfony/user-bundle": "~2.0@dev"
     },
     "require-dev": {
 		"sensio/generator-bundle": "~2.3",

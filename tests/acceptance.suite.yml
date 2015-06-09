@@ -15,13 +15,20 @@ modules:
         - WebHelper
     config:
         PhpBrowser:
-            url: '###webhostname###'
+            url: 'http://###DOMAIN###/app_dev.php/'
         SshBootstrap:
-            host: '###sshhost###'
-            user:   '###sshuser###'
-            password: '###sshpassword###'
+            host: '###DOMAIN###'
+            user:   'vagrant'
+            password: 'vagrant'
             commands:
-                - '###bootstrapcommand1###'
-                - '###bootstrapcommand2###'
-                - '###bootstrapcommand3###'
+                - 'php ###PATH###/app/console doctrine:database:drop --force'
+                - 'php ###PATH###/app/console doctrine:database:create'
+                - 'php ###PATH###/app/console doctrine:schema:create'
+                - 'php ###PATH###/app/console fos:user:create admin admin@local.dev password'
+                - 'php ###PATH###/app/console fos:user:promote admin ROLE_ADMIN'
+                - 'sudo chown www-data:vagrant -R ###PATH###'
+                - 'sudo chmod 775 -fR ###PATH###'
+                - 'php ###PATH###/app/console cache:clear'
+                - 'sudo chown www-data:vagrant -R ###PATH###'
+                - 'sudo chmod 775 -fR ###PATH###'
 

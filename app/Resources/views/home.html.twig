@@ -30,15 +30,28 @@
 										<a href="{{ path('ts_superkicker_index') }}" id="home">Home</a>
 									</li>
 
-									<li>
-										<a href="{{ path('ts_superkicker_tipp_edit') }}" id="tipps">Tipps</a>
-									</li>
-									<li>
-										<a href="{{ path('ts_superkicker_match_edit') }}" id="matches">Matches</a>
-									</li>
-									<li>
-										<a href="{{ path('ts_superkicker_club_edit') }}" id="clubs">Clubs</a>
-									</li>
+									{% if is_granted('ROLE_USER') %}
+										<li>
+											<a href="{{ path('ts_superkicker_tipp_edit') }}" id="tipps">Tipps</a>
+										</li>
+									{% endif %}
+
+									{% if is_granted('ROLE_ADMIN') %}
+										<li>
+											<a href="{{ path('ts_superkicker_match_edit') }}" id="matches">Spiele</a>
+										</li>
+									{% endif %}
+									{% if is_granted('ROLE_ADMIN') %}
+										<li>
+											<a href="{{ path('ts_superkicker_club_edit') }}" id="clubs">Vereine</a>
+										</li>
+									{% endif %}
+
+									{% if is_granted('ROLE_USER') %}
+										<li>
+											<a href="/logout">Logout</a>
+										</li>
+									{% endif %}
 							</ul>
 						</div><!-- /.navbar-collapse -->
 

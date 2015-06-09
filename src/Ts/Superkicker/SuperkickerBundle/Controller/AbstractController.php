@@ -12,15 +12,28 @@ use Ts\Superkicker\SuperkickerBundle\Domain\Model\User;
 abstract class AbstractController extends Controller {
 
 	/**
+	 * @var \Symfony\Component\Security\Core\SecurityContext
+	 */
+	protected $securityContext;
+
+	/**
+	 * @return \Symfony\Component\Security\Core\SecurityContext
+	 */
+	public function getSecurityContext() {
+		return $this->securityContext;
+	}
+
+	/**
+	 * @param \Symfony\Component\Security\Core\SecurityContext $securityContext
+	 */
+	public function setSecurityContext($securityContext) {
+		$this->securityContext = $securityContext;
+	}
+
+	/**
 	 * @return User
 	 */
 	protected function getCurrentLoginUser() {
-		$user = new User();
-		$user->setId(1);
-		$user->setName('me');
-		$user->setClientId(1);
-
-
-		return $user;
+		return $this->securityContext->getToken()->getUser();
 	}
 }
