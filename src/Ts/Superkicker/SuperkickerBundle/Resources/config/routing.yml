@@ -8,8 +8,8 @@ ts_superkicker_tipp_save:
     path:     /user/tipp/save
     defaults: { _controller: ts.superkicker.tip.contoller:saveAction }
 ts_superkicker_match_edit:
-    path:     /admin/match/edit/{match}/{saved}
-    defaults: { _controller: ts.superkicker.match.contoller:editAction, match: 0, saved: 0  }
+    path:     /admin/match/edit/{matchDay}/{saved}
+    defaults: { _controller: ts.superkicker.match.contoller:editAction, matchDay: 1, saved: 0  }
 ts_superkicker_match_save:
     path:     /admin/match/save
     defaults: { _controller: ts.superkicker.match.contoller:saveAction }

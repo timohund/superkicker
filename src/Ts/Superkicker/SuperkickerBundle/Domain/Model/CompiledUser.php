@@ -2,8 +2,9 @@
 
 namespace Ts\Superkicker\SuperkickerBundle\Domain\Model;
 
-use Doctrine\ORM\Mapping AS ORM;
+use Webforge\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User as BaseUser;
+use Doctrine\ORM\Mapping AS ORM;
 
 /**
  * Compiled Entity for Ts\Superkicker\SuperkickerBundle\Domain\Model\User
@@ -11,7 +12,7 @@ use FOS\UserBundle\Model\User as BaseUser;
  * To change table name or entity repository edit the Ts\Superkicker\SuperkickerBundle\Domain\Model\User class.
  * @ORM\MappedSuperclass
  */
-abstract class CompiledUser extends BaseUser{
+abstract class CompiledUser extends BaseUser {
   
   /**
    * id
@@ -26,6 +27,12 @@ abstract class CompiledUser extends BaseUser{
    * @ORM\Column(nullable=true)
    */
   protected $name;
+  
+  /**
+   * tipps
+   * @ORM\OneToMany(mappedBy="user", targetEntity="Ts\Superkicker\SuperkickerBundle\Domain\Model\Tip", cascade={"all"})
+   */
+  protected $tipps;
   
   /**
    * clientId
@@ -64,6 +71,21 @@ abstract class CompiledUser extends BaseUser{
   }
   
   /**
+   * @param Doctrine\Common\Collections\Collection<Ts\Superkicker\SuperkickerBundle\Domain\Model\Tip> $tipps
+   */
+  public function setTipps(ArrayCollection $tipps) {
+    $this->tipps = $tipps;
+    return $this;
+  }
+  
+  /**
+   * @return Doctrine\Common\Collections\Collection<Ts\Superkicker\SuperkickerBundle\Domain\Model\Tip>
+   */
+  public function getTipps() {
+    return $this->tipps;
+  }
+  
+  /**
    * @param integer $clientId
    */
   public function setClientId($clientId = NULL) {
@@ -78,7 +100,26 @@ abstract class CompiledUser extends BaseUser{
     return $this->clientId;
   }
   
+  public function addTipp(Tip $tipp) {
+    if (!$this->tipps->contains($tipp)) {
+        $this->tipps->add($tipp);
+    }
+    return $this;
+  }
+  
+  public function removeTipp(Tip $tipp) {
+    if ($this->tipps->contains($tipp)) {
+        $this->tipps->removeElement($tipp);
+    }
+    return $this;
+  }
+  
+  public function hasTipp(Tip $tipp) {
+    return $this->tipps->contains($tipp);
+  }
+  
   public function __construct() {
     parent::__construct();
+    $this->tipps = new ArrayCollection();
   }
 }

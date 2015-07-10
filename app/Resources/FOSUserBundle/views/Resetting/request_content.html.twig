@@ -1,0 +1,26 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div id="register">
+    <h1>Passwort vergessen?</h1>
+    <hr/>
+
+    <form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
+        {% if invalid_username is defined %}
+            <div class="alert alert-danger" role="alert">{{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}) }}</div>
+        {% endif %}
+
+        <div class="input-group">
+            <span class="input-group-addon glyphicon glyphicon-user" aria-hidden="true" id="basic-addon1"></span>
+            <span class="input-group-addon glyphicon glyphicon-envelope" aria-hidden="true" id="basic-addon2"></span>
+
+            <input type="text" id="username" name="username" required="required" class="form-control" size="20" autofocus="autofocus"/>
+        </div>
+        <br/>
+
+        <div class="input-group">
+            <input type="submit" class="btn btn-default" value="{{ 'resetting.request.submit'|trans }}"/>
+        </div>
+    </form>
+
+    <hr/>
+</div>

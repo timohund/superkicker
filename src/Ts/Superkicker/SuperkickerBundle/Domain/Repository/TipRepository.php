@@ -29,7 +29,7 @@ class TipRepository extends AbstractRepository{
 	 * @param Tip $tip
 	 */
 	public function save(Tip $tip) {
-		$this->entityManager->merge($tip);
+		$this->entityManager->persist($tip);
 		$this->entityManager->flush();
 	}
 

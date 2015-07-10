@@ -127,6 +127,12 @@
           "isEntityReference":false,
           "type":"String"
         },
+        "tipps":{
+          "name":"tipps",
+          "isEntityReference":true,
+          "type":"Ts\\Superkicker\\SuperkickerBundle\\Domain\\Model\\Tip",
+          "isCollection":true
+        },
         "clientId":{
           "name":"clientId",
           "isEntityReference":false,

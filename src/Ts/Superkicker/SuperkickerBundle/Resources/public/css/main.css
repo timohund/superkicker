@@ -39,6 +39,7 @@ div#content {
 	width: 95%;
 	margin-left: auto;
 	margin-right: auto;
+	margin-top: 50px;
 	padding: 10px;
 }
 
@@ -50,14 +51,10 @@ div#content {
 	top: 0px;
 }
 
-.content-inner {
-	background: #fff;
-}
-
 html,body { height: 100%; margin: 0px; padding: 0px; }
 
 body{
-	background: url('../images/background.jpg') no-repeat center bottom fixed;
+	background: url('../images/background2.jpg') no-repeat center bottom fixed;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
@@ -81,20 +78,22 @@ div#content-background {
 }
 
 div#content-inner {
-	margin-top: 20px;
+	margin-top: 10px;
 	padding: 20px;
+	padding-top: 10px;
 	background: #fff;
 	height: 100%;
 	position: relative;
 }
 
-div#tipContent {
+div.pagination-table {
+	margin-top: 10px;
 	display: table;
 	width: 100%;
 
 }
 
-div#prevMatchDay, div#nextMatchDay  {
+div.pagination-left, div.pagination-right  {
 	display: table-cell;
 	min-width: 25px;
 	height: 100%;
@@ -105,18 +104,98 @@ div#prevMatchDay, div#nextMatchDay  {
 	border-right: 2px;
 }
 
-div#nextMatchDay {
+div.pagination-right {
 	text-align: right;
 }
 
-div#prevMatchDay a, div#nextMatchDay a  {
+div.pagination-left a, div.pagination-right a  {
 	width: 25px;
 	height: 100%;
 }
 
 
-div#tipdata {
+div.pagination-content {
 	display: table-cell;
 	width: 100%;
 }
 
+
+@media
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+	/* Force table to not be like tables anymore */
+	table.responsive, table.responsive > thead, table.responsive > tbody, table.responsive > tbody > tr > th, table.responsive > tbody > tr > td, table.responsive > tbody > tr {
+		display: block;
+		width: 100%;
+	}
+
+	/* Hide table headers (but not display: none;, for accessibility) */
+	table.responsive > thead > tr {
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+
+	table.responsive > tbody > tr {
+		border: 1px solid #ccc;
+		margin-bottom: 10px;
+	}
+
+	table.responsive > tbody > tr > td {
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #eee;
+		position: relative;
+		padding-top:15px;
+		padding-left: 120px!important;
+		height: 50px!important;
+		width: 100%!important;
+		vertical-align: middle;
+	}
+
+	table.responsive > tbody > tr > td > select, table.responsive > tbody > tr > td > div, table.responsive > tbody > tr > td > input{
+		margin-top: -7px;
+	}
+
+	table.responsive > tbody  > tr > td:before {
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		bottom: 15px;
+		left: 6px;
+		width: 120px;
+		padding-right: 20px;
+		white-space: nowrap;
+		content: attr(data-title);
+	}
+}
+
+
+.pagination-content {
+	margin-top: 10px;
+	padding-left:20px;
+	padding-right: 20px;
+}
+
+input.score {
+	max-width: 45px;
+}
+
+div.score-group {
+	width: 200px;
+	min-width: 200px;
+	max-width: 200px;
+}
+
+a.tile {
+	display: inline-block!important;
+	padding-right: 10px!important;
+	padding-top: 10px!important;
+	width: 50px;
+}
+
+.tile-dropdown {
+	text-align: left;
+	min-width: 220px;
+}

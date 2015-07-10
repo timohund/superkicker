@@ -259,7 +259,6 @@ Projekts installiert werden:
 und kann danach wie folgt genutzt werden:
 
 ::
-
 	vendor/bin/webforge-doctrine-compiler orm:compile src/Ts/Superkicker/SuperkickerBundle/Resources/mapping/models.json src/
 
 Für jede Klassedefinition wird eine normale PHP Klasse erzeugt und eine mit dem Prefix "Compiled...". In

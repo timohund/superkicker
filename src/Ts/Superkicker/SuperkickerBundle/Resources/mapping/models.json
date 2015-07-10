@@ -28,8 +28,8 @@
       "properties": {
         "id": { "type": "DefaultId" },
         "match": { "type": "Match" },
-        "homeScore": { "type": "Integer" },
-        "guestScore": { "type": "Integer"},
+        "homeScore": { "type": "Integer", "nullable": true },
+        "guestScore": { "type": "Integer", "nullable": true },
         "user": { "type": "User" }
       }
     },
@@ -39,6 +39,7 @@
       "properties": {
         "id": { "type": "DefaultId" },
         "name": { "type": "String","nullable": true },
+        "tipps": { "type": "Collection<Tip>", "cascade": ["all"] },
         "clientId": { "type": "Integer","nullable": true }
       }
     }

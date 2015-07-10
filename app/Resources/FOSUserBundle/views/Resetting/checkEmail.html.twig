@@ -1,0 +1,12 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+<div id="register">
+    <h1>Du hast Post!</h1>
+    <hr/>
+
+    {{ 'resetting.check_email'|trans({'%email%': email}) }}
+</div>
+{% endblock %}

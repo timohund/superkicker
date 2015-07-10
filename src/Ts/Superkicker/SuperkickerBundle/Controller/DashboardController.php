@@ -20,6 +20,18 @@ class DashboardController extends AbstractController {
 	protected $templating;
 
 	/**
+	 * @var \Ts\Superkicker\SuperkickerBundle\Domain\Service\ScoreCalculationService
+	 */
+	protected $scoreCalculationService;
+
+	/**
+	 * @param \Ts\Superkicker\SuperkickerBundle\Domain\Service\ScoreCalculationService $scoreCalculationService
+	 */
+	public function setScoreCalculationService($scoreCalculationService) {
+		$this->scoreCalculationService = $scoreCalculationService;
+	}
+
+	/**
 	 * @param EngineInterface $templating
 	 */
 	public function __construct(EngineInterface $templating) {
@@ -30,8 +42,10 @@ class DashboardController extends AbstractController {
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function indexAction() {
+		$score = $this->scoreCalculationService->getScoreForUser($this->getCurrentLoginUser());
 		return $this->templating->renderResponse(
-			'SuperkickerBundle:Dashboard:index.html.twig'
+			'SuperkickerBundle:Dashboard:index.html.twig',
+			array('score' => $score)
 		);
 	}
 }

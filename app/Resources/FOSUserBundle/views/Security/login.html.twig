@@ -8,7 +8,7 @@
         <h1>Login</h1>
         <hr />
         {% if error %}
-            <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            <div class="alert alert-danger" role="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
 
         <form action="{{ path("fos_user_security_check") }}" method="post">
@@ -18,7 +18,7 @@
             <div class="input-group">
                 <span class="input-group-addon glyphicon glyphicon-user" aria-hidden="true" id="basic-addon1"></span>
                 <input type="text" id="username" name="_username" value="{{ last_username }}" required="required"
-                       class="form-control" placeholder="Username" aria-describedby="basic-addon1" size="20"/>
+                       class="form-control" placeholder="Username" aria-describedby="basic-addon1" size="20" autofocus="autofocus"/>
 
             </div>
 

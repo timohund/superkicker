@@ -30,6 +30,7 @@ $I->resetSystem();
 	$I->fillField('#match_new_home',1);
 	$I->fillField('#match_new_guest',2);
 	$I->fillField('#match_new_day',1);
+	$I->fillField('#match_new_date','13.05.2030 08:11');
 	$I->submitForm('#matchCreate',array());
 
 	$I->click('Home');

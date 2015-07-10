@@ -1,55 +1,155 @@
 {% extends "subpage.html.twig" %}
 	{% block heading %}Matches{% endblock %}
+
+    {% block matchDays %}
+        <div class="text-center">
+            <div class="btn-group" role="group" aria-label="Spieltag">
+                {% if prevMatchDay < matchDay %}
+                    <a type="button" class="btn btn-default" href="{{ path('ts_superkicker_match_edit', {'matchDay': prevMatchDay}) }}"><span aria-hidden="true">&larr;</span></a>
+                {% else %}
+                    <a type="button" class="btn btn-default disabled" href="#"><span aria-hidden="true">&larr;</span></a>
+
+                {% endif %}
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Spieltag {{ matchDay }} <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-left tile-dropdown">
+                        <li>
+
+                            {%for day in 1..34%}
+                                <a class="tile" href="{{ path('ts_superkicker_match_edit', {'matchDay': day}) }}">{{ day }}</a>
+
+                                {% if day % 4 == 0 %}
+                                    </li>
+                                    <li>
+                                {% endif %}
+
+                            {% endfor %}
+                        </li>
+                    </ul>
+                </div>
+                {% if nextMatchDay > matchDay %}
+                    <a type="button" class="btn btn-default" href="{{ path('ts_superkicker_match_edit', {'matchDay': nextMatchDay}) }}"><span aria-hidden="true">&rarr;</span></a>
+                {% endif %}
+
+            </div>
+        </div>
+    {% endblock %}
 	{% block content %}
-		<h1>Spiele</h1>
-		{% if saved %}
-			<div class="alert alert-success" role="alert">Die Spiele wurden erfolgreich gespeichert.</div>
-		{% endif %}
+        <h1>Spielplan - Spieltag {{ matchDay }}</h1>
+        {% if saved %}
+            <div class="alert alert-success" role="alert">Die Spiele wurden erfolgreich gespeichert.</div>
+        {% endif %}
+        <form action="{{ path('ts_superkicker_match_save') }}" id="matchCreate" method="post">
+            {{ block('matchDays') }}
+            <div class="pagination-table">
 
-		<div class="content-inner">
-			<form action="{{ path('ts_superkicker_match_save') }}" id="matchCreate" method="post">
+                <div class="pagination-content">
 
-				<table class="table">
-					{% for match in allMatches %}
-						<tr>
-							<td>{{ match.matchDay }}</td>
-							<td>{{ match.homeClub.name }}</td>
-							<td>{{ match.guestClub.name }}</td>
-						</tr>
-					{% endfor %}
-					<tr>
+                    <table class="responsive table">
+                        {% for match in allMatches %}
+                            <tr>
+                                <input type="hidden" name="match[{{ match.id }}][day]" value="{{ matchDay }}"
+                                       id="match_new_day">
+                                <td data-title="Datum">
+                                    <div class="form-group">
+                                        <div class="input-group date datetimepicker" id="datetimepicker_{{ match.id }}">
+                                            <input type='text' class="form-control" name="match[{{ match.id }}][date]"
+                                                   id="match_{{ match.id }}_date"
+                                                   value="{{ match.date|date("d.m.Y H:i") }}"/>
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-title="Heim">
+                                    <select name="match[{{ match.id }}][home]" class="form-control"
+                                            id="match_{{ match.id }}_home">
+                                        {% for club in allClubs %}
+                                            {% if club.id == match.homeClub.id %}
+                                                <option value="{{ club.id }}"
+                                                        selected="selected">{{ club.name }}</option>
+                                            {% else %}
+                                                <option value="{{ club.id }}">{{ club.name }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                                <td data-title="Tore Heim">
+                                    <input name="match[{{ match.id }}][homeScore]" size="1" class="form-control"
+                                           id="match_{{ match.id }}_homescore" value="{{ match.homeScore }}"/>
+                                </td>
+                                <td data-title="Tore Gast">
+                                    <input name="match[{{ match.id }}][guestScore]" size="1" class="form-control"
+                                           id="match_{{ match.id }}_guestscore" value="{{ match.guestScore }}"/>
+                                </td>
+                                <td data-title="Gast">
+                                    <select name="match[{{ match.id }}][guest]" class="form-control"
+                                            id="match_{{ match.id }}_guest">
+                                        {% for club in allClubs %}
+                                            {% if club.id == match.guestClub.id %}
+                                                <option value="{{ club.id }}"
+                                                        selected="selected">{{ club.name }}</option>
+                                            {% else %}
+                                                <option value="{{ club.id }}">{{ club.name }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        <tr>
 
-							<input type="hidden" name="matchId" value="{{ matchId }}"/>
+                            <input type="hidden" name="match[new][day]" class="form-control" id="match_new_day"
+                                   value="{{ matchDay }}"/>
 
-							<td>
-								<select name="match[day]" class="form-control" id="match_new_day">
-									{%for day in 1..34%}
-										<option value="{{ day }}">{{ day }}</option>
-									{% endfor %}
-								</select>
-							</td>
+                            <td data-title="Datum">
+                                <div class="form-group">
+                                    <div class="input-group date datetimepicker" id="datetimepicker_new">
+                                        <input type='text' class="form-control" name="match[new][date]"
+                                               id="match_new_date"
+                                               contenteditable="false" autofocus="autofocus"/>
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td data-title="Heim">
+                                <select name="match[new][home]" class="form-control" id="match_new_home">
+                                    {% for club in allClubs %}
+                                        <option value="{{ club.id }}">{{ club.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <td data-title="Tore Heim">
+                                <input name="match[new][homeScore]" size="1" class="form-control"
+                                       id="match_new_homescore"/>
+                            </td>
+                            <td data-title="Tore Gast">
+                                <input name="match[new][guestScore]" size="1" class="form-control"
+                                       id="match_new_homescore"/>
+                            </td>
 
-							<td>
-								<select name="match[home]" class="form-control" id="match_new_home">
-									{% for club in allClubs %}
-										<option value="{{ club.id }}" >{{ club.name }}</option>
-									{% endfor %}
-								</select>
+                            <td data-title="Gast">
+                                <select name="match[new][guest]" class="form-control" id="match_new_guest">
+                                    {% for club in allClubs %}
+                                        <option value="{{ club.id }}">{{ club.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
 
-							</td>
 
-							<td>
-								<select name="match[guest]" class="form-control" id="match_new_guest">
-									{% for club in allClubs %}
-										<option value="{{ club.id }}" >{{ club.name }}</option>
-									{% endfor %}
-								</select>
+                </div>
+            </div>
 
-							</td>
-
-					</tr>
-				</table>
-				<input type="submit" class="btn btn-default navbar-btn" value="Speichern"/>
-			</form>
-		</div>
-	{% endblock %}
+            {{ block('matchDays') }}
+            <div>
+                <input type="submit" class="btn btn-default navbar-btn" value="Speichern"/>
+            </div>
+        </form>
+    {% endblock %}

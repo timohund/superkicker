@@ -36,4 +36,20 @@ abstract class AbstractController extends Controller {
 	protected function getCurrentLoginUser() {
 		return $this->securityContext->getToken()->getUser();
 	}
+
+	/**
+	 * @param integer $matchDay
+	 * @return mixed
+	 */
+	protected function getNextMatchDay($matchDay) {
+		return min($matchDay + 1, 34);
+	}
+
+	/**
+	 * @param integer $matchDay
+	 * @return mixed
+	 */
+	protected function getPreviousMatchDay($matchDay) {
+		return max(1, $matchDay - 1);
+	}
 }

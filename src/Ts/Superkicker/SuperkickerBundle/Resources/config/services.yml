@@ -6,8 +6,11 @@ parameters:
     match_controller.class: Ts\Superkicker\SuperkickerBundle\Controller\MatchController
     club_repository.class: Ts\Superkicker\SuperkickerBundle\Domain\Repository\ClubRepository
     club_controller.class: Ts\Superkicker\SuperkickerBundle\Controller\ClubController
+    score_calculation_service.class: Ts\Superkicker\SuperkickerBundle\Domain\Service\ScoreCalculationService
 
 services:
+  ts.superkicker.domain.service.scorecalculationservice:
+    class: %score_calculation_service.class%
   ts.superkicker.domain.repository.matchrepository:
     arguments: ["@doctrine.orm.entity_manager"]
     class: %match_repository.class%
@@ -19,6 +22,10 @@ services:
     class: %club_repository.class%
   ts.superkicker.dashboard.contoller:
     arguments: ["@templating"]
+    calls:
+      - [setScoreCalculationService, ["@ts.superkicker.domain.service.scorecalculationservice"]]
+      - [setSecurityContext, ["@security.context"]]
+
     class: %dashboard_controller.class%
   ts.superkicker.tip.contoller:
     arguments: ["@templating","@router"]
@@ -26,6 +33,7 @@ services:
     calls:
       - [setMatchRepository, ["@ts.superkicker.domain.repository.matchrepository"]]
       - [setTipRepository, ["@ts.superkicker.domain.repository.tiprepository"]]
+      - [setScoreCalculationService, ["@ts.superkicker.domain.service.scorecalculationservice"]]
       - [setSecurityContext, ["@security.context"]]
 
   ts.superkicker.match.contoller:

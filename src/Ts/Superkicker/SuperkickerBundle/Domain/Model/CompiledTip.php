@@ -29,19 +29,19 @@ abstract class CompiledTip {
   
   /**
    * homeScore
-   * @ORM\Column(type="integer")
+   * @ORM\Column(type="integer", nullable=true)
    */
   protected $homeScore;
   
   /**
    * guestScore
-   * @ORM\Column(type="integer")
+   * @ORM\Column(type="integer", nullable=true)
    */
   protected $guestScore;
   
   /**
    * user
-   * @ORM\ManyToOne(targetEntity="Ts\Superkicker\SuperkickerBundle\Domain\Model\User")
+   * @ORM\ManyToOne(targetEntity="Ts\Superkicker\SuperkickerBundle\Domain\Model\User", inversedBy="tipps")
    * @ORM\JoinColumn(nullable=false)
    */
   protected $user;
@@ -79,7 +79,7 @@ abstract class CompiledTip {
   /**
    * @param integer $homeScore
    */
-  public function setHomeScore($homeScore) {
+  public function setHomeScore($homeScore = NULL) {
     $this->homeScore = $homeScore;
     return $this;
   }
@@ -94,7 +94,7 @@ abstract class CompiledTip {
   /**
    * @param integer $guestScore
    */
-  public function setGuestScore($guestScore) {
+  public function setGuestScore($guestScore = NULL) {
     $this->guestScore = $guestScore;
     return $this;
   }
@@ -110,7 +110,11 @@ abstract class CompiledTip {
    * @param Ts\Superkicker\SuperkickerBundle\Domain\Model\User $user
    */
   public function setUser(User $user) {
+    if (isset($this->user) && $this->user !== $user) {
+        $this->user->removeTipp($this);
+    }
     $this->user = $user;
+    $user->addTipp($this);
     return $this;
   }
   

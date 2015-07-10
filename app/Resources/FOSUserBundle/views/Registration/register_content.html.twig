@@ -1,3 +1,4 @@
+
 {% trans_default_domain 'FOSUserBundle' %}
 
 {% form_theme form 'SuperkickerBundle:Form:theme.html.twig' %}
@@ -5,9 +6,19 @@
 {% block fos_user_content %}
     <div id="register">
         <h1>Registrieren</h1>
+        {% if not form.vars.valid %}
+            <div class="alert alert-danger" role="alert">
+                {{form_errors(form.username)}}
+                {{form_errors(form.plainPassword.first)}}
+                {{form_errors(form.plainPassword.second)}}
+
+                {{form_errors(form.email)}}
+            </div>
+        {% endif %}
+
         <hr />
         <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register">
-            {{ form_widget(form.username, { 'attr': {'class': 'form-control'} }) }}
+            {{ form_widget(form.username, { 'attr': {'class': 'form-control', 'autofocus': 'autofocus'} }) }}
             {{ form_widget(form.plainPassword.first, { 'attr': {'class': 'form-control'} }) }}
             {{ form_widget(form.plainPassword.second, { 'attr': {'class': 'form-control'} }) }}
             {{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}

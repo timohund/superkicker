@@ -135,7 +135,7 @@ abstract class CompiledMatch {
   }
   
   /**
-   * @param Webforge\Common\DateTime\DateTime $date
+   * @param |Webforge\Common\DateTime\DateTime $date
    */
   public function setDate(DateTime $date = NULL) {
     $this->date = $date;
@@ -143,12 +143,19 @@ abstract class CompiledMatch {
   }
   
   /**
-   * @return Webforge\Common\DateTime\DateTime
+   * @return \Webforge\Common\DateTime\DateTime
    */
   public function getDate() {
     return $this->date;
   }
-  
+
+  /**
+   * @return boolean
+   */
+  public function getIsStarted(){
+    return $this->date->isBefore(new DateTime());
+  }
+
   /**
    * @param integer $matchDay
    */

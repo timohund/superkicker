@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Ts\Superkicker\SuperkickerBundle\Domain\Model\Tip;
 use Ts\Superkicker\SuperkickerBundle\Domain\Model\User;
 use Ts\Superkicker\SuperkickerBundle\Domain\Model\Match;
+use Webforge\Common\DateTime\DateTime;
 
 class TipController extends AbstractController {
 
@@ -39,6 +40,18 @@ class TipController extends AbstractController {
 	 * @var \Symfony\Component\HttpFoundation\Response
 	 */
 	protected $response;
+
+	/**
+	 * @var \Ts\Superkicker\SuperkickerBundle\Domain\Service\ScoreCalculationService
+	 */
+	protected $scoreCalculationService;
+
+	/**
+	 * @param \Ts\Superkicker\SuperkickerBundle\Domain\Service\ScoreCalculationService $scoreCalculationService
+	 */
+	public function setScoreCalculationService($scoreCalculationService) {
+		$this->scoreCalculationService = $scoreCalculationService;
+	}
 
 	/**
 	 * @return \Ts\Superkicker\SuperkickerBundle\Domain\Repository\MatchRepository
@@ -86,21 +99,26 @@ class TipController extends AbstractController {
 		$matches 	= $this->matchRepository->findByMatchDay($matchDay);
 		$tips 		= $this->tipRepository->findByUserAndMatchDay($this->getCurrentLoginUser(), $matchDay);
 
-		$prevMatchDay = max(1, $matchDay - 1);
-		$nextMatchDay = min($matchDay + 1, 34);
+		$prevMatchDay = $this->getPreviousMatchDay($matchDay);
+		$nextMatchDay = $this->getNextMatchDay($matchDay);
 
 		$matchTips 	= array();
 		foreach($matches as $match) {
 			/** @var $match Match */
 			$matchTips[$match->getId()]['match'] = $match;
+			$matchTips[$match->getId()]['score'] = null;
 		}
 
 		foreach($tips as $tip) {
 			/** @var $tip Tip */
 			if(array_key_exists($tip->getMatch()->getId(), $matchTips)) {
 				$matchTips[$tip->getMatch()->getId()]['tip'] = $tip;
+
+				$score = $this->scoreCalculationService->getScoreForSingleTip($tip);
+				$matchTips[$tip->getMatch()->getId()]['score'] = $score;
 			} else {
 				//tip for non existing match?
+
 			}
 		}
 
@@ -122,27 +140,52 @@ class TipController extends AbstractController {
 	 */
 	public function saveAction(Request $request) {
 		$matches = $request->get('match');
+		$matchDay = $request->get('matchDay');
+
 		$numberOfTipps = 0;
+
+		$editUrl = $this->router->generate('ts_superkicker_tipp_edit',
+				array(
+						'matchDay' => $matchDay,
+						'saved' => true
+				)
+		);
+
+		if(!is_array($matches) || count($matches) == 0) {
+			return new RedirectResponse($editUrl);
+		}
+
 		foreach($matches as $matchId => $tipData) {
+			/** @var $match Match */
 			$match 		= $this->matchRepository->findById($matchId);
+			if($match->getIsStarted()) {
+				//tipps for started matches can not be saved
+				continue;
+			}
+
 			$savedTip 	= $this->tipRepository->findOneByUserAndMatch($this->getCurrentLoginUser(), $match);
 			$tip 		= is_null($savedTip) ? new Tip() : $savedTip;
 
 			$tip->setMatch($match);
-			$tip->setHomeScore($tipData['home']);
-			$tip->setGuestScore($tipData['guest']);
+
+			$homeScore = null;
+			if(isset($tipData['home']) && trim($tipData['home']) !== '') {
+				$homeScore = $tipData['home'];
+			}
+
+			$guestScore = null;
+			if(isset($tipData['guest']) && trim($tipData['guest']) !== '') {
+				$guestScore = $tipData['guest'];
+			}
+
+			$tip->setHomeScore($homeScore);
+			$tip->setGuestScore($guestScore);
 			$tip->setUser($this->getCurrentLoginUser());
 
 			$this->tipRepository->save($tip);
 			$numberOfTipps++;
 		}
 
-		$editUrl = $this->router->generate('ts_superkicker_tipp_edit',
-				array(
-						'matchDay' => $match->getMatchDay(),
-						'saved' => true
-				)
-		);
 		return new RedirectResponse($editUrl);
 	}
 

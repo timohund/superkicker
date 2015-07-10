@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Ts\Superkicker\SuperkickerBundle\Domain\Model\Match;
+use Webforge\Common\DateTime\DateTime;
 
 class MatchController extends AbstractController {
 
@@ -73,21 +74,25 @@ class MatchController extends AbstractController {
 	}
 
 	/**
-	 * @param int $match
+	 * @param int $matchDay
 	 * @param int $saved
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function editAction($match = 0, $saved = 0) {
-		$allClubs = $this->clubRepository->findAll();
-		$allMatches = $this->matchRepository->findAllOrderByMatchDay();
+	public function editAction($matchDay = 1, $saved = 0) {
+		$allClubs = $this->clubRepository->findAll($matchDay);
+		$allMatches = $this->matchRepository->findByMatchDay($matchDay);
+		$prevMatchDay = $this->getPreviousMatchDay($matchDay);
+		$nextMatchDay = $this->getNextMatchDay($matchDay);
 
 		return $this->templating->renderResponse(
 			'SuperkickerBundle:Match:edit.html.twig',
 			array(
 					'allMatches' => $allMatches,
-					'matchId' => $match,
 					'allClubs' => $allClubs,
 					'saved' => $saved,
+					'matchDay' => $matchDay,
+					'prevMatchDay' => $prevMatchDay,
+					'nextMatchDay' => $nextMatchDay
 			)
 		);
 	}
@@ -97,17 +102,53 @@ class MatchController extends AbstractController {
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function saveAction(Request $request) {
+		$matchData 		= $request->get('match');
+		$matchDay 		= $request->get('matchDay');
 
-		$matchData = $request->get('match');
-		$match = new Match();
-		$match->setHomeClub( $this->clubRepository->findById($matchData['home']) );
-		$match->setGuestClub( $this->clubRepository->findById($matchData['guest']) );
-		$match->setMatchDay($matchData['day']);
+		foreach($matchData as $matchId => $matchDataItem) {
+			$homeClub 	= isset($matchDataItem['home']) ? $matchDataItem['home'] : 0;
+			$guestClub 	= isset($matchDataItem['guest']) ? $matchDataItem['guest'] : 0;
 
-		$this->matchRepository->save($match);
+			$homeScore = null;
+			if(isset($matchDataItem['homeScore']) && trim($matchDataItem['homeScore']) !== '') {
+				$homeScore = (int) $matchDataItem['homeScore'];
+			}
+
+			$guestScore = null;
+			if(isset($matchDataItem['guestScore']) && trim($matchDataItem['guestScore']) !== '') {
+				$guestScore = (int) $matchDataItem['guestScore'];
+			}
+
+			try {
+				$date	= isset($matchDataItem['date']) ? DateTime::parse('d.m.Y H:i', $matchDataItem['date']) : null;
+			} catch (\Webforge\Common\DateTime\ParsingException $e) {
+				$date 	= null;
+			}
+			$matchDay	= isset($matchDataItem['day']) ? (int) $matchDataItem['day'] : 1;
+
+			if($matchId == 'new') {
+				$match = new Match();
+			} else {
+				$match = $this->matchRepository->findById($matchId);
+			}
+
+			if($date == null || $homeClub == null || $guestClub == null || $matchDay == 0) {
+				continue;
+			}
+
+			$match->setHomeClub( $this->clubRepository->findById($homeClub) );
+			$match->setGuestClub( $this->clubRepository->findById($guestClub) );
+			$match->setDate($date);
+			$match->setMatchDay($matchDay);
+			$match->setHomeScore($homeScore);
+			$match->setGuestScore($guestScore);
+
+			$this->matchRepository->save($match);
+		}
+
 		$editUrl = $this->router->generate(
 				'ts_superkicker_match_edit',
-				array('saved' => true)
+				array('saved' => true, 'matchDay' => $matchDay)
 		);
 		return new RedirectResponse($editUrl);
 	}

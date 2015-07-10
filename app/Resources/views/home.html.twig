@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" href="style.css"/>
 		<link rel="stylesheet" href="{{ asset('bundles/superkicker/css/bootstrap.css') }}">
 		<link rel="stylesheet" href="{{ asset('bundles/superkicker/css/main.css') }}">
 
 		<title>{% block title %}{% endblock %}</title>
 	</head>
 	<body id="main">
-		<nav class="navbar navbar-inverse" id="menu">
+		<nav class="navbar navbar-inverse navbar-fixed-top" id="menu">
 			{% block menu %}
 			<div class="container-fluid">
 
@@ -73,5 +72,7 @@
 		</div>
 		<script src="{{ asset('bundles/superkicker/js/jquery.js') }}"></script>
 		<script src="{{ asset('bundles/superkicker/js/bootstrap.min.js') }}"></script>
+		<script src="{{ asset('bundles/superkicker/js/main.js') }}"></script>
+
 	</body>
 </html>
