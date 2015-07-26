@@ -2,14 +2,17 @@ ts_superkicker_index:
     path:     /
     defaults: { _controller: ts.superkicker.dashboard.contoller:indexAction }
 ts_superkicker_tipp_edit:
-    path:     /user/tipp/edit/{matchDay}/{saved}
-    defaults: { _controller: ts.superkicker.tip.contoller:editAction, matchDay: 1, saved: 0  }
+    path:     /user/tipp/edit/{tournamentId}/{matchDay}/{saved}
+    defaults: { _controller: ts.superkicker.tip.contoller:editAction, matchDay: 1, tournamentId: 0, saved: 0  }
 ts_superkicker_tipp_save:
     path:     /user/tipp/save
     defaults: { _controller: ts.superkicker.tip.contoller:saveAction }
+ts_superkicker_ranking_show:
+    path:     /user/ranking/show/{tournamentId}
+    defaults: { _controller: ts.superkicker.ranking.contoller:showAction }
 ts_superkicker_match_edit:
-    path:     /admin/match/edit/{matchDay}/{saved}
-    defaults: { _controller: ts.superkicker.match.contoller:editAction, matchDay: 1, saved: 0  }
+    path:     /admin/match/edit/{tournamentId}/{matchDay}/{saved}
+    defaults: { _controller: ts.superkicker.match.contoller:editAction, matchDay: 1,  tournamentId: 0, saved: 0  }
 ts_superkicker_match_save:
     path:     /admin/match/save
     defaults: { _controller: ts.superkicker.match.contoller:saveAction }
@@ -19,4 +22,9 @@ ts_superkicker_club_edit:
 ts_superkicker_club_save:
     path:     /admin/club/save
     defaults: { _controller: ts.superkicker.club.contoller:saveAction }
-
+ts_superkicker_tournament_edit:
+    path:     /admin/tournament/edit/{saved}
+    defaults: { _controller: ts.superkicker.tournament.contoller:editAction, saved: 0  }
+ts_superkicker_tournament_save:
+    path:     /admin/tournament/save
+    defaults: { _controller: ts.superkicker.tournament.contoller:saveAction }

@@ -17,6 +17,11 @@ abstract class AbstractController extends Controller {
 	protected $securityContext;
 
 	/**
+	 * @var \Ts\Superkicker\SuperkickerBundle\Domain\Repository\TournamentRepository
+	 */
+	protected $tournamentRepository;
+
+	/**
 	 * @return \Symfony\Component\Security\Core\SecurityContext
 	 */
 	public function getSecurityContext() {
@@ -35,6 +40,27 @@ abstract class AbstractController extends Controller {
 	 */
 	protected function getCurrentLoginUser() {
 		return $this->securityContext->getToken()->getUser();
+	}
+
+	/**
+	 * @return \Ts\Superkicker\SuperkickerBundle\Domain\Repository\TournamentRepository
+	 */
+	public function getTournamentRepository() {
+		return $this->tournamentRepository;
+	}
+
+	/**
+	 * @param \Ts\Superkicker\SuperkickerBundle\Domain\Repository\TournamentRepository $tournamentRepository
+	 */
+	public function setTournamentRepository($tournamentRepository) {
+		$this->tournamentRepository = $tournamentRepository;
+	}
+
+	/**
+	 * @return \Doctrine\ORM\PersistentCollection<Tournament>
+	 */
+	protected function getAllTournaments() {
+		return $this->getTournamentRepository()->findAll();
 	}
 
 	/**

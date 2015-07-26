@@ -29,7 +29,7 @@ $(function() {
 		$('html, body').animate({scrollTop:offset}, speed);
 	}
 
-	jQuery("a").bind("click",function() {
+	jQuery("a.animate").bind("click",function() {
 		jQuery("#content-inner").fadeOut();
 	//	return false;
 	})

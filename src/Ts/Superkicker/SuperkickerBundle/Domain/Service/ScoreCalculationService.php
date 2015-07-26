@@ -4,22 +4,56 @@ namespace Ts\Superkicker\SuperkickerBundle\Domain\Service;
 
 use Ts\Superkicker\SuperkickerBundle\Domain\Model\Match;
 use Ts\Superkicker\SuperkickerBundle\Domain\Model\Tip;
+use Ts\Superkicker\SuperkickerBundle\Domain\Model\Tournament;
 use Ts\Superkicker\SuperkickerBundle\Domain\Model\User;
 
 class ScoreCalculationService {
 
+	/**
+	 * @var \Ts\Superkicker\SuperkickerBundle\Domain\Repository\TipRepository
+	 */
+	protected $tipRepository;
+
+	/**
+	 * @return \Ts\Superkicker\SuperkickerBundle\Domain\Repository\TipRepository
+	 */
+	public function getTipRepository() {
+		return $this->tipRepository;
+	}
+
+	/**
+	 * @param \Ts\Superkicker\SuperkickerBundle\Domain\Repository\TipRepository $tipRepository
+	 */
+	public function setTipRepository($tipRepository) {
+		$this->tipRepository = $tipRepository;
+	}
 
 	/**
 	 * @param User $user
 	 * @return int
 	 */
-	public function getScoreForUser(User $user) {
+	public function getOverallScoreForUser(User $user) {
 		$scoreSum = 0;
 		$tips = $user->getTipps();
 		foreach($tips as $tip) {
 			$scoreSum += $this->getScoreForSingleTip($tip);
 		}
 
+		return $scoreSum;
+	}
+
+	/**
+	 * @param User $user
+	 * @param Tournament $tournament
+	 * @return int
+	 */
+	public function getScoreForUserInTournament(User $user, Tournament $tournament) {
+		$scoreSum = 0;
+		$tips = $this->tipRepository->findByUserAndTournament($user, $tournament);
+		foreach($tips as $tip) {
+			var_dump($tip->getId());
+			$scoreSum += $this->getScoreForSingleTip($tip);
+		}
 		return $scoreSum;
 	}
 
@@ -31,7 +65,7 @@ class ScoreCalculationService {
 		/** @var $tip Tip */
 		$match = $tip->getMatch();
 
-		/** @var $match Match */
+
 		$matchGuestScore = $match->getGuestScore();
 		$matchHomeScore = $match->getHomeScore();
 
@@ -42,6 +76,7 @@ class ScoreCalculationService {
 		if($matchHomeScore === null ||  $matchHomeScore === null || $tipHomeScore === null || $tipGuestScore === null) {
 			return 0;
 		}
+
 
 		$isPerfectTip = (($matchHomeScore === $tipHomeScore) && ($matchGuestScore === $tipGuestScore));
 		if($isPerfectTip) {

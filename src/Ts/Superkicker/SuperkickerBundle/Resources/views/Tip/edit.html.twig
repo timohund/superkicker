@@ -5,7 +5,7 @@
         <div class="text-center">
             <div class="btn-group" role="group" aria-label="Spieltag">
                 {% if prevMatchDay < matchDay %}
-                    <a type="button" class="btn btn-default" href="{{ path('ts_superkicker_tipp_edit', {'matchDay': prevMatchDay}) }}"><span aria-hidden="true">&larr;</span></a>
+                    <a type="button" class="btn btn-default" href="{{ path('ts_superkicker_tipp_edit', {'matchDay': prevMatchDay, 'tournamentId': tournamentId}) }}"><span aria-hidden="true">&larr;</span></a>
                 {% else %}
                     <a type="button" class="btn btn-default disabled" href="#"><span aria-hidden="true">&larr;</span></a>
 
@@ -18,7 +18,7 @@
                         <li>
 
                             {%for day in 1..34%}
-                            <a class="tile" href="{{ path('ts_superkicker_tipp_edit', {'matchDay': day}) }}">{{ day }}</a>
+                            <a class="tile" href="{{ path('ts_superkicker_tipp_edit', {'matchDay': day, 'tournamentId': tournamentId}) }}">{{ day }}</a>
 
                             {% if day % 4 == 0 %}
                         </li>
@@ -30,7 +30,7 @@
                     </ul>
                 </div>
                 {% if nextMatchDay > matchDay %}
-                    <a type="button" class="btn btn-default" href="{{ path('ts_superkicker_tipp_edit', {'matchDay': nextMatchDay}) }}"><span aria-hidden="true">&rarr;</span></a>
+                    <a type="button" class="btn btn-default" href="{{ path('ts_superkicker_tipp_edit', {'matchDay': nextMatchDay, 'tournamentId': tournamentId}) }}"><span aria-hidden="true">&rarr;</span></a>
                 {% endif %}
 
             </div>
@@ -49,6 +49,7 @@
         <div id="tipContent" class="pagination-table">
 
             <input type="hidden" name="matchDay" value="{{ matchDay }}"/>
+            <input type="hidden" name="tournamentId" value="{{ tournamentId }}"/>
 
             <div id="tipdata" class="pagination-content">
 

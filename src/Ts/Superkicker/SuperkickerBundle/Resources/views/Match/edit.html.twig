@@ -5,7 +5,7 @@
         <div class="text-center">
             <div class="btn-group" role="group" aria-label="Spieltag">
                 {% if prevMatchDay < matchDay %}
-                    <a type="button" class="btn btn-default" href="{{ path('ts_superkicker_match_edit', {'matchDay': prevMatchDay}) }}"><span aria-hidden="true">&larr;</span></a>
+                    <a type="button" class="btn btn-default" href="{{ path('ts_superkicker_match_edit', {'matchDay': prevMatchDay, 'tournamentId': tournamentId}) }}"><span aria-hidden="true">&larr;</span></a>
                 {% else %}
                     <a type="button" class="btn btn-default disabled" href="#"><span aria-hidden="true">&larr;</span></a>
 
@@ -18,7 +18,7 @@
                         <li>
 
                             {%for day in 1..34%}
-                                <a class="tile" href="{{ path('ts_superkicker_match_edit', {'matchDay': day}) }}">{{ day }}</a>
+                                <a class="tile" href="{{ path('ts_superkicker_match_edit', {'matchDay': day, 'tournamentId': tournamentId}) }}">{{ day }}</a>
 
                                 {% if day % 4 == 0 %}
                                     </li>
@@ -30,7 +30,7 @@
                     </ul>
                 </div>
                 {% if nextMatchDay > matchDay %}
-                    <a type="button" class="btn btn-default" href="{{ path('ts_superkicker_match_edit', {'matchDay': nextMatchDay}) }}"><span aria-hidden="true">&rarr;</span></a>
+                    <a type="button" class="btn btn-default" href="{{ path('ts_superkicker_match_edit', {'matchDay': nextMatchDay, 'tournamentId': tournamentId}) }}"><span aria-hidden="true">&rarr;</span></a>
                 {% endif %}
 
             </div>
@@ -51,7 +51,12 @@
                         {% for match in allMatches %}
                             <tr>
                                 <input type="hidden" name="match[{{ match.id }}][day]" value="{{ matchDay }}"
-                                       id="match_new_day">
+                                       id="match_{{ match.id }}_day">
+
+                                <input type="hidden" name="match[{{ match.id }}][tournamentId]" class="form-control"
+                                       id="match_{{ match.id }}_tournament"
+                                       value="{{ tournamentId }}"/>
+
                                 <td data-title="Datum">
                                     <div class="form-group">
                                         <div class="input-group date datetimepicker" id="datetimepicker_{{ match.id }}">
@@ -104,6 +109,9 @@
 
                             <input type="hidden" name="match[new][day]" class="form-control" id="match_new_day"
                                    value="{{ matchDay }}"/>
+
+                            <input type="hidden" name="match[new][tournamentId]" class="form-control" id="match_new_tournament"
+                                   value="{{ tournamentId }}"/>
 
                             <td data-title="Datum">
                                 <div class="form-group">

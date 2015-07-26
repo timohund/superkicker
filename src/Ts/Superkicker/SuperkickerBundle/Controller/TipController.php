@@ -92,12 +92,13 @@ class TipController extends AbstractController {
 
 	/**
 	 * @param int $matchDay
+	 * @param int $tournamentId
 	 * @param int $saved
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function editAction($matchDay = 1, $saved = 0) {
-		$matches 	= $this->matchRepository->findByMatchDay($matchDay);
-		$tips 		= $this->tipRepository->findByUserAndMatchDay($this->getCurrentLoginUser(), $matchDay);
+	public function editAction($matchDay = 1, $tournamentId = 1, $saved = 0) {
+		$matches 	= $this->matchRepository->findByMatchDayAndTournament($matchDay, $tournamentId);
+		$tips 		= $this->tipRepository->findByUserAndMatchDayAndTournament($this->getCurrentLoginUser(), $matchDay, $tournamentId);
 
 		$prevMatchDay = $this->getPreviousMatchDay($matchDay);
 		$nextMatchDay = $this->getNextMatchDay($matchDay);
@@ -129,6 +130,8 @@ class TipController extends AbstractController {
 				'prevMatchDay' => $prevMatchDay,
 				'nextMatchDay' => $nextMatchDay,
 				'matchDay' => $matchDay,
+				'tournaments' => $this->getAllTournaments(),
+				'tournamentId' => $tournamentId,
 				'saved' => $saved
 			)
 		);
@@ -141,12 +144,14 @@ class TipController extends AbstractController {
 	public function saveAction(Request $request) {
 		$matches = $request->get('match');
 		$matchDay = $request->get('matchDay');
+		$tournamentId = $request->get('tournamentId');
 
 		$numberOfTipps = 0;
 
 		$editUrl = $this->router->generate('ts_superkicker_tipp_edit',
 				array(
 						'matchDay' => $matchDay,
+						'tournamentId' => $tournamentId,
 						'saved' => true
 				)
 		);

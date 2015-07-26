@@ -1,0 +1,20 @@
+{% extends "subpage.html.twig" %}
+{% block title %}Rangliste{% endblock %}
+
+{% block content %}
+    <h1>Ranking</h1>
+
+    <div class="pagination-table">
+        <div id="rankingdata" class="pagination-content">
+            <table class="responsive table">
+                {% for ranking in rankings %}
+                    <tr>
+                        <td>{{ ranking.user.username }}</td>
+                        <td>{{ ranking.score }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

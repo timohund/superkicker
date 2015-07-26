@@ -11,7 +11,8 @@
         "homeClub": { "type": "Club"},
         "guestClub": { "type": "Club"},
         "date": { "type": "DateTime", "nullable": true },
-        "matchDay": { "type": "Integer", "nullable": false }
+        "matchDay": { "type": "Integer", "nullable": false },
+        "tournament": { "type": "Tournament"}
       }
     },
     {
@@ -40,8 +41,20 @@
         "id": { "type": "DefaultId" },
         "name": { "type": "String","nullable": true },
         "tipps": { "type": "Collection<Tip>", "cascade": ["all"] },
-        "clientId": { "type": "Integer","nullable": true }
+        "clientId": { "type": "Integer","nullable": false, "default": 1}
       }
+    },
+    {
+      "name": "Tournament",
+      "description": "Represents a tournament",
+      "properties": {
+        "id": { "type": "DefaultId" },
+        "name": { "type": "String","nullable": true },
+        "shortname": { "type": "String","nullable": true },
+        "clubs": { "type": "Collection<Club>", "cascade": ["all"] },
+        "matchDays": { "type": "Integer","nullable": false, "default": 1}
+      }
+
     }
   ]
 }

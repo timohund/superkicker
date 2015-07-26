@@ -11,7 +11,7 @@ $I->resetSystem();
 // create a club
 	$I->wantTo('Club anlegen');
 	$I->canSeeInTitle('Willkommen im Superkicker Tippspiel');
-	$I->seeLink('Clubs','/admin/club/edit');
+	$I->seeLink('Vereine','/admin/club/edit');
 	$I->click('#clubs');
 
 	$I->fillField('#club_new_name','BVB');
@@ -21,11 +21,9 @@ $I->resetSystem();
 
 // create a match
 	$I->wantTo('Match anlegen');
-	$I->seeLink('Matches','/admin/match/edit');
+	$I->seeLink('Spielplan','/admin/match/edit');
 	$I->click('#matches');
 	$I->canSee('BVB');
-	// i an see the match day
-	$I->canSee('34');
 
 	$I->fillField('#match_new_home',1);
 	$I->fillField('#match_new_guest',2);

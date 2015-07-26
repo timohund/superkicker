@@ -29,26 +29,48 @@
 										<a href="{{ path('ts_superkicker_index') }}" id="home">Home</a>
 									</li>
 
-									{% if is_granted('ROLE_USER') %}
-										<li>
-											<a href="{{ path('ts_superkicker_tipp_edit') }}" id="tipps">Tipps</a>
-										</li>
+									{% if tournaments is defined %}
+										{% for tournament in tournaments %}
+											<li class="dropdown">
+												<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ tournament.name }} <span class="caret"></span></a>
+												<ul class="dropdown-menu">
+													{% if is_granted('ROLE_USER') %}
+														<li>
+															<a href="{{ path('ts_superkicker_tipp_edit',  {'tournamentId': tournament.id}) }}" id="tipps" class="animate">Tipps</a>
+														</li>
+													{% endif %}
+
+													{% if is_granted('ROLE_USER') %}
+														<li>
+															<a href="{{ path('ts_superkicker_ranking_show',  {'tournamentId': tournament.id}) }}" id="tipps" class="animate">Ranking</a>
+														</li>
+													{% endif %}
+
+													{% if is_granted('ROLE_ADMIN') %}
+														<li>
+															<a href="{{ path('ts_superkicker_match_edit',  {'tournamentId': tournament.id}) }}" id="matches" class="animate">Spielplan</a>
+														</li>
+													{% endif %}
+												</ul>
+
+											</li>
+										{% endfor %}
 									{% endif %}
 
 									{% if is_granted('ROLE_ADMIN') %}
 										<li>
-											<a href="{{ path('ts_superkicker_match_edit') }}" id="matches">Spiele</a>
+											<a href="{{ path('ts_superkicker_club_edit') }}" id="clubs" class="animate">Vereine</a>
 										</li>
 									{% endif %}
 									{% if is_granted('ROLE_ADMIN') %}
 										<li>
-											<a href="{{ path('ts_superkicker_club_edit') }}" id="clubs">Vereine</a>
+											<a href="{{ path('ts_superkicker_tournament_edit') }}" id="tournaments" class="animate">Turniere</a>
 										</li>
 									{% endif %}
 
 									{% if is_granted('ROLE_USER') %}
 										<li>
-											<a href="/logout">Logout</a>
+											<a href="/logout" class="animate">Logout</a>
 										</li>
 									{% endif %}
 							</ul>

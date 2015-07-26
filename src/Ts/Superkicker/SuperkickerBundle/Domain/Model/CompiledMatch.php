@@ -50,6 +50,7 @@ abstract class CompiledMatch {
   /**
    * date
    * @ORM\Column(type="WebforgeDateTime", nullable=true)
+   * @var \Webforge\Common\DateTime\DateTime
    */
   protected $date;
   
@@ -58,6 +59,13 @@ abstract class CompiledMatch {
    * @ORM\Column(type="integer")
    */
   protected $matchDay;
+  
+  /**
+   * tournament
+   * @ORM\ManyToOne(targetEntity="Ts\Superkicker\SuperkickerBundle\Domain\Model\Tournament")
+   * @ORM\JoinColumn(nullable=false)
+   */
+  protected $tournament;
   
   /**
    * @param integer $id
@@ -135,7 +143,7 @@ abstract class CompiledMatch {
   }
   
   /**
-   * @param |Webforge\Common\DateTime\DateTime $date
+   * @param Webforge\Common\DateTime\DateTime $date
    */
   public function setDate(DateTime $date = NULL) {
     $this->date = $date;
@@ -148,14 +156,7 @@ abstract class CompiledMatch {
   public function getDate() {
     return $this->date;
   }
-
-  /**
-   * @return boolean
-   */
-  public function getIsStarted(){
-    return $this->date->isBefore(new DateTime());
-  }
-
+  
   /**
    * @param integer $matchDay
    */
@@ -169,6 +170,21 @@ abstract class CompiledMatch {
    */
   public function getMatchDay() {
     return $this->matchDay;
+  }
+  
+  /**
+   * @param Ts\Superkicker\SuperkickerBundle\Domain\Model\Tournament $tournament
+   */
+  public function setTournament(Tournament $tournament) {
+    $this->tournament = $tournament;
+    return $this;
+  }
+  
+  /**
+   * @return Ts\Superkicker\SuperkickerBundle\Domain\Model\Tournament
+   */
+  public function getTournament() {
+    return $this->tournament;
   }
   
   public function __construct() {

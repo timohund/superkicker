@@ -6,11 +6,17 @@ parameters:
     match_controller.class: Ts\Superkicker\SuperkickerBundle\Controller\MatchController
     club_repository.class: Ts\Superkicker\SuperkickerBundle\Domain\Repository\ClubRepository
     club_controller.class: Ts\Superkicker\SuperkickerBundle\Controller\ClubController
+    ranking_controller.class: Ts\Superkicker\SuperkickerBundle\Controller\RankingController
     score_calculation_service.class: Ts\Superkicker\SuperkickerBundle\Domain\Service\ScoreCalculationService
+    user_repository.class: Ts\Superkicker\SuperkickerBundle\Domain\Repository\UserRepository
+    tournament_repository.class: Ts\Superkicker\SuperkickerBundle\Domain\Repository\TournamentRepository
+    tournament_controller.class: Ts\Superkicker\SuperkickerBundle\Controller\TournamentController
 
 services:
   ts.superkicker.domain.service.scorecalculationservice:
     class: %score_calculation_service.class%
+    calls:
+      - [setTipRepository, ["@ts.superkicker.domain.repository.tiprepository"]]
   ts.superkicker.domain.repository.matchrepository:
     arguments: ["@doctrine.orm.entity_manager"]
     class: %match_repository.class%
@@ -20,12 +26,19 @@ services:
   ts.superkicker.domain.repository.clubrepository:
     arguments: ["@doctrine.orm.entity_manager"]
     class: %club_repository.class%
+  ts.superkicker.domain.repository.userrepository:
+    arguments: ["@doctrine.orm.entity_manager"]
+    class: %user_repository.class%
+  ts.superkicker.domain.repository.tournamentrepository:
+    arguments: ["@doctrine.orm.entity_manager"]
+    class: %tournament_repository.class%
+
   ts.superkicker.dashboard.contoller:
     arguments: ["@templating"]
     calls:
       - [setScoreCalculationService, ["@ts.superkicker.domain.service.scorecalculationservice"]]
       - [setSecurityContext, ["@security.context"]]
-
+      - [setTournamentRepository, ["@ts.superkicker.domain.repository.tournamentrepository"]]
     class: %dashboard_controller.class%
   ts.superkicker.tip.contoller:
     arguments: ["@templating","@router"]
@@ -35,15 +48,30 @@ services:
       - [setTipRepository, ["@ts.superkicker.domain.repository.tiprepository"]]
       - [setScoreCalculationService, ["@ts.superkicker.domain.service.scorecalculationservice"]]
       - [setSecurityContext, ["@security.context"]]
-
+      - [setTournamentRepository, ["@ts.superkicker.domain.repository.tournamentrepository"]]
   ts.superkicker.match.contoller:
     arguments: ["@templating","@router"]
     class: %match_controller.class%
     calls:
       - [setMatchRepository, ["@ts.superkicker.domain.repository.matchrepository"]]
       - [setClubRepository, ["@ts.superkicker.domain.repository.clubrepository"]]
+      - [setTournamentRepository, ["@ts.superkicker.domain.repository.tournamentrepository"]]
+  ts.superkicker.ranking.contoller:
+    arguments: ["@templating","@router"]
+    class: %ranking_controller.class%
+    calls:
+       - [setScoreCalculationService, ["@ts.superkicker.domain.service.scorecalculationservice"]]
+       - [setSecurityContext, ["@security.context"]]
+       - [setUserRepository, ["@ts.superkicker.domain.repository.userrepository"]]
+       - [setTournamentRepository, ["@ts.superkicker.domain.repository.tournamentrepository"]]
   ts.superkicker.club.contoller:
     arguments: ["@templating","@router"]
     class: %club_controller.class%
     calls:
       - [setClubRepository, ["@ts.superkicker.domain.repository.clubrepository"]]
+      - [setTournamentRepository, ["@ts.superkicker.domain.repository.tournamentrepository"]]
+  ts.superkicker.tournament.contoller:
+    arguments: ["@templating","@router"]
+    class: %tournament_controller.class%
+    calls:
+      - [setTournamentRepository, ["@ts.superkicker.domain.repository.tournamentrepository"]]

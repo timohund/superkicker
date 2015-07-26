@@ -199,3 +199,11 @@ a.tile {
 	text-align: left;
 	min-width: 220px;
 }
+
+.navbar-inverse .dropdown-menu {
+	background-color: #081;
+}
+
+.navbar-inverse .dropdown-menu a:hover {
+	color: #000;
+}

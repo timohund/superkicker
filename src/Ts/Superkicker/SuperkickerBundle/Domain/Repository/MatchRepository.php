@@ -20,11 +20,13 @@ class MatchRepository extends AbstractRepository{
 	}
 
 	/**
+	 * @param integer $matchDay
+	 * @param integer $tournamentId
 	 * @return \Doctrine\ORM\PersistentCollection<Ts\Superkicker\SuperkickerBundle\Match>
 	 */
-	public function findByMatchDay($matchDay) {
+	public function findByMatchDayAndTournament($matchDay, $tournamentId) {
 		return $this->getDoctrineRepository()->findBy(
-				array('matchDay' => $matchDay)
+				array('matchDay' => $matchDay, 'tournament' => $tournamentId)
 		);
 	}
 

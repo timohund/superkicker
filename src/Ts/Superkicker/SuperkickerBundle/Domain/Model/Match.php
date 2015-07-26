@@ -3,6 +3,7 @@
 namespace Ts\Superkicker\SuperkickerBundle\Domain\Model;
 
 use Doctrine\ORM\Mapping AS ORM;
+use Webforge\Common\DateTime\DateTime;
 
 /**
  * Represents a match in the tip model
@@ -12,4 +13,10 @@ use Doctrine\ORM\Mapping AS ORM;
  * @ORM\Table(name="matches")
  */
 class Match extends CompiledMatch {
+	/**
+	* @return boolean
+	*/
+  public function getIsStarted(){
+	   return $this->getDate()->isBefore(new DateTime());
+  }
 }

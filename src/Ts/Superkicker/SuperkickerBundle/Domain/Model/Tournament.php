@@ -2,20 +2,15 @@
 
 namespace Ts\Superkicker\SuperkickerBundle\Domain\Model;
 
+use Webforge\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * Represents a user
+ * Represents a tournament
  * 
  * this entity was compiled from Webforge\Doctrine\Compiler
  * @ORM\Entity
- * @ORM\Table(name="users")
+ * @ORM\Table(name="tournaments")
  */
-class User extends CompiledUser {
-
-	/**
-	 * clientId
-	 * @ORM\Column(type="integer")
-	 */
-	protected $clientId = 0;
+class Tournament extends CompiledTournament {
 }

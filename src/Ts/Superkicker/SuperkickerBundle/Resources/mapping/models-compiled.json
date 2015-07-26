@@ -46,6 +46,12 @@
           "name":"matchDay",
           "isEntityReference":false,
           "type":"Integer"
+        },
+        "tournament":{
+          "name":"tournament",
+          "isEntityReference":true,
+          "type":"Ts\\Superkicker\\SuperkickerBundle\\Domain\\Model\\Tournament",
+          "isCollection":false
         }
       }
     },
@@ -135,6 +141,43 @@
         },
         "clientId":{
           "name":"clientId",
+          "isEntityReference":false,
+          "type":"Integer"
+        }
+      }
+    },
+    {
+      "name":"Tournament",
+      "fqn":"Ts\\Superkicker\\SuperkickerBundle\\Domain\\Model\\Tournament",
+      "singular":"tournament",
+      "plural":"tournaments",
+      "tableName":"tournaments",
+      "extends":null,
+      "description":"Represents a tournament",
+      "properties":{
+        "id":{
+          "name":"id",
+          "isEntityReference":false,
+          "type":"Id"
+        },
+        "name":{
+          "name":"name",
+          "isEntityReference":false,
+          "type":"String"
+        },
+        "shortname":{
+          "name":"shortname",
+          "isEntityReference":false,
+          "type":"String"
+        },
+        "clubs":{
+          "name":"clubs",
+          "isEntityReference":true,
+          "type":"Ts\\Superkicker\\SuperkickerBundle\\Domain\\Model\\Club",
+          "isCollection":true
+        },
+        "matchDays":{
+          "name":"matchDays",
           "isEntityReference":false,
           "type":"Integer"
         }

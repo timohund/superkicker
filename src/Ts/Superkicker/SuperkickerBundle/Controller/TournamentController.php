@@ -8,14 +8,10 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Ts\Superkicker\SuperkickerBundle\Domain\Model\Club;
 use Ts\Superkicker\SuperkickerBundle\Domain\Model\Match;
+use Ts\Superkicker\SuperkickerBundle\Domain\Model\Tournament;
 
-class ClubController extends AbstractController {
+class TournamentController extends AbstractController {
 
-
-	/**
-	 * @var \Ts\Superkicker\SuperkickerBundle\Domain\Repository\ClubRepository
-	 */
-	protected $clubRepository;
 
 	/**
 	 * @var \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface
@@ -33,20 +29,6 @@ class ClubController extends AbstractController {
 	protected $response;
 
 	/**
-	 * @return \Ts\Superkicker\SuperkickerBundle\Domain\Repository\ClubRepository
-	 */
-	public function getClubRepository() {
-		return $this->clubRepository;
-	}
-
-	/**
-	 * @param \Ts\Superkicker\SuperkickerBundle\Domain\Repository\ClubRepository $clubRepository
-	 */
-	public function setClubRepository($clubRepository) {
-		$this->clubRepository = $clubRepository;
-	}
-
-	/**
 	 * @param EngineInterface $templating
 	 * @param Router $router
 	 */
@@ -60,11 +42,9 @@ class ClubController extends AbstractController {
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function editAction($saved = 0) {
-		$allClubs = $this->clubRepository->findAll();
 		return $this->templating->renderResponse(
-				'SuperkickerBundle:Club:edit.html.twig',
+				'SuperkickerBundle:Tournament:edit.html.twig',
 				array(
-						'allClubs' => $allClubs,
 						'tournaments' => $this->getAllTournaments(),
 						'saved' => $saved
 				)
@@ -77,27 +57,26 @@ class ClubController extends AbstractController {
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function saveAction(Request $request) {
+		$tournamentsData = $request->get('tournaments');
 
-		$clubsData = $request->get('clubs');
-
-		foreach($clubsData as $id => $clubData) {
-			if($id == 'new' && trim($clubData['name']) !== ''){
-				$club = new Club();
+		foreach($tournamentsData as $id => $tournamentData) {
+			if($id == 'new' && trim($tournamentData['name']) !== ''){
+				$tournament = new Tournament();
 			} else {
-				$club = $this->clubRepository->findById($id);
+				$tournament = $this->tournamentRepository->findById($id);
 			}
 
-			if($club === null) {
+			if($tournament === null) {
 				continue;
 			}
 
-			$club->setName($clubData['name']);
-			$this->clubRepository->save($club);
+			$tournament->setName($tournamentData['name']);
+			$tournament->setMatchDays($tournamentData['matchdays']);
 
+			$this->tournamentRepository->save($tournament);
 		}
 
-
-		$editUrl = $this->router->generate('ts_superkicker_club_edit',array('saved' => 1));
+		$editUrl = $this->router->generate('ts_superkicker_tournament_edit',array('saved' => 1));
 		return new RedirectResponse($editUrl);
 	}
 }

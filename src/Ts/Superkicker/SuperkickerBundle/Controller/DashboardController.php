@@ -42,10 +42,13 @@ class DashboardController extends AbstractController {
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function indexAction() {
-		$score = $this->scoreCalculationService->getScoreForUser($this->getCurrentLoginUser());
+		$score = $this->scoreCalculationService->getOverallScoreForUser($this->getCurrentLoginUser());
 		return $this->templating->renderResponse(
 			'SuperkickerBundle:Dashboard:index.html.twig',
-			array('score' => $score)
+			array(
+				'tournaments' => $this->getAllTournaments(),
+				'score' => $score
+			)
 		);
 	}
 }

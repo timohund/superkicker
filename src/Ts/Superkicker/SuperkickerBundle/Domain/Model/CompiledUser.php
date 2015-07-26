@@ -2,8 +2,9 @@
 
 namespace Ts\Superkicker\SuperkickerBundle\Domain\Model;
 
-use Webforge\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User as BaseUser;
+
+use Webforge\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
@@ -36,7 +37,7 @@ abstract class CompiledUser extends BaseUser {
   
   /**
    * clientId
-   * @ORM\Column(type="integer", nullable=true)
+   * @ORM\Column(type="integer")
    */
   protected $clientId;
   
@@ -88,7 +89,7 @@ abstract class CompiledUser extends BaseUser {
   /**
    * @param integer $clientId
    */
-  public function setClientId($clientId = NULL) {
+  public function setClientId($clientId) {
     $this->clientId = $clientId;
     return $this;
   }

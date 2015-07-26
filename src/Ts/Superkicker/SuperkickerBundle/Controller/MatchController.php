@@ -75,12 +75,13 @@ class MatchController extends AbstractController {
 
 	/**
 	 * @param int $matchDay
+	 * @param int $tournamentId
 	 * @param int $saved
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function editAction($matchDay = 1, $saved = 0) {
+	public function editAction($matchDay = 1, $tournamentId = 0, $saved = 0) {
 		$allClubs = $this->clubRepository->findAll($matchDay);
-		$allMatches = $this->matchRepository->findByMatchDay($matchDay);
+		$allMatches = $this->matchRepository->findByMatchDayAndTournament($matchDay, $tournamentId);
 		$prevMatchDay = $this->getPreviousMatchDay($matchDay);
 		$nextMatchDay = $this->getNextMatchDay($matchDay);
 
@@ -92,7 +93,10 @@ class MatchController extends AbstractController {
 					'saved' => $saved,
 					'matchDay' => $matchDay,
 					'prevMatchDay' => $prevMatchDay,
-					'nextMatchDay' => $nextMatchDay
+					'nextMatchDay' => $nextMatchDay,
+					'tournamentId' => $tournamentId,
+					'tournaments' => $this->getAllTournaments()
+
 			)
 		);
 	}
@@ -119,6 +123,11 @@ class MatchController extends AbstractController {
 				$guestScore = (int) $matchDataItem['guestScore'];
 			}
 
+			$tournament = null;
+			if(isset($matchDataItem['tournamentId']) && trim($matchDataItem['tournamentId']) !== '') {
+				$tournamentId = (int) $matchDataItem['tournamentId'];
+				$tournament = $this->tournamentRepository->findById($tournamentId);
+			}
 			try {
 				$date	= isset($matchDataItem['date']) ? DateTime::parse('d.m.Y H:i', $matchDataItem['date']) : null;
 			} catch (\Webforge\Common\DateTime\ParsingException $e) {
@@ -142,13 +151,13 @@ class MatchController extends AbstractController {
 			$match->setMatchDay($matchDay);
 			$match->setHomeScore($homeScore);
 			$match->setGuestScore($guestScore);
-
+			$match->setTournament($tournament);
 			$this->matchRepository->save($match);
 		}
 
 		$editUrl = $this->router->generate(
 				'ts_superkicker_match_edit',
-				array('saved' => true, 'matchDay' => $matchDay)
+				array('saved' => true, 'tournamentId' => $tournamentId, 'matchDay' => $matchDay)
 		);
 		return new RedirectResponse($editUrl);
 	}

@@ -1,0 +1,55 @@
+{% extends "subpage.html.twig" %}
+
+{% block title %}Tuniere editieren{% endblock %}
+
+{% block heading %}Tuniere{% endblock %}
+
+{% block content %}
+	<div class="content-inner">
+		<h1>Turniere</h1>
+		{% if saved %}
+			<div class="alert alert-success" role="alert">Die Turniere wurden gespeichert.</div>
+		{% endif %}
+		<form action="{{ path('ts_superkicker_tournament_save') }}" id="tournamentCreate" method="post">
+			<table class="table">
+				{% for tournament in tournaments %}
+					<tr>
+						<td>
+							<input type="text"
+								   name="tournaments[{{ tournament.id }}][name]"
+								   id="tournament_{{ tournament.id }}_name"
+								   value="{{ tournament.name | default() }}" class="form-control"/>
+
+						</td>
+						<td>
+							<input type="text"
+								   name="tournaments[{{ tournament.id }}][matchdays]"
+								   id="tournament_{{ tournament.id }}_matchdays"
+								   value="{{ tournament.matchdays | default() }}" class="form-control"/>
+
+						</td>
+
+					</tr>
+				{% endfor %}
+				<tr>
+					<td>
+						<input type="text"
+							   name="tournaments[new][name]"
+							   id="tournaments_new_name"
+							   value="" class="form-control" autofocus="autofocus"/>
+
+					</td>
+					<td>
+						<input type="text"
+							   name="tournaments[new][matchdays]"
+							   id="tournaments_new_matchdays"
+							   value="" class="form-control" autofocus="autofocus"/>
+
+					</td>
+				</tr>
+
+			</table>
+			<input type="submit" class="btn btn-default navbar-btn" value="Speichern"/>
+		</form>
+	</div>
+{% endblock %}
