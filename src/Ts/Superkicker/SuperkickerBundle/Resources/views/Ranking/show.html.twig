@@ -9,6 +9,7 @@
             <table class="responsive table">
                 {% for ranking in rankings %}
                     <tr>
+                        <td>{{ ranking.position }}</td>
                         <td>{{ ranking.user.username }}</td>
                         <td>{{ ranking.score }}</td>
                     </tr>

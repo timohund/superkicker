@@ -27,6 +27,12 @@ abstract class CompiledClub {
   protected $name;
   
   /**
+   * logoPath
+   * @ORM\Column(nullable=true)
+   */
+  protected $logoPath;
+  
+  /**
    * @param integer $id
    */
   public function setId($id) {
@@ -54,6 +60,21 @@ abstract class CompiledClub {
    */
   public function getName() {
     return $this->name;
+  }
+  
+  /**
+   * @param string $logoPath
+   */
+  public function setLogoPath($logoPath = NULL) {
+    $this->logoPath = $logoPath;
+    return $this;
+  }
+  
+  /**
+   * @return string
+   */
+  public function getLogoPath() {
+    return $this->logoPath;
   }
   
   public function __construct() {

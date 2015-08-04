@@ -20,7 +20,8 @@
       "description": "Represents a sports club",
       "properties": {
         "id": { "type": "DefaultId" },
-        "name": { "type": "String" }
+        "name": { "type": "String" },
+        "logoPath": { "type": "String", "nullable": true }
       }
     },
     {

@@ -46,6 +46,12 @@
 														</li>
 													{% endif %}
 
+													{% if is_granted('ROLE_USER') %}
+														<li>
+															<a href="{{ path('ts_superkicker_rules_show',  {'tournamentId': tournament.id}) }}" id="tipps" class="animate">Regeln</a>
+														</li>
+													{% endif %}
+
 													{% if is_granted('ROLE_ADMIN') %}
 														<li>
 															<a href="{{ path('ts_superkicker_match_edit',  {'tournamentId': tournament.id}) }}" id="matches" class="animate">Spielplan</a>

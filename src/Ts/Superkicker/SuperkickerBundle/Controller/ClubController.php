@@ -92,11 +92,15 @@ class ClubController extends AbstractController {
 			}
 
 			$club->setName($clubData['name']);
+
+			$file = $request->files->get('logo_'.$id);
+
+			if($file !== null) {
+				$club->setLogoFile($file);
+			}
+
 			$this->clubRepository->save($club);
-
 		}
-
-
 		$editUrl = $this->router->generate('ts_superkicker_club_edit',array('saved' => 1));
 		return new RedirectResponse($editUrl);
 	}

@@ -2,10 +2,9 @@
 
 namespace Ts\Superkicker\SuperkickerBundle\Domain\Model;
 
-use FOS\UserBundle\Model\User as BaseUser;
-
 use Webforge\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping AS ORM;
+use FOS\UserBundle\Model\User as BaseUser;
 
 /**
  * Compiled Entity for Ts\Superkicker\SuperkickerBundle\Domain\Model\User
@@ -13,7 +12,7 @@ use Doctrine\ORM\Mapping AS ORM;
  * To change table name or entity repository edit the Ts\Superkicker\SuperkickerBundle\Domain\Model\User class.
  * @ORM\MappedSuperclass
  */
-abstract class CompiledUser extends BaseUser {
+abstract class CompiledUser extends BaseUser{
   
   /**
    * id

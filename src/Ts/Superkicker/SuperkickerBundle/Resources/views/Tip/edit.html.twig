@@ -62,10 +62,25 @@
                                 {{ matchTip.match.date|date("d.m.Y H:i") }}
                             </td>
                             <td data-title="Paarung">
-                                {{ matchTip.match.homeclub.name }} : {{ matchTip.match.guestclub.name }}
+                                {% if matchTip.match.homeclub.logoWebPath %}
+                                    <img src="{{  matchTip.match.homeclub.logoWebPath }}" width="20" height="20" />
+                                {% endif %}
+
+                                {{ matchTip.match.homeclub.name }}
+
+                                :
+
+                                {{ matchTip.match.guestclub.name }}
+
+                                {% if matchTip.match.guestclub.logoWebPath %}
+                                    <img src="{{  matchTip.match.guestclub.logoWebPath }}" width="20" height="20" />
+                                {% endif %}
+
                             </td>
                             <td data-title="Ergebnis">
-                                {{ matchTip.match.homeScore }} : {{ matchTip.match.guestScore }}
+                                {% if matchTip.match.homeScore and matchTip.match.guestScore  %}
+                                    {{ matchTip.match.homeScore }} : {{ matchTip.match.guestScore }}
+                                {% endif %}
                             </td>
 
                             <td data-title="Deine Punkte">
@@ -119,9 +134,15 @@
                                     </div>
                                 </div>
                             </td>
-
                         </tr>
                     {% endfor %}
+                    <tr class="lastrow">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>{{ scoreForDay }}</td>
+                        <td></td>
+                    </tr>
                 </table>
 
             </div>

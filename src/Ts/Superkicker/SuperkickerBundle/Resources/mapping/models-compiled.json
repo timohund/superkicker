@@ -73,6 +73,11 @@
           "name":"name",
           "isEntityReference":false,
           "type":"String"
+        },
+        "logoPath":{
+          "name":"logoPath",
+          "isEntityReference":false,
+          "type":"String"
         }
       }
     },

@@ -3,6 +3,7 @@
 	<head>
 		<link rel="stylesheet" href="{{ asset('bundles/superkicker/css/bootstrap.css') }}">
 		<link rel="stylesheet" href="{{ asset('bundles/superkicker/css/bootstrap-datetimepicker.min.css') }}">
+		<link rel="stylesheet" href="{{ asset('bundles/superkicker/css/fileinput.min.css') }}">
 
 		<link rel="stylesheet" href="{{ asset('bundles/superkicker/css/main.css') }}">
 
@@ -45,6 +46,12 @@
 													{% if is_granted('ROLE_USER') %}
 														<li>
 															<a href="{{ path('ts_superkicker_ranking_show',  {'tournamentId': tournament.id}) }}" id="tipps" class="animate">Ranking</a>
+														</li>
+													{% endif %}
+
+													{% if is_granted('ROLE_USER') %}
+														<li>
+															<a href="{{ path('ts_superkicker_rules_show',  {'tournamentId': tournament.id}) }}" id="tipps" class="animate">Regeln</a>
 														</li>
 													{% endif %}
 
@@ -105,6 +112,8 @@
 		<script src="{{ asset('bundles/superkicker/js/jquery.js') }}"></script>
 		<script src="{{ asset('bundles/superkicker/js/moment.js') }}"></script>
 		<script src="{{ asset('bundles/superkicker/js/moment-js-de.js') }}"></script>
+		<script src="{{ asset('bundles/superkicker/js/fileinput.min.js') }}"></script>
+		<script src="{{ asset('bundles/superkicker/js/fileinput_locale_de.js') }}"></script>
 
 		<script src="{{ asset('bundles/superkicker/js/bootstrap.min.js') }}"></script>
 		<script src="{{ asset('bundles/superkicker/js/bootstrap-datetimepicker.min.js') }}"></script>

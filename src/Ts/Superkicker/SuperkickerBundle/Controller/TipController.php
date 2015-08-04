@@ -110,6 +110,7 @@ class TipController extends AbstractController {
 			$matchTips[$match->getId()]['score'] = null;
 		}
 
+		$scoreForDay = 0;
 		foreach($tips as $tip) {
 			/** @var $tip Tip */
 			if(array_key_exists($tip->getMatch()->getId(), $matchTips)) {
@@ -117,6 +118,7 @@ class TipController extends AbstractController {
 
 				$score = $this->scoreCalculationService->getScoreForSingleTip($tip);
 				$matchTips[$tip->getMatch()->getId()]['score'] = $score;
+				$scoreForDay += $score;
 			} else {
 				//tip for non existing match?
 
@@ -132,6 +134,7 @@ class TipController extends AbstractController {
 				'matchDay' => $matchDay,
 				'tournaments' => $this->getAllTournaments(),
 				'tournamentId' => $tournamentId,
+				'scoreForDay' => $scoreForDay,
 				'saved' => $saved
 			)
 		);

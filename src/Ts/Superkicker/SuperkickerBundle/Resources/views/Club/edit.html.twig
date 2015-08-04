@@ -10,11 +10,11 @@
 		{% if saved %}
 			<div class="alert alert-success" role="alert">Die Clubs wurden gespeichert.</div>
 		{% endif %}
-		<form action="{{ path('ts_superkicker_club_save') }}" id="clubCreate" method="post">
-			<table class="table">
+		<form action="{{ path('ts_superkicker_club_save') }}" enctype="multipart/form-data" id="clubCreate" method="post">
+			<table class="responsive table">
 				{% for club in allClubs %}
 					<tr>
-						<td>
+						<td data-title="Verein">
 							<input type="text"
 								   name="clubs[{{ club.id }}][name]"
 								   id="club_{{ club.id }}_name"
@@ -22,15 +22,22 @@
 
 						</td>
 
+						<td data-title="Logo">
+							<input type="file" name="logo_{{ club.id }}" data-preview="{{ club.logoWebPath }}">
+						</td>
+
 					</tr>
 				{% endfor %}
 				<tr>
-					<td>
+					<td data-title="Verein">
 						<input type="text"
 							   name="clubs[new][name]"
 							   id="club_new_name"
 							   value="" class="form-control" autofocus="autofocus"/>
 
+					</td>
+					<td data-title="Logo">
+						<input type="file" name="logo_new">
 					</td>
 
 				</tr>

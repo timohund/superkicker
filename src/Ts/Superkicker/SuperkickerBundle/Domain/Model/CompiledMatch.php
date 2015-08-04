@@ -50,7 +50,6 @@ abstract class CompiledMatch {
   /**
    * date
    * @ORM\Column(type="WebforgeDateTime", nullable=true)
-   * @var \Webforge\Common\DateTime\DateTime
    */
   protected $date;
   
@@ -151,7 +150,7 @@ abstract class CompiledMatch {
   }
   
   /**
-   * @return \Webforge\Common\DateTime\DateTime
+   * @return Webforge\Common\DateTime\DateTime
    */
   public function getDate() {
     return $this->date;

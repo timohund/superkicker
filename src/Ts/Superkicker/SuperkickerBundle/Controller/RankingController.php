@@ -67,7 +67,7 @@ class RankingController extends AbstractController {
 		$tournament = $this->getTournamentRepository()->findById($tournamentId);
 		$rankings = array();
 		foreach($usersWithSameClient as $user) {
-			$score = $this->scoreCalculationService->getScoreForUserInTournament($user,$tournament);
+			$score = $this->scoreCalculationService->getScoreForUserInTournament($user, $tournament);
 
 			$ranking = new Ranking();
 			$ranking->setUser($user);
@@ -77,6 +77,12 @@ class RankingController extends AbstractController {
 
 
 		$rankings = RankingSort::sort($rankings);
+
+		$position = 1;
+		foreach($rankings as $ranking) {
+			$ranking->setPosition($position);
+			$position++;
+		}
 		return $this->templating->renderResponse(
 				'SuperkickerBundle:Ranking:show.html.twig',
 				array(

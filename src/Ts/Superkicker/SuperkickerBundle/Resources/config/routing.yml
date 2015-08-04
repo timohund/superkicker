@@ -10,6 +10,9 @@ ts_superkicker_tipp_save:
 ts_superkicker_ranking_show:
     path:     /user/ranking/show/{tournamentId}
     defaults: { _controller: ts.superkicker.ranking.contoller:showAction }
+ts_superkicker_rules_show:
+    path:     /user/rules/show/{tournamentId}
+    defaults: { _controller: ts.superkicker.rules.contoller:showAction }
 ts_superkicker_match_edit:
     path:     /admin/match/edit/{tournamentId}/{matchDay}/{saved}
     defaults: { _controller: ts.superkicker.match.contoller:editAction, matchDay: 1,  tournamentId: 0, saved: 0  }

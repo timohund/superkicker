@@ -33,6 +33,21 @@ $(function() {
 		jQuery("#content-inner").fadeOut();
 	//	return false;
 	})
+
+	jQuery('input[type="file"]').each(function() {
+
+		console.log(jQuery(this).data("preview"));
+		jQuery(this).fileinput({
+			'showUpload':false,
+			'showRemove': false,
+			'previewFileType':'any',
+			'allowedFileExtensions': ['jpg', 'png','gif','jpeg'],
+			'browseLabel': '',
+			'initialPreview': [
+				"<img src='"+ jQuery(this).data("preview") +"' class='file-preview-image' alt='logo'>"
+			]
+		});
+	})
 });
 
 

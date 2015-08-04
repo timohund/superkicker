@@ -11,6 +11,7 @@ parameters:
     user_repository.class: Ts\Superkicker\SuperkickerBundle\Domain\Repository\UserRepository
     tournament_repository.class: Ts\Superkicker\SuperkickerBundle\Domain\Repository\TournamentRepository
     tournament_controller.class: Ts\Superkicker\SuperkickerBundle\Controller\TournamentController
+    rules_controller.class: Ts\Superkicker\SuperkickerBundle\Controller\RulesController
 
 services:
   ts.superkicker.domain.service.scorecalculationservice:
@@ -73,5 +74,10 @@ services:
   ts.superkicker.tournament.contoller:
     arguments: ["@templating","@router"]
     class: %tournament_controller.class%
+    calls:
+      - [setTournamentRepository, ["@ts.superkicker.domain.repository.tournamentrepository"]]
+  ts.superkicker.rules.contoller:
+    arguments: ["@templating","@router"]
+    class: %rules_controller.class%
     calls:
       - [setTournamentRepository, ["@ts.superkicker.domain.repository.tournamentrepository"]]
