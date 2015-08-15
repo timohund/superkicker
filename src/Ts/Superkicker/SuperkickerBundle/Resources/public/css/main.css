@@ -55,12 +55,14 @@ div#content {
 html,body { height: 100%; margin: 0px; padding: 0px; }
 
 body{
-	background: url('../img/background2.jpg') no-repeat center bottom fixed;
+	background: url('../img/background2.jpg') no-repeat center top;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
+	background-attachment:fixed;
 	background-size: cover;
 	background-size:100%;
+	background-color: #709947 !important;
 }
 
 div#content-background {
