@@ -158,7 +158,7 @@ only screen and (max-width: 760px),
 		border-bottom: 1px solid #eee;
 		position: relative;
 		padding-top:15px;
-		padding-left: 90px!important;
+		padding-left: 70px!important;
 		height: 50px!important;
 		width: 100%!important;
 		vertical-align: middle;
@@ -174,7 +174,7 @@ only screen and (max-width: 760px),
 		/* Top/left values mimic padding */
 		bottom: 15px;
 		left: 6px;
-		width: 90px;
+		width: 70px;
 		padding-right: 20px;
 		white-space: nowrap;
 		content: attr(data-title);
