@@ -17,7 +17,7 @@
                     <ul class="dropdown-menu dropdown-menu-left tile-dropdown">
                         <li>
 
-                            {%for day in 1..34%}
+                            {%for day in 1..matchDays%}
                             <a class="tile" href="{{ path('ts_superkicker_tipp_edit', {'matchDay': day, 'tournamentId': tournamentId}) }}">{{ day }}</a>
 
                             {% if day % 4 == 0 %}
@@ -54,7 +54,13 @@
             <div id="tipdata" class="pagination-content">
 
                 <table class="responsive table">
-
+                    <tr class="headline">
+                        <th>Datum</th>
+                        <th>Paarung</th>
+                        <th>Ergebnis</th>
+                        <th>Deine Punkte</th>
+                        <th>Dein Tipp</th>
+                    </tr>
                     {% for matchTip in matchTips %}
 
                         <tr>
@@ -140,7 +146,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td>{{ scoreForDay }}</td>
+                        <td data-title="Gesammtpunkte">{{ scoreForDay }}</td>
                         <td></td>
                     </tr>
                 </table>

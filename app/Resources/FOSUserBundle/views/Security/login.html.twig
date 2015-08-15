@@ -35,6 +35,12 @@
         </form>
 
         <hr />
+
+        <a class="btn btn-block btn-facebook" href="{{ hwi_oauth_login_url('facebook') }}">Facebook</a>
+        <a class="btn btn-block btn-google" href="{{ hwi_oauth_login_url('google') }}">Google</a>
+
+        <hr />
+
         <p><small><a href="{{ path('fos_user_resetting_request') }}">Passwort vergessen?</a></small></p>
         <p><small>Noch keinen Account? <a href="{{ path('fos_user_registration_register') }}">Hier registrieren!</a></small></p>
 

@@ -15,3 +15,7 @@ parameters:
     debug_toolbar: true
     debug_redirects: false
     use_assetic_controller: true
+    facebook_client_id: dsdsds
+    facebook_client_secret: sasasa
+    google_client_id: sasasa
+    google_client_secret: sasasa

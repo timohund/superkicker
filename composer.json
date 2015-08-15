@@ -11,8 +11,8 @@
         "symfony/symfony": "2.5.x-dev",
         "doctrine/orm": "~2.2,>=2.2.3",
         "doctrine/doctrine-bundle": "~1.2",
-		"doctrine/migrations": "dev-master",
-		"doctrine/doctrine-migrations-bundle": "dev-master",
+		"doctrine/migrations": "v1.0.0",
+		"doctrine/doctrine-migrations-bundle": "1.0.0",
         "twig/extensions": "~1.0",
         "symfony/assetic-bundle": "~2.3",
         "symfony/swiftmailer-bundle": "~2.3",
@@ -23,7 +23,8 @@
         "sensio/generator-bundle": "~2.3",
         "webforge/common": "*",
         "webforge/doctrine": "dev-master",
-        "friendsofsymfony/user-bundle": "~2.0@dev"
+        "friendsofsymfony/user-bundle": "~2.0@dev",
+        "hwi/oauth-bundle": "0.4.*@dev"
     },
     "require-dev": {
 		"sensio/generator-bundle": "~2.3",

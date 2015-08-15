@@ -138,6 +138,21 @@
           "isEntityReference":false,
           "type":"String"
         },
+        "oAuthService":{
+          "name":"oAuthService",
+          "isEntityReference":false,
+          "type":"String"
+        },
+        "oAuthId":{
+          "name":"oAuthId",
+          "isEntityReference":false,
+          "type":"String"
+        },
+        "oAuthAccessToken":{
+          "name":"oAuthAccessToken",
+          "isEntityReference":false,
+          "type":"String"
+        },
         "tipps":{
           "name":"tipps",
           "isEntityReference":true,

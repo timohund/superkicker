@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Ts\Superkicker\SuperkickerBundle\Domain\Model\Tip;
+use Ts\Superkicker\SuperkickerBundle\Domain\Model\Tournament;
 use Ts\Superkicker\SuperkickerBundle\Domain\Model\User;
 use Ts\Superkicker\SuperkickerBundle\Domain\Model\Match;
 use Webforge\Common\DateTime\DateTime;
@@ -20,26 +21,10 @@ class TipController extends AbstractController {
 	 */
 	protected $matchRepository;
 
-
 	/**
 	 * @var \Ts\Superkicker\SuperkickerBundle\Domain\Repository\TipRepository
 	 */
 	protected $tipRepository;
-
-	/**
-	 * @var \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface
-	 */
-	protected $templating;
-
-	/**
-	 * @var \Symfony\Component\HttpFoundation\Request
-	 */
-	protected $request;
-
-	/**
-	 * @var \Symfony\Component\HttpFoundation\Response
-	 */
-	protected $response;
 
 	/**
 	 * @var \Ts\Superkicker\SuperkickerBundle\Domain\Service\ScoreCalculationService
@@ -82,15 +67,6 @@ class TipController extends AbstractController {
 	}
 
 	/**
-	 * @param EngineInterface $templating
-	 * @param Router $router
-	 */
-	public function __construct(EngineInterface $templating, Router $router) {
-		$this->templating = $templating;
-		$this->router = $router;
-	}
-
-	/**
 	 * @param int $matchDay
 	 * @param int $tournamentId
 	 * @param int $saved
@@ -100,8 +76,11 @@ class TipController extends AbstractController {
 		$matches 	= $this->matchRepository->findByMatchDayAndTournament($matchDay, $tournamentId);
 		$tips 		= $this->tipRepository->findByUserAndMatchDayAndTournament($this->getCurrentLoginUser(), $matchDay, $tournamentId);
 
+			/** @var $tournament Tournament */
+		$tournament = $this->getTournamentRepository()->findById($tournamentId);
+		$matchDays 	= $tournament->getMatchDays();
 		$prevMatchDay = $this->getPreviousMatchDay($matchDay);
-		$nextMatchDay = $this->getNextMatchDay($matchDay);
+		$nextMatchDay = $this->getNextMatchDay($matchDay, $matchDays);
 
 		$matchTips 	= array();
 		foreach($matches as $match) {
@@ -132,7 +111,7 @@ class TipController extends AbstractController {
 				'prevMatchDay' => $prevMatchDay,
 				'nextMatchDay' => $nextMatchDay,
 				'matchDay' => $matchDay,
-				'tournaments' => $this->getAllTournaments(),
+				'matchDays' => $matchDays,
 				'tournamentId' => $tournamentId,
 				'scoreForDay' => $scoreForDay,
 				'saved' => $saved

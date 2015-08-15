@@ -2,6 +2,7 @@
 
 namespace Ts\Superkicker\SuperkickerBundle\Controller;
 
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -12,31 +13,6 @@ use Ts\Superkicker\SuperkickerBundle\Domain\Model\Tournament;
 
 class TournamentController extends AbstractController {
 
-
-	/**
-	 * @var \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface
-	 */
-	protected $templating;
-
-	/**
-	 * @var \Symfony\Component\HttpFoundation\Request
-	 */
-	protected $request;
-
-	/**
-	 * @var \Symfony\Component\HttpFoundation\Response
-	 */
-	protected $response;
-
-	/**
-	 * @param EngineInterface $templating
-	 * @param Router $router
-	 */
-	public function __construct(EngineInterface $templating, Router $router) {
-		$this->templating = $templating;
-		$this->router = $router;
-	}
-
 	/**
 	 * @param int $saved
 	 * @return \Symfony\Component\HttpFoundation\Response
@@ -45,7 +21,6 @@ class TournamentController extends AbstractController {
 		return $this->templating->renderResponse(
 				'SuperkickerBundle:Tournament:edit.html.twig',
 				array(
-						'tournaments' => $this->getAllTournaments(),
 						'saved' => $saved
 				)
 		);

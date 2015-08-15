@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Ts\Superkicker\SuperkickerBundle\Domain\Model\Match;
+use Ts\Superkicker\SuperkickerBundle\Domain\Model\Tournament;
 use Webforge\Common\DateTime\DateTime;
 
 class MatchController extends AbstractController {
@@ -20,21 +21,6 @@ class MatchController extends AbstractController {
 	 * @var \Ts\Superkicker\SuperkickerBundle\Domain\Repository\ClubRepository
 	 */
 	protected $clubRepository;
-
-	/**
-	 * @var \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface
-	 */
-	protected $templating;
-
-	/**
-	 * @var \Symfony\Component\HttpFoundation\Request
-	 */
-	protected $request;
-
-	/**
-	 * @var \Symfony\Component\HttpFoundation\Response
-	 */
-	protected $response;
 
 	/**
 	 * @return \Ts\Superkicker\SuperkickerBundle\Domain\Repository\MatchRepository
@@ -65,15 +51,6 @@ class MatchController extends AbstractController {
 	}
 
 	/**
-	 * @param EngineInterface $templating
-	 * @param Router $router
-	 */
-	public function __construct(EngineInterface $templating, Router $router) {
-		$this->templating = $templating;
-		$this->router = $router;
-	}
-
-	/**
 	 * @param int $matchDay
 	 * @param int $tournamentId
 	 * @param int $saved
@@ -82,8 +59,12 @@ class MatchController extends AbstractController {
 	public function editAction($matchDay = 1, $tournamentId = 0, $saved = 0) {
 		$allClubs = $this->clubRepository->findAll($matchDay);
 		$allMatches = $this->matchRepository->findByMatchDayAndTournament($matchDay, $tournamentId);
+		/** @var $tournament Tournament */
+		$tournament = $this->getTournamentRepository()->findById($tournamentId);
+		$matchDays 	= $tournament->getMatchDays();
+
 		$prevMatchDay = $this->getPreviousMatchDay($matchDay);
-		$nextMatchDay = $this->getNextMatchDay($matchDay);
+		$nextMatchDay = $this->getNextMatchDay($matchDay, $matchDays);
 
 		return $this->templating->renderResponse(
 			'SuperkickerBundle:Match:edit.html.twig',
@@ -92,10 +73,10 @@ class MatchController extends AbstractController {
 					'allClubs' => $allClubs,
 					'saved' => $saved,
 					'matchDay' => $matchDay,
+					'matchDays' => $matchDays,
 					'prevMatchDay' => $prevMatchDay,
 					'nextMatchDay' => $nextMatchDay,
-					'tournamentId' => $tournamentId,
-					'tournaments' => $this->getAllTournaments()
+					'tournamentId' => $tournamentId
 
 			)
 		);

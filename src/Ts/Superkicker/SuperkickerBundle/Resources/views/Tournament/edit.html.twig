@@ -11,17 +11,21 @@
 			<div class="alert alert-success" role="alert">Die Turniere wurden gespeichert.</div>
 		{% endif %}
 		<form action="{{ path('ts_superkicker_tournament_save') }}" id="tournamentCreate" method="post">
-			<table class="table">
+			<table class="table responsive">
+				<tr class="headline">
+					<th>Name</th>
+					<th>Spieltage</th>
+				</tr>
 				{% for tournament in tournaments %}
 					<tr>
-						<td>
+						<td data-title="Name">
 							<input type="text"
 								   name="tournaments[{{ tournament.id }}][name]"
 								   id="tournament_{{ tournament.id }}_name"
 								   value="{{ tournament.name | default() }}" class="form-control"/>
 
 						</td>
-						<td>
+						<td data-title="Spieltage">
 							<input type="text"
 								   name="tournaments[{{ tournament.id }}][matchdays]"
 								   id="tournament_{{ tournament.id }}_matchdays"

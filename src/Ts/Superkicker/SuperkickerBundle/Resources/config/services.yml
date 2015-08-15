@@ -12,6 +12,8 @@ parameters:
     tournament_repository.class: Ts\Superkicker\SuperkickerBundle\Domain\Repository\TournamentRepository
     tournament_controller.class: Ts\Superkicker\SuperkickerBundle\Controller\TournamentController
     rules_controller.class: Ts\Superkicker\SuperkickerBundle\Controller\RulesController
+    superkicker.provider.oauth.class: Ts\Superkicker\SuperkickerBundle\System\Security\OAuthUserProvider
+    superkicker.user_manager.class: Ts\Superkicker\SuperkickerBundle\System\Security\UserManager
 
 services:
   ts.superkicker.domain.service.scorecalculationservice:
@@ -35,14 +37,14 @@ services:
     class: %tournament_repository.class%
 
   ts.superkicker.dashboard.contoller:
-    arguments: ["@templating"]
+    arguments: ["@templating","@router","@service_container"]
     calls:
       - [setScoreCalculationService, ["@ts.superkicker.domain.service.scorecalculationservice"]]
       - [setSecurityContext, ["@security.context"]]
       - [setTournamentRepository, ["@ts.superkicker.domain.repository.tournamentrepository"]]
     class: %dashboard_controller.class%
   ts.superkicker.tip.contoller:
-    arguments: ["@templating","@router"]
+    arguments: ["@templating","@router","@service_container"]
     class: %tip_controller.class%
     calls:
       - [setMatchRepository, ["@ts.superkicker.domain.repository.matchrepository"]]
@@ -51,33 +53,40 @@ services:
       - [setSecurityContext, ["@security.context"]]
       - [setTournamentRepository, ["@ts.superkicker.domain.repository.tournamentrepository"]]
   ts.superkicker.match.contoller:
-    arguments: ["@templating","@router"]
+    arguments: ["@templating","@router","@service_container"]
     class: %match_controller.class%
     calls:
       - [setMatchRepository, ["@ts.superkicker.domain.repository.matchrepository"]]
       - [setClubRepository, ["@ts.superkicker.domain.repository.clubrepository"]]
       - [setTournamentRepository, ["@ts.superkicker.domain.repository.tournamentrepository"]]
   ts.superkicker.ranking.contoller:
-    arguments: ["@templating","@router"]
+    arguments: ["@templating","@router","@service_container"]
     class: %ranking_controller.class%
     calls:
        - [setScoreCalculationService, ["@ts.superkicker.domain.service.scorecalculationservice"]]
        - [setSecurityContext, ["@security.context"]]
        - [setUserRepository, ["@ts.superkicker.domain.repository.userrepository"]]
        - [setTournamentRepository, ["@ts.superkicker.domain.repository.tournamentrepository"]]
+       - [setTipRepository, ["@ts.superkicker.domain.repository.tiprepository"]]
   ts.superkicker.club.contoller:
-    arguments: ["@templating","@router"]
+    arguments: ["@templating","@router","@service_container"]
     class: %club_controller.class%
     calls:
       - [setClubRepository, ["@ts.superkicker.domain.repository.clubrepository"]]
       - [setTournamentRepository, ["@ts.superkicker.domain.repository.tournamentrepository"]]
   ts.superkicker.tournament.contoller:
-    arguments: ["@templating","@router"]
+    arguments: ["@templating","@router","@service_container"]
     class: %tournament_controller.class%
     calls:
       - [setTournamentRepository, ["@ts.superkicker.domain.repository.tournamentrepository"]]
   ts.superkicker.rules.contoller:
-    arguments: ["@templating","@router"]
+    arguments: ["@templating","@router","@service_container"]
     class: %rules_controller.class%
     calls:
       - [setTournamentRepository, ["@ts.superkicker.domain.repository.tournamentrepository"]]
+  ts.superkicker.provider.oauth:
+    arguments: ["@fos_user.user_manager",{facebook: "oAuthId", github: "oAuthId"}]
+    class: %superkicker.provider.oauth.class%
+  ts.superkicker.user_manager:
+    arguments: ["@security.encoder_factory","@fos_user.util.username_canonicalizer","@fos_user.util.email_canonicalizer","@fos_user.entity_manager",%fos_user.model.user.class%]
+    class: %superkicker.user_manager.class%

@@ -7,11 +7,18 @@
     <div class="pagination-table">
         <div id="rankingdata" class="pagination-content">
             <table class="responsive table">
+                <tr class="headline">
+                    <th>Position</th>
+                    <th>User</th>
+                    <th>Tipps</th>
+                    <th>Punkte</th>
+                </tr>
                 {% for ranking in rankings %}
                     <tr>
-                        <td>{{ ranking.position }}</td>
-                        <td>{{ ranking.user.username }}</td>
-                        <td>{{ ranking.score }}</td>
+                        <td data-title="Position">{{ ranking.position }}</td>
+                        <td data-title="User">{{ ranking.user.username }}</td>
+                        <td data-title="Tips">{{ ranking.tipCountPerTournament }}</td>
+                        <td data-title="Punkte">{{ ranking.score }}</td>
                     </tr>
                 {% endfor %}
             </table>

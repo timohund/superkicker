@@ -28,19 +28,15 @@ class RankingController extends AbstractController {
 	protected $scoreCalculationService;
 
 	/**
+	 * @var \Ts\Superkicker\SuperkickerBundle\Domain\Repository\TipRepository
+	 */
+	protected $tipRepository;
+
+	/**
 	 * @param \Ts\Superkicker\SuperkickerBundle\Domain\Service\ScoreCalculationService $scoreCalculationService
 	 */
 	public function setScoreCalculationService($scoreCalculationService) {
 		$this->scoreCalculationService = $scoreCalculationService;
-	}
-
-	/**
-	 * @param EngineInterface $templating
-	 * @param Router $router
-	 */
-	public function __construct(EngineInterface $templating, Router $router) {
-		$this->templating = $templating;
-		$this->router = $router;
 	}
 
 	/**
@@ -58,6 +54,20 @@ class RankingController extends AbstractController {
 	}
 
 	/**
+	 * @return \Ts\Superkicker\SuperkickerBundle\Domain\Repository\TipRepository
+	 */
+	public function getTipRepository() {
+		return $this->tipRepository;
+	}
+
+	/**
+	 * @param \Ts\Superkicker\SuperkickerBundle\Domain\Repository\TipRepository $tipRepository
+	 */
+	public function setTipRepository($tipRepository) {
+		$this->tipRepository = $tipRepository;
+	}
+
+	/**
 	 * @param int $tournamentId
 	 * @return Response
 	 */
@@ -72,6 +82,7 @@ class RankingController extends AbstractController {
 			$ranking = new Ranking();
 			$ranking->setUser($user);
 			$ranking->setScore($score);
+			$ranking->setTipCountPerTournament(count($this->tipRepository->findByUserAndTournament($user, $tournament)));
 			$rankings[] = $ranking;
 		}
 
@@ -80,14 +91,14 @@ class RankingController extends AbstractController {
 
 		$position = 1;
 		foreach($rankings as $ranking) {
+			/** @var $ranking Ranking */
 			$ranking->setPosition($position);
 			$position++;
 		}
 		return $this->templating->renderResponse(
 				'SuperkickerBundle:Ranking:show.html.twig',
 				array(
-					'rankings' => $rankings,
-					'tournaments' => $this->getAllTournaments()
+					'rankings' => $rankings
 				)
 		);
 	}

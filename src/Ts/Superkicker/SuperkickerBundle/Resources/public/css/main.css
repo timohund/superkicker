@@ -83,7 +83,6 @@ div#content-inner {
 	padding: 20px;
 	padding-top: 10px;
 	background: #fff;
-	height: 100%;
 	position: relative;
 }
 
@@ -120,6 +119,14 @@ div.pagination-content {
 	width: 100%;
 }
 
+
+table.responsive th {
+	border-top: 0px!important;
+}
+
+table.responsive tr.headline {
+	border-top: 0px!important;
+}
 
 @media
 only screen and (max-width: 760px),
@@ -169,6 +176,16 @@ only screen and (max-width: 760px),
 		padding-right: 20px;
 		white-space: nowrap;
 		content: attr(data-title);
+	}
+
+	table.responsive th {
+		display: none!important;
+		border-top: 0px!important;
+	}
+
+	table.responsive tr.headline {
+		display: none!important;
+		border-top: 0px!important;
 	}
 }
 

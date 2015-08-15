@@ -15,31 +15,6 @@ use Webforge\Common\DateTime\DateTime;
 
 class RulesController extends AbstractController {
 
-
-	/**
-	 * @var \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface
-	 */
-	protected $templating;
-
-	/**
-	 * @var \Symfony\Component\HttpFoundation\Request
-	 */
-	protected $request;
-
-	/**
-	 * @var \Symfony\Component\HttpFoundation\Response
-	 */
-	protected $response;
-
-	/**
-	 * @param EngineInterface $templating
-	 * @param Router $router
-	 */
-	public function __construct(EngineInterface $templating, Router $router) {
-		$this->templating = $templating;
-		$this->router = $router;
-	}
-
 	/**
 	 * @param int $tournamentId
 	 * @return \Symfony\Component\HttpFoundation\Response
@@ -49,8 +24,7 @@ class RulesController extends AbstractController {
 		return $this->templating->renderResponse(
 			'SuperkickerBundle:Rules:show.html.twig',
 			array(
-				'rules' => '',
-				'tournaments' => $this->getAllTournaments(),
+				'rules' => ''
 			)
 		);
 	}

@@ -17,7 +17,7 @@
                     <ul class="dropdown-menu dropdown-menu-left tile-dropdown">
                         <li>
 
-                            {%for day in 1..34%}
+                            {%for day in 1..matchDays%}
                                 <a class="tile" href="{{ path('ts_superkicker_match_edit', {'matchDay': day, 'tournamentId': tournamentId}) }}">{{ day }}</a>
 
                                 {% if day % 4 == 0 %}
@@ -48,6 +48,13 @@
                 <div class="pagination-content">
 
                     <table class="responsive table">
+                        <tr class="headline">
+                            <th>Datum</th>
+                            <th>Heim</th>
+                            <th>Tore Heim</th>
+                            <th>Tore Gast</th>
+                            <th>Gast</th>
+                        </tr>
                         {% for match in allMatches %}
                             <tr>
                                 <input type="hidden" name="match[{{ match.id }}][day]" value="{{ matchDay }}"

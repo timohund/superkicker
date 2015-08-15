@@ -41,6 +41,9 @@
       "properties": {
         "id": { "type": "DefaultId" },
         "name": { "type": "String","nullable": true },
+        "oAuthService": { "type": "String","nullable": true },
+        "oAuthId": { "type": "String","nullable": true },
+        "oAuthAccessToken": { "type": "String","nullable": true },
         "tipps": { "type": "Collection<Tip>", "cascade": ["all"] },
         "clientId": { "type": "Integer","nullable": false, "default": 1}
       }

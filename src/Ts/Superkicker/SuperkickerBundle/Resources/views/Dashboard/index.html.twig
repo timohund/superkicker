@@ -7,10 +7,27 @@
 {% block content %}
     <div class="content-inner">
         <div class="jumbotron">
-            <h1>Herzlich Willkommen</h1>
-            <p>News</p>
-            <p>Score: {{ score }}</p>
+            <h1>Hallo {{ username }}</h1>
 
+            <p>Bla bla bla Bla bla bla Bla bla bla Bla bla bla Bla bla bla Bla bla bla Bla bla bla Bla bla bla
+                Bla bla bla Bla bla bla Bla bla bla</p>
+
+            <h2>Deine Statistiken</h2>
+
+            <table class="responsive table">
+                <tr class="headline">
+                    <th>Turnier</th>
+                    <th>Punkte</th>
+                </tr>
+
+                {% for tournamentsAndScore in tournamentsAndScores %}
+                    <tr>
+                        <td data-title="Turnier">{{ tournamentsAndScore.tournament.name }}</td>
+                        <td data-title="Punkte">{{ tournamentsAndScore.score }}</td>
+                    </tr>
+
+                {% endfor %}
+            </table>
         </div>
     </div>
 {% endblock %}

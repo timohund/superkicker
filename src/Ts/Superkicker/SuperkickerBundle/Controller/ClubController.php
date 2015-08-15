@@ -11,26 +11,11 @@ use Ts\Superkicker\SuperkickerBundle\Domain\Model\Match;
 
 class ClubController extends AbstractController {
 
-
 	/**
 	 * @var \Ts\Superkicker\SuperkickerBundle\Domain\Repository\ClubRepository
 	 */
 	protected $clubRepository;
 
-	/**
-	 * @var \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface
-	 */
-	protected $templating;
-
-	/**
-	 * @var \Symfony\Component\HttpFoundation\Request
-	 */
-	protected $request;
-
-	/**
-	 * @var \Symfony\Component\HttpFoundation\Response
-	 */
-	protected $response;
 
 	/**
 	 * @return \Ts\Superkicker\SuperkickerBundle\Domain\Repository\ClubRepository
@@ -47,15 +32,6 @@ class ClubController extends AbstractController {
 	}
 
 	/**
-	 * @param EngineInterface $templating
-	 * @param Router $router
-	 */
-	public function __construct(EngineInterface $templating, Router $router) {
-		$this->templating = $templating;
-		$this->router = $router;
-	}
-
-	/**
 	 * @param int $saved
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
@@ -65,7 +41,6 @@ class ClubController extends AbstractController {
 				'SuperkickerBundle:Club:edit.html.twig',
 				array(
 						'allClubs' => $allClubs,
-						'tournaments' => $this->getAllTournaments(),
 						'saved' => $saved
 				)
 		);

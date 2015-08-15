@@ -74,6 +74,36 @@ swiftmailer:
     spool:     { type: memory }
 
 fos_user:
-    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    db_driver: orm
     firewall_name: main
     user_class: Ts\Superkicker\SuperkickerBundle\Domain\Model\User
+    service:
+        user_manager: ts.superkicker.user_manager
+hwi_oauth:
+    # name of the firewall in which this bundle is active, this setting MUST be set
+    firewall_name: main
+    connect:
+        confirmation: true
+        #account_connector: hwi_oauth.user.provider.fosub_bridge
+        registration_form_handler: hwi_oauth.registration.form.handler.fosub_bridge
+        #registration_form: fos_user.registration.form
+
+    resource_owners:
+        facebook:
+            type:                facebook
+            client_id:           "%facebook_client_id%"
+            client_secret:       "%facebook_client_secret%"
+            scope:               "email"
+        google:
+            type:                google
+            client_id:           "%google_client_id%"
+            client_secret:       "%google_client_secret%"
+            scope:               "user:email"
+    fosub:
+        # try 30 times to check if a username is available (foo, foo1, foo2 etc)
+        username_iterations: 30
+
+        # mapping between resource owners (see below) and properties
+        properties:
+            facebook: oAuthId
+            google: oAuthId

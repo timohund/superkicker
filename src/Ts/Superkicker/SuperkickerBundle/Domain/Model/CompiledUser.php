@@ -12,7 +12,7 @@ use FOS\UserBundle\Model\User as BaseUser;
  * To change table name or entity repository edit the Ts\Superkicker\SuperkickerBundle\Domain\Model\User class.
  * @ORM\MappedSuperclass
  */
-abstract class CompiledUser extends BaseUser{
+abstract class CompiledUser extends BaseUser {
   
   /**
    * id
@@ -27,6 +27,24 @@ abstract class CompiledUser extends BaseUser{
    * @ORM\Column(nullable=true)
    */
   protected $name;
+  
+  /**
+   * oAuthService
+   * @ORM\Column(nullable=true)
+   */
+  protected $oAuthService;
+  
+  /**
+   * oAuthId
+   * @ORM\Column(nullable=true)
+   */
+  protected $oAuthId;
+  
+  /**
+   * oAuthAccessToken
+   * @ORM\Column(nullable=true)
+   */
+  protected $oAuthAccessToken;
   
   /**
    * tipps
@@ -68,6 +86,51 @@ abstract class CompiledUser extends BaseUser{
    */
   public function getName() {
     return $this->name;
+  }
+  
+  /**
+   * @param string $oAuthService
+   */
+  public function setOAuthService($oAuthService = NULL) {
+    $this->oAuthService = $oAuthService;
+    return $this;
+  }
+  
+  /**
+   * @return string
+   */
+  public function getOAuthService() {
+    return $this->oAuthService;
+  }
+  
+  /**
+   * @param string $oAuthId
+   */
+  public function setOAuthId($oAuthId = NULL) {
+    $this->oAuthId = $oAuthId;
+    return $this;
+  }
+  
+  /**
+   * @return string
+   */
+  public function getOAuthId() {
+    return $this->oAuthId;
+  }
+  
+  /**
+   * @param string $oAuthAccessToken
+   */
+  public function setOAuthAccessToken($oAuthAccessToken = NULL) {
+    $this->oAuthAccessToken = $oAuthAccessToken;
+    return $this;
+  }
+  
+  /**
+   * @return string
+   */
+  public function getOAuthAccessToken() {
+    return $this->oAuthAccessToken;
   }
   
   /**

@@ -12,6 +12,11 @@
 		{% endif %}
 		<form action="{{ path('ts_superkicker_club_save') }}" enctype="multipart/form-data" id="clubCreate" method="post">
 			<table class="responsive table">
+				<tr class="headline">
+					<th>Verein</th>
+					<th>Logo</th>
+				</tr>
+
 				{% for club in allClubs %}
 					<tr>
 						<td data-title="Verein">

@@ -21,6 +21,16 @@ class Ranking {
 	protected $score;
 
 	/**
+	 * @var integer
+	 */
+	protected $tipCountPerTournament;
+
+	/**
+	 * @var integer
+	 */
+	protected $position;
+
+	/**
 	 * @return int
 	 */
 	public function getPosition() {
@@ -33,12 +43,6 @@ class Ranking {
 	public function setPosition($position) {
 		$this->position = $position;
 	}
-
-
-	/**
-	 * @var integer
-	 */
-	protected $position;
 
 	/**
 	 * @return User
@@ -66,5 +70,19 @@ class Ranking {
 	 */
 	public function setScore($score) {
 		$this->score = $score;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getTipCountPerTournament() {
+		return $this->tipCountPerTournament;
+	}
+
+	/**
+	 * @param int $tipCountPerTournament
+	 */
+	public function setTipCountPerTournament($tipCountPerTournament) {
+		$this->tipCountPerTournament = $tipCountPerTournament;
 	}
 }
