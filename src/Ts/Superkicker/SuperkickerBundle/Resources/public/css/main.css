@@ -158,7 +158,7 @@ only screen and (max-width: 760px),
 		border-bottom: 1px solid #eee;
 		position: relative;
 		padding-top:15px;
-		padding-left: 70px!important;
+		padding-left: 90px!important;
 		height: 50px!important;
 		width: 100%!important;
 		vertical-align: middle;
@@ -174,7 +174,7 @@ only screen and (max-width: 760px),
 		/* Top/left values mimic padding */
 		bottom: 15px;
 		left: 6px;
-		width: 70px;
+		width: 90px;
 		padding-right: 20px;
 		white-space: nowrap;
 		content: attr(data-title);
@@ -193,9 +193,34 @@ only screen and (max-width: 760px),
 	#login {
 		margin-top: 20px!important;
 	}
+
+	.hideonmobile {
+		display: none;
+	}
+
+	.mobiledetail {
+		display: none!important;
+	}
+
+	.content-inner{
+		padding-left: 10px!important;
+		padding-right: 10px!important;
+	}
+
+	button.navbar-toggle {
+		float: right;
+	}
+
+	ul.nav {
+		float: right;
+		width: 200px;
+	}
 }
 
-
+.extrainfo {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
 .pagination-content {
 	margin-top: 10px;
 }
@@ -208,6 +233,7 @@ div.score-group {
 	width: 200px;
 	min-width: 200px;
 	max-width: 200px;
+	margin-left: 5px;
 }
 
 a.tile {

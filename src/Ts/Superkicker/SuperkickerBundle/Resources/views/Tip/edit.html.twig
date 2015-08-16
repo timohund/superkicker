@@ -38,7 +38,7 @@
     {% endblock %}
 
 {% block content %}
-    <h1>Tipps - Spieltag {{ matchDay }}</h1>
+    <h1><span class="hideonmobile">Tipps - </span>Spieltag {{ matchDay }}</h1>
     {% if saved %}
         <div class="alert alert-success" role="alert">Deine Tipps wurden gespeichert.</div>
     {% endif %}
@@ -64,47 +64,49 @@
                     {% for matchTip in matchTips %}
 
                         <tr>
-                            <td data-title="Datum">
+                            <td data-title="Datum:" class="mobiledetail">
                                 {{ matchTip.match.date|date("d.m.Y H:i") }}
                             </td>
-                            <td data-title="Paarung">
+                            <td data-title="Paarung:">
                                 {% if matchTip.match.homeclub.logoWebPath %}
                                     <img src="{{  matchTip.match.homeclub.logoWebPath }}" width="30" height="30" />
                                 {% endif %}
 
+                                <span class="hideonmobile">{{ matchTip.match.homeclub.name }}</span>
 
                                 :
 
+                                <span class="hideonmobile">{{ matchTip.match.guestclub.name }}</span>
 
                                 {% if matchTip.match.guestclub.logoWebPath %}
                                     <img src="{{  matchTip.match.guestclub.logoWebPath }}" width="30" height="30" />
                                 {% endif %}
 
                             </td>
-                            <td data-title="Ergebnis">
+                            <td data-title="Ergebnis:" class="mobiledetail">
                                 {% if matchTip.match.homeScore and matchTip.match.guestScore  %}
                                     {{ matchTip.match.homeScore }} : {{ matchTip.match.guestScore }}
                                 {% endif %}
                             </td>
 
-                            <td data-title="Punkte">
+                            <td data-title="Punkte:" class="mobiledetail">
                                 {{ matchTip.score }}
                             </td>
-                            <td data-title="Tipp">
+                            <td data-title="Tipp:">
                                 <div class="row score-group">
                                     <div class="form-group col-xs-5">
                                         {% if matchTip.match.isStarted %}
-                                            <input type="text" class="form-control input-group-lg score" size="2" disabled
+                                            <input type="text" class="form-control input-group-lg score" size="1" disabled
                                                    value="{{ matchTip.tip.homeScore | default() }}"/>
                                         {% else %}
                                             {% if loop.last %}
-                                                <input type="text" class="form-control input-group-lg score" size="2"
+                                                <input type="text" class="form-control input-group-lg score" size="1"
                                                        name="match[{{ matchTip.match.id }}][home]"
                                                        id="match_{{ matchTip.match.id }}_home"
                                                        value="{{ matchTip.tip.homeScore | default() }}"
                                                        autofocus="autofocus"/>
                                             {% else %}
-                                                <input type="text" class="form-control input-group-lg score" size="2"
+                                                <input type="text" class="form-control input-group-lg score" size="1"
                                                        name="match[{{ matchTip.match.id }}][home]"
                                                        id="match_{{ matchTip.match.id }}_home"
                                                        value="{{ matchTip.tip.homeScore | default() }}"/>
@@ -115,18 +117,18 @@
                                     <div class="form-group col-xs-5">
 
                                         {% if matchTip.match.isStarted %}
-                                            <input type="text" class="form-control input-group-lg score" size="2" disabled
+                                            <input type="text" class="form-control input-group-lg score" size="1" disabled
                                                    value="{{ matchTip.tip.guestScore | default() }}"/>
                                         {% else %}
                                             {% if loop.last %}
-                                                <input type="text" class="form-control input-group-lg score" size="2"
+                                                <input type="text" class="form-control input-group-lg score" size="1"
                                                        name="match[{{ matchTip.match.id }}][guest]"
                                                        id="match_{{ matchTip.match.id }}_guest"
                                                        value="{{ matchTip.tip.guestScore | default() }}"
                                                        autofocus="autofocus"
                                                         />
                                             {% else %}
-                                                <input type="text" class="form-control input-group-lg score" size="2"
+                                                <input type="text" class="form-control input-group-lg score" size="1"
                                                        name="match[{{ matchTip.match.id }}][guest]"
                                                        id="match_{{ matchTip.match.id }}_guest"
                                                        value="{{ matchTip.tip.guestScore | default() }}"/>
@@ -140,15 +142,10 @@
                             </td>
                         </tr>
                     {% endfor %}
-                    <tr class="lastrow">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td data-title="Gesammtpunkte">{{ scoreForDay }}</td>
-                        <td></td>
-                    </tr>
                 </table>
-
+                <div class="extrainfo">
+                    Gesammtpunkte: {{ scoreForDay }}
+                </div>
             </div>
         </div>
         {{ block('matchDays') }}
