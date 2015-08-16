@@ -134,11 +134,6 @@ table.responsive tr.headline {
 only screen and (max-width: 760px),
 (min-device-width: 768px) and (max-device-width: 1024px)  {
 
-	/* Force table to not be like tables anymore */
-	table.responsive, table.responsive > thead, table.responsive > tbody, table.responsive > tbody > tr > th, table.responsive > tbody > tr > td, table.responsive > tbody > tr {
-		display: block;
-		width: 100%;
-	}
 
 	/* Hide table headers (but not display: none;, for accessibility) */
 	table.responsive > thead > tr {
@@ -214,6 +209,12 @@ only screen and (max-width: 760px),
 	ul.nav {
 		float: right;
 		width: 200px;
+	}
+
+	/* Force table to not be like tables anymore */
+	table.responsive, table.responsive > thead, table.responsive > tbody, table.responsive > tbody > tr > th, table.responsive > tbody > tr > td, table.responsive > tbody > tr {
+		display: block;
+		width: 100%;
 	}
 }
 
