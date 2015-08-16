@@ -136,7 +136,7 @@ only screen and (max-width: 760px),
 
 	/* Force table to not be like tables anymore */
 	table.responsive, table.responsive > thead, table.responsive > tbody, table.responsive > tbody > tr > th, table.responsive > tbody > tr > td, table.responsive > tbody > tr {
-		display: block;
+		display: block!important;
 		width: 100%;
 	}
 
