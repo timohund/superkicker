@@ -39,7 +39,7 @@
 	{% block content %}
         <h1>Spielplan - Spieltag {{ matchDay }}</h1>
         {% if saved %}
-            <div class="alert alert-success" role="alert">Die Spiele wurden erfolgreich gespeichert.</div>
+            {{ include('SuperkickerBundle:Helper:flashmessage.html.twig', {'message':'Der Spielplan wurden gespeichert!'}) }}
         {% endif %}
         <form action="{{ path('ts_superkicker_match_save') }}" id="matchCreate" method="post">
             {{ block('matchDays') }}

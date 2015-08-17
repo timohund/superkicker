@@ -32,7 +32,7 @@ $(function() {
 	jQuery("a.animate").bind("click",function() {
 		jQuery("#content-inner").fadeOut();
 	//	return false;
-	})
+	});
 
 	jQuery('input[type="file"]').each(function() {
 
@@ -47,7 +47,11 @@ $(function() {
 				"<img src='"+ jQuery(this).data("preview") +"' class='file-preview-image' alt='logo'>"
 			]
 		});
-	})
+	});
+
+	jQuery('.alert button.close').click(function() {
+		jQuery(this).parents().parents().find('.alert-dialogue').fadeOut();
+	});
 });
 
 

@@ -8,7 +8,8 @@
 	<div class="content-inner">
 		<h1>Turniere</h1>
 		{% if saved %}
-			<div class="alert alert-success" role="alert">Die Turniere wurden gespeichert.</div>
+			{{ include('SuperkickerBundle:Helper:flashmessage.html.twig', {'message':'Die Turniere wurden gespeichert!'}) }}
+
 		{% endif %}
 		<form action="{{ path('ts_superkicker_tournament_save') }}" id="tournamentCreate" method="post">
 			<table class="table responsive">

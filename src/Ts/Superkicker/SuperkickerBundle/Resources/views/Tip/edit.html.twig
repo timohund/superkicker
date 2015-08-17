@@ -1,4 +1,6 @@
 {% extends "subpage.html.twig" %}
+
+
 {% block title %}Tipp abgeben{% endblock %}
 
     {% block matchDays %}
@@ -39,8 +41,9 @@
 
 {% block content %}
     <h1><span class="hideonmobile">Tipps - </span>Spieltag {{ matchDay }}</h1>
+
     {% if saved %}
-        <div class="alert alert-success" role="alert">Deine Tipps wurden gespeichert.</div>
+        {{ include('SuperkickerBundle:Helper:flashmessage.html.twig', {'message':'Deine Tipps wurden gespeichert!'}) }}
     {% endif %}
 
     <form action="{{ path('ts_superkicker_tipp_save') }}" id="tippCreate" class="form-horizontal" method="post">
