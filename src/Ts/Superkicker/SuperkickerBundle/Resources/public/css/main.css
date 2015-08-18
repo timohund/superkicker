@@ -216,6 +216,11 @@ only screen and (max-width: 760px),
 		display: block;
 		width: 100%;
 	}
+
+	hr {
+		margin-top: 10px!important;
+		margin-bottom: 10px!important;
+	}
 }
 
 .extrainfo {
@@ -348,4 +353,30 @@ a.tile {
 	background-color: #a2a2a2;
 	opacity: 0.8;
 	z-index: 15000;
+}
+
+.btn-facebook {
+	border-color: #3b5998;
+	border-radius: 20px;
+	color: #3b5998;
+	margin-top: 5px !important;
+	width: 100px;
+}
+
+#login h1 {
+	margin-top: 10px!important;
+	margin-bottom: 15px!important;
+}
+
+.btn-google {
+	border-color: #d34836;
+	border-radius: 20px;
+	color: #d34836;
+	margin-top: 5px !important;
+	width: 100px;
+	margin-left: 20px;
+}
+
+.clear {
+	clear: both;
 }
