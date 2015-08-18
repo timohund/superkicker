@@ -51,7 +51,6 @@ class ScoreCalculationService {
 		$scoreSum = 0;
 		$tips = $this->tipRepository->findByUserAndTournament($user, $tournament);
 		foreach($tips as $tip) {
-			var_dump($tip->getId());
 			$scoreSum += $this->getScoreForSingleTip($tip);
 		}
 		return $scoreSum;
