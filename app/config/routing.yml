@@ -33,6 +33,9 @@ hwi_oauth_connect:
 hwi_facebook_login:
     pattern: /login/check-facebook
 
+hwi_google_login:
+    pattern: /login/check-google
+
 ts_superkicker:
     resource: "@SuperkickerBundle/Resources/config/routing.yml"
     prefix:   /

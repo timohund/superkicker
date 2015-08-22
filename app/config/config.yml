@@ -98,7 +98,8 @@ hwi_oauth:
             type:                google
             client_id:           "%google_client_id%"
             client_secret:       "%google_client_secret%"
-            scope:               "user:email"
+            scope:               "email"
+
     fosub:
         # try 30 times to check if a username is available (foo, foo1, foo2 etc)
         username_iterations: 30
