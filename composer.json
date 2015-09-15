@@ -1,4 +1,5 @@
 {
+    "minimum-stability": "dev",
     "name": "ts/superkicker",
     "license": "MIT",
     "type": "project",
@@ -33,8 +34,8 @@
 		"sebastian/phpcpd": "*",
 		"phploc/phploc": "*",
 		"squizlabs/php_codesniffer": "1.*",
-		"phpunit/phpunit": "3.7.*",
-        "codeception/codeception": "*"
+		"phpunit/phpunit": "*",
+        "codeception/codeception": "2.0.15"
     },
     "scripts": {
         "post-root-package-install": [

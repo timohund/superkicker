@@ -4,7 +4,6 @@ namespace Ts\Superkicker\SuperkickerBundle\Domain\Model;
 
 use Webforge\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping AS ORM;
-use FOS\UserBundle\Model\User as BaseUser;
 
 /**
  * Compiled Entity for Ts\Superkicker\SuperkickerBundle\Domain\Model\User
@@ -12,7 +11,7 @@ use FOS\UserBundle\Model\User as BaseUser;
  * To change table name or entity repository edit the Ts\Superkicker\SuperkickerBundle\Domain\Model\User class.
  * @ORM\MappedSuperclass
  */
-abstract class CompiledUser extends BaseUser {
+abstract class CompiledUser extends \FOS\UserBundle\Model\User {
   
   /**
    * id
@@ -57,6 +56,12 @@ abstract class CompiledUser extends BaseUser {
    * @ORM\Column(type="integer")
    */
   protected $clientId;
+  
+  /**
+   * tipGroupMemberships
+   * @ORM\OneToMany(mappedBy="user", targetEntity="Ts\Superkicker\SuperkickerBundle\Domain\Model\TipGroupMember", cascade={"all"})
+   */
+  protected $tipGroupMemberships;
   
   /**
    * @param integer $id
@@ -163,6 +168,21 @@ abstract class CompiledUser extends BaseUser {
     return $this->clientId;
   }
   
+  /**
+   * @param Doctrine\Common\Collections\Collection<Ts\Superkicker\SuperkickerBundle\Domain\Model\TipGroupMember> $tipGroupMemberships
+   */
+  public function setTipGroupMemberships(ArrayCollection $tipGroupMemberships) {
+    $this->tipGroupMemberships = $tipGroupMemberships;
+    return $this;
+  }
+  
+  /**
+   * @return Doctrine\Common\Collections\Collection<Ts\Superkicker\SuperkickerBundle\Domain\Model\TipGroupMember>
+   */
+  public function getTipGroupMemberships() {
+    return $this->tipGroupMemberships;
+  }
+  
   public function addTipp(Tip $tipp) {
     if (!$this->tipps->contains($tipp)) {
         $this->tipps->add($tipp);
@@ -181,8 +201,27 @@ abstract class CompiledUser extends BaseUser {
     return $this->tipps->contains($tipp);
   }
   
+  public function addTipGroupMembership(TipGroupMember $tipGroupMembership) {
+    if (!$this->tipGroupMemberships->contains($tipGroupMembership)) {
+        $this->tipGroupMemberships->add($tipGroupMembership);
+    }
+    return $this;
+  }
+  
+  public function removeTipGroupMembership(TipGroupMember $tipGroupMembership) {
+    if ($this->tipGroupMemberships->contains($tipGroupMembership)) {
+        $this->tipGroupMemberships->removeElement($tipGroupMembership);
+    }
+    return $this;
+  }
+  
+  public function hasTipGroupMembership(TipGroupMember $tipGroupMembership) {
+    return $this->tipGroupMemberships->contains($tipGroupMembership);
+  }
+  
   public function __construct() {
     parent::__construct();
     $this->tipps = new ArrayCollection();
+    $this->tipGroupMemberships = new ArrayCollection();
   }
 }

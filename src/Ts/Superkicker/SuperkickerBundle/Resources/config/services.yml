@@ -12,6 +12,8 @@ parameters:
     tournament_repository.class: Ts\Superkicker\SuperkickerBundle\Domain\Repository\TournamentRepository
     tournament_controller.class: Ts\Superkicker\SuperkickerBundle\Controller\TournamentController
     rules_controller.class: Ts\Superkicker\SuperkickerBundle\Controller\RulesController
+    tipgroup_repository.class: Ts\Superkicker\SuperkickerBundle\Domain\Repository\TipGroupRepository
+    tipgroupmember_repository.class: Ts\Superkicker\SuperkickerBundle\Domain\Repository\TipGroupMemberRepository
     tipgroup_controller.class: Ts\Superkicker\SuperkickerBundle\Controller\TipGroupController
     superkicker.provider.oauth.class: Ts\Superkicker\SuperkickerBundle\System\Security\OAuthUserProvider
     superkicker.user_manager.class: Ts\Superkicker\SuperkickerBundle\System\Security\UserManager
@@ -27,6 +29,12 @@ services:
   ts.superkicker.domain.repository.tiprepository:
     arguments: ["@doctrine.orm.entity_manager"]
     class: %tip_repository.class%
+  ts.superkicker.domain.repository.tipgrouprepository:
+    arguments: ["@doctrine.orm.entity_manager"]
+    class: %tipgroup_repository.class%
+  ts.superkicker.domain.repository.tipgroupmemberrepository:
+    arguments: ["@doctrine.orm.entity_manager"]
+    class: %tipgroupmember_repository.class%
   ts.superkicker.domain.repository.clubrepository:
     arguments: ["@doctrine.orm.entity_manager"]
     class: %club_repository.class%
@@ -88,6 +96,12 @@ services:
   ts.superkicker.tipgroup.contoller:
     arguments: ["@templating","@router","@service_container"]
     class: %tipgroup_controller.class%
+    calls:
+       - [setSecurityContext, ["@security.context"]]
+       - [setTournamentRepository, ["@ts.superkicker.domain.repository.tournamentrepository"]]
+       - [setTipGroupRepository, ["@ts.superkicker.domain.repository.tipgrouprepository"]]
+       - [setUserRepository, ["@ts.superkicker.domain.repository.userrepository"]]
+       - [setTipGroupMemberRepository, ["@ts.superkicker.domain.repository.tipgroupmemberrepository"]]
   ts.superkicker.provider.oauth:
     arguments: ["@fos_user.user_manager",{facebook: "oAuthId", google: "oAuthId"}]
     class: %superkicker.provider.oauth.class%

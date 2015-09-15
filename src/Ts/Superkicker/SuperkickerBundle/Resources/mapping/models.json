@@ -38,6 +38,7 @@
     {
       "name": "User",
       "description": "Represents a user",
+      "extends": "FOS\\UserBundle\\Model\\User",
       "properties": {
         "id": { "type": "DefaultId" },
         "name": { "type": "String","nullable": true },
@@ -45,9 +46,30 @@
         "oAuthId": { "type": "String","nullable": true },
         "oAuthAccessToken": { "type": "String","nullable": true },
         "tipps": { "type": "Collection<Tip>", "cascade": ["all"] },
-        "clientId": { "type": "Integer","nullable": false, "default": 1}
+        "clientId": { "type": "Integer","nullable": false, "default": 1},
+        "tipGroupMemberships": { "type": "Collection<TipGroupMember>", "cascade": ["all"] }
       }
     },
+    {
+      "name": "TipGroup",
+      "description": "Represents a group of users that want to tip together",
+      "properties": {
+        "id": { "type": "DefaultId" },
+        "name": { "type": "String","nullable": true },
+        "members": { "type": "Collection<TipGroupMember>", "cascade": ["all"], "orphanRemoval":  true }
+      }
+    },
+    {
+      "name": "TipGroupMember",
+      "description": "Represents the relation of a user to a tip group",
+      "properties": {
+        "id": { "type": "DefaultId" },
+        "user": { "type": "User", "nullable": true},
+        "role": { "type": "Integer", "nullable": false, "default": 1},
+        "tipGroup": { "type": "TipGroup", "nullable": true, "cascade": ["all"]}
+      }
+    },
+
     {
       "name": "Tournament",
       "description": "Represents a tournament",

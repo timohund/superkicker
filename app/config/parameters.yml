@@ -19,3 +19,5 @@ parameters:
     facebook_client_secret: sasasa
     google_client_id: sasasa
     google_client_secret: sasasa
+    twitter_client_id: sasasa
+    twitter_client_secret: sasasa

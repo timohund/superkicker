@@ -125,7 +125,7 @@
       "singular":"user",
       "plural":"users",
       "tableName":"users",
-      "extends":null,
+      "extends":"FOS\\UserBundle\\Model\\User",
       "description":"Represents a user",
       "properties":{
         "id":{
@@ -163,6 +163,72 @@
           "name":"clientId",
           "isEntityReference":false,
           "type":"Integer"
+        },
+        "tipGroupMemberships":{
+          "name":"tipGroupMemberships",
+          "isEntityReference":true,
+          "type":"Ts\\Superkicker\\SuperkickerBundle\\Domain\\Model\\TipGroupMember",
+          "isCollection":true
+        }
+      }
+    },
+    {
+      "name":"TipGroup",
+      "fqn":"Ts\\Superkicker\\SuperkickerBundle\\Domain\\Model\\TipGroup",
+      "singular":"tip-group",
+      "plural":"tip-groups",
+      "tableName":"tip_groups",
+      "extends":null,
+      "description":"Represents a group of users that want to tip together",
+      "properties":{
+        "id":{
+          "name":"id",
+          "isEntityReference":false,
+          "type":"Id"
+        },
+        "name":{
+          "name":"name",
+          "isEntityReference":false,
+          "type":"String"
+        },
+        "members":{
+          "name":"members",
+          "isEntityReference":true,
+          "type":"Ts\\Superkicker\\SuperkickerBundle\\Domain\\Model\\TipGroupMember",
+          "isCollection":true
+        }
+      }
+    },
+    {
+      "name":"TipGroupMember",
+      "fqn":"Ts\\Superkicker\\SuperkickerBundle\\Domain\\Model\\TipGroupMember",
+      "singular":"tip-group-member",
+      "plural":"tip-group-members",
+      "tableName":"tip_group_members",
+      "extends":null,
+      "description":"Represents the relation of a user to a tip group",
+      "properties":{
+        "id":{
+          "name":"id",
+          "isEntityReference":false,
+          "type":"Id"
+        },
+        "user":{
+          "name":"user",
+          "isEntityReference":true,
+          "type":"Ts\\Superkicker\\SuperkickerBundle\\Domain\\Model\\User",
+          "isCollection":false
+        },
+        "role":{
+          "name":"role",
+          "isEntityReference":false,
+          "type":"Integer"
+        },
+        "tipGroup":{
+          "name":"tipGroup",
+          "isEntityReference":true,
+          "type":"Ts\\Superkicker\\SuperkickerBundle\\Domain\\Model\\TipGroup",
+          "isCollection":false
         }
       }
     },

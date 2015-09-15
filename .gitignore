@@ -5,3 +5,4 @@ app/cache/*
 app/logs/*
 bin/*
 tests/_log/*
+web/*

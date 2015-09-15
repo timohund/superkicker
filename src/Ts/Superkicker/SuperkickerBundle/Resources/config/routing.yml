@@ -13,6 +13,27 @@ ts_superkicker_ranking_show:
 ts_superkicker_rules_show:
     path:     /user/rules/show/{tournamentId}
     defaults: { _controller: ts.superkicker.rules.contoller:showAction }
+ts_superkicker_tipgroup_edit:
+    path:     /user/tipgroup/edit/{saved}
+    defaults: { _controller: ts.superkicker.tipgroup.contoller:editAction, saved: 0 }
+ts_superkicker_tipgroup_manage_single:
+    path:     /user/tipgroup/manage_single/{tipGroupId}
+    defaults: { _controller: ts.superkicker.tipgroup.contoller:manageSingleAction, tipGroupId: 0 }
+ts_superkicker_tipgroup_save:
+    path:     /user/tipgroup/save
+    defaults: { _controller: ts.superkicker.tipgroup.contoller:saveAction }
+ts_superkicker_tipgroup_request_membership:
+    path:     /user/tipgroup/request_membership/{tipGroupId}
+    defaults: { _controller: ts.superkicker.tipgroup.contoller:requestMembershipAction, tipGroupId: 0 }
+ts_superkicker_tipgroup_remove_membership:
+    path:     /user/tipgroup/remove_membership/{tipGroupId}
+    defaults: { _controller: ts.superkicker.tipgroup.contoller:removeMembershipAction, tipGroupId: 0 }
+ts_superkicker_tipgroup_invite_user:
+    path:     /user/tipgroup/invite_user
+    defaults: { _controller: ts.superkicker.tipgroup.contoller:inviteUserAction }
+ts_superkicker_tipgroup_accept_invitation:
+    path:     /user/tipgroup/accept_invidation/{tipGroupMemberId}
+    defaults: { _controller: ts.superkicker.tipgroup.contoller:acceptInvitationAction, tipGroupMemberId: 0 }
 ts_superkicker_match_edit:
     path:     /admin/match/edit/{tournamentId}/{matchDay}/{saved}
     defaults: { _controller: ts.superkicker.match.contoller:editAction, matchDay: 1,  tournamentId: 0, saved: 0  }

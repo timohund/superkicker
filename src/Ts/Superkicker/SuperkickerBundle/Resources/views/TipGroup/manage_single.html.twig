@@ -1,0 +1,22 @@
+{% extends "subpage.html.twig" %}
+
+{% block content %}
+	<h1>Tippgemeindschaft {{ groupPresentation.tipgroup.name }} verwalten</h1>
+
+	<h3>Mitglieder</h3>
+
+	<h3>Einladen</h3>
+
+    <form action="{{ path('ts_superkicker_tipgroup_invite_user') }}" id="tippGroupInvite" class="form-horizontal" method="post">
+        <input type="hidden" name="tipGroupId" value="{{ groupPresentation.tipgroup.id }}" />
+        <select name="userId" class="form-control" id="userId">
+            {% for user in unassignedUsers %}
+                <option value="{{ user.id }}">{{ user.username }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" class="btn btn-default navbar-btn" id="invite" value="Einladen"/>
+
+    </form>
+
+	<h3>Anfragen</h3>
+{% endblock %}

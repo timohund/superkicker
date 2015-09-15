@@ -1,6 +1,67 @@
 {% extends "subpage.html.twig" %}
 
+{% block title %}Tippgemeindschaften verwalten{% endblock %}
+
 {% block content %}
+	{% if saved %}
+		{{ include('SuperkickerBundle:Helper:flashmessage.html.twig', {'message':'Deine Tippgemeindschaft wurde gespeichert!'}) }}
+	{% endif %}
 	<h1>Tipgemeindschaften</h1>
 
+
+      	<table class="responsive table">
+        	<tr class="headline">
+               	<th>Name</th>
+            	<th>Admins</th>
+				<th>Aktionen</th>
+            </tr>
+            {% for groupPresentation in groupPresentations %}
+				<tr>
+					<td data-title="Name:">
+						{{ groupPresentation.tipgroup.name }}
+					</td>
+					<td data-title="Admins:">
+						{{ groupPresentation.tipgroup.adminmembers | length }}
+					</td>
+					<td data-title="Aktionen:">
+
+						{% if groupPresentation.currentUserHasAdminRole %}
+							<a href="{{ path('ts_superkicker_tipgroup_manage_single', {'tipGroupId': groupPresentation.tipgroup.id }) }}" id="manage_single_group_{{ groupPresentation.tipgroup.id }}">Verwalten</a>
+
+						{% endif %}
+
+						{% if groupPresentation.currentUserHasMemberRole %}
+							<a href="#">Details</a>
+						{% endif %}
+
+						{% if groupPresentation.currentUserHasInvitedRole %}
+							<a href="{{ path('ts_superkicker_tipgroup_accept_invitation', {'tipGroupMemberId': groupPresentation.membership.id }) }}">Einladung annehmen</a>
+						{% endif %}
+
+						{% if groupPresentation.currentUserHasMembershipRequested %}
+							<a href="{{ path('ts_superkicker_tipgroup_remove_membership', {'tipGroupId': groupPresentation.tipgroup.id }) }}">Anfrage zurücknehmen</a>
+						{% endif %}
+
+						{% if groupPresentation.currentUserHasNoRole %}
+							<a href="{{ path('ts_superkicker_tipgroup_request_membership', {'tipGroupId': groupPresentation.tipgroup.id }) }}">Mitgliedschaft anfragen</a>
+						{% endif %}
+
+					</td>
+				</tr>
+			{% endfor %}
+
+			<tr>
+				<td data-title="Neue Gruppe">
+					<form action="{{ path('ts_superkicker_tipgroup_save') }}" id="tippGroupCreate" class="form-horizontal" method="post">
+
+						<input type="text"
+						   name="tipgroups[new][name]"
+						   id="tipgroup_new_name"
+						   value="" class="form-control" autofocus="autofocus"/>
+						<input type="submit" class="btn btn-default navbar-btn" value="Speichern"/>
+					</form>
+
+				</td>
+			</tr>
+		</table>
 {% endblock %}

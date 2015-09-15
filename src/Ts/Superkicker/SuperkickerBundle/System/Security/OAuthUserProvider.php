@@ -31,13 +31,15 @@ class OAuthUserProvider extends BaseClass {
 			$user = $this->userManager->findUserByUsernameAndEmail($username, $email);
 
 			if (null === $user || !$user instanceof UserInterface) {
+				$oauthService = $response->getResourceOwner()->getName();
+
 				$user = $this->userManager->createUser();
-				$username = str_replace(' ', '', $username);
+				$username = str_replace(' ', '', $username).'@'.$oauthService;
 				$user->setUsername($username);
 				$user->setEmail($email);
 				$user->setPassword(sha1(rand(1,1000000000)));
 				$user->setEnabled(true);
-				$user->setOAuthService($response->getResourceOwner()->getName());
+				$user->setOAuthService($oauthService);
 				$user->setOAuthId($userId);
 				$user->setOAuthAccessToken($response->getAccessToken());
 				$this->userManager->updateUser($user);

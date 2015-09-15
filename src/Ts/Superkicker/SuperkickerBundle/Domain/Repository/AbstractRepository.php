@@ -41,13 +41,19 @@ abstract class AbstractRepository {
 	}
 
 	/**
+	 * @param array $arguments
+	 * @return null|object
+	 */
+	protected function findOneBy(array $arguments) {
+		return $this->getDoctrineRepository()->findOneBy($arguments);
+	}
+
+	/**
 	 * @param $id
 	 * @return null|object
 	 */
 	public function findById($id) {
-		return $this->getDoctrineRepository()->findOneBy(
-				array('id' => $id)
-		);
+		return $this->findOneBy(array('id' => $id));
 	}
 
 	/**
